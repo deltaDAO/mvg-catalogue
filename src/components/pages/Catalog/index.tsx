@@ -3,6 +3,8 @@ import Permission from '../../organisms/Permission'
 import { QueryResult } from '@oceanprotocol/lib/dist/node/metadatacache/MetadataCache'
 import AssetListCatalog from '../../organisms/AssetListCatalog'
 import styles from './index.module.css'
+import ServiceFilter from './filterService'
+import Sort from './sort'
 import queryString from 'query-string'
 import { getResults } from '../../templates/Search/utils'
 import { navigate } from 'gatsby'
@@ -21,6 +23,11 @@ export default function CatalogPage({
   const { chainIds } = useUserPreferences()
   const [queryResult, setQueryResult] = useState<QueryResult>()
   const [loading, setLoading] = useState<boolean>()
+  const [service, setServiceType] = useState<string>(serviceType as string)
+  const [sortType, setSortType] = useState<string>(sort as string)
+  const [sortDirection, setSortDirection] = useState<string>(
+    sortOrder as string
+  )
 
   useEffect(() => {
     if (!appConfig.metadataCacheUri) return
@@ -58,16 +65,32 @@ export default function CatalogPage({
 
   return (
     <Permission eventType="browse">
-      <div className={styles.results}>
-        <AssetListCatalog
-          assets={queryResult?.results}
-          showPagination
-          isLoading={loading}
-          page={queryResult?.page}
-          totalPages={queryResult?.totalPages}
-          onPageChange={setPage}
-        />
-      </div>
+      <>
+        <div className={styles.search}>
+          <div className={styles.row}>
+            <ServiceFilter
+              serviceType={service}
+              setServiceType={setServiceType}
+            />
+            <Sort
+              sortType={sortType}
+              sortDirection={sortDirection}
+              setSortType={setSortType}
+              setSortDirection={setSortDirection}
+            />
+          </div>
+        </div>
+        <div className={styles.results}>
+          <AssetListCatalog
+            assets={queryResult?.results}
+            showPagination
+            isLoading={loading}
+            page={queryResult?.page}
+            totalPages={queryResult?.totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      </>
     </Permission>
   )
 }
