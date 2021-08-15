@@ -11,6 +11,7 @@ import { navigate } from 'gatsby'
 import { updateQueryStringParameter } from '../../../utils'
 import { useSiteMetadata } from '../../../hooks/useSiteMetadata'
 import { useUserPreferences } from '../../../providers/UserPreferences'
+import Tags from '../../molecules/UserPreferences/Tags'
 
 export default function CatalogPage({
   location
@@ -72,6 +73,7 @@ export default function CatalogPage({
               serviceType={service}
               setServiceType={setServiceType}
             />
+            <Tags location={location} />
             <Sort
               sortType={sortType}
               sortDirection={sortDirection}
