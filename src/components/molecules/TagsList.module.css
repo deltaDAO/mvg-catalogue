@@ -6,7 +6,7 @@
 }
 
 .networks {
-  composes: box from '../../../atoms/Box.module.css';
+  composes: box from '../atoms/Box.module.css';
   box-shadow: none;
   padding: 0;
 }

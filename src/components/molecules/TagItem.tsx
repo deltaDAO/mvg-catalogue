@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ReactElement } from 'react'
-import { removeItemFromArray } from '../../../../utils'
-import styles from './NetworkItem.module.css'
+import { removeItemFromArray } from '../../utils'
+import styles from './TagItem.module.css'
 
 export default function TagItem({
   name,

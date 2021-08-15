@@ -1,14 +1,14 @@
 import React, { ReactElement, useState, useEffect } from 'react'
-import Label from '../../../atoms/Input/Label'
-import Tooltip from '../../../atoms/Tooltip'
-import { ReactComponent as Caret } from '../../../../images/caret.svg'
-import TagsList from './TagsList'
-import stylesIndex from '../index.module.css'
-import styles from './index.module.css'
+import Label from '../../atoms/Input/Label'
+import Tooltip from '../../atoms/Tooltip'
+import { ReactComponent as Caret } from '../../../images/caret.svg'
+import TagsList from '../../molecules/TagsList'
+import stylesIndex from '../../molecules/UserPreferences/index.module.css'
+import styles from './Tags.module.css'
 import {
   addExistingParamsToUrl,
   FilterByTypeOptions
-} from '../../../templates/Search/utils'
+} from '../../templates/Search/utils'
 import { navigate } from 'gatsby'
 
 const tagsList = [

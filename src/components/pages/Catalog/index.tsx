@@ -5,13 +5,13 @@ import AssetListCatalog from '../../organisms/AssetListCatalog'
 import styles from './index.module.css'
 import ServiceFilter from './filterService'
 import Sort from './sort'
+import Tags from './Tags'
 import queryString from 'query-string'
 import { getResults } from '../../templates/Search/utils'
 import { navigate } from 'gatsby'
 import { updateQueryStringParameter } from '../../../utils'
 import { useSiteMetadata } from '../../../hooks/useSiteMetadata'
 import { useUserPreferences } from '../../../providers/UserPreferences'
-import Tags from '../../molecules/UserPreferences/Tags'
 
 export default function CatalogPage({
   location

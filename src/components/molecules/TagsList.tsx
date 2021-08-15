@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import TagItem from './TagItem'
-import styles from './NetworksList.module.css'
+import styles from './TagsList.module.css'
 
 export default function TagsList({
   title,
