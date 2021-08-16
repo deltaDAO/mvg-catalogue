@@ -1,20 +1,30 @@
 import React, { ReactElement } from 'react'
-import { PageProps } from 'gatsby'
-import PageHome from '../components/pages/Home'
-import { useSiteMetadata } from '../hooks/useSiteMetadata'
+import PageCatalog from '../components/pages/Catalog'
 import Page from '../components/templates/Page'
+import { graphql, PageProps } from 'gatsby'
 
-export default function PageGatsbyHome(props: PageProps): ReactElement {
-  const { siteTitle, siteTagline } = useSiteMetadata()
+export default function PageGatsbyCatalog(props: PageProps): ReactElement {
+  const content = (props.data as any).content.edges[0].node.childPagesJson
+  const { title, description } = content
 
   return (
-    <Page
-      title={siteTitle}
-      description={siteTagline}
-      uri={props.uri}
-      headerCenter
-    >
-      <PageHome />
+    <Page title={title} description={description} uri={props.uri}>
+      <PageCatalog location={props.location} />
     </Page>
   )
 }
+
+export const contentQuery = graphql`
+  query CatalogPageQuery {
+    content: allFile(filter: { relativePath: { eq: "pages/catalog.json" } }) {
+      edges {
+        node {
+          childPagesJson {
+            title
+            description
+          }
+        }
+      }
+    }
+  }
+`

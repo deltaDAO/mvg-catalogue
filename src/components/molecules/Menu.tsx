@@ -45,7 +45,7 @@ export default function Menu(): ReactElement {
       </Link>
 
       <ul className={styles.navigation}>
-        {menu.map((item: MenuItem) => (
+        {menu?.map((item: MenuItem) => (
           <li key={item.name}>
             <MenuLink item={item} />
           </li>

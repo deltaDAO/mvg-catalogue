@@ -43,7 +43,13 @@ export default function AssetListTitle({
 
   return (
     <h3 className={styles.title}>
-      <Link to={`/asset/${did || ddo.id}`}>{assetTitle}</Link>
+      <a
+        href={`${appConfig.assetAddress}/asset/${did || ddo.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {assetTitle}
+      </a>
     </h3>
   )
 }

@@ -32,6 +32,7 @@ interface UseSiteMetadata {
     allowFreePricing: string
     allowAdvancedSettings: string
     credentialType: string
+    assetAddress: string
   }
 }
 
@@ -44,10 +45,6 @@ const query = graphql`
         siteUrl
         siteIcon
         copyright
-        menu {
-          name
-          link
-        }
         warning {
           main
           polygonPublish
@@ -69,6 +66,7 @@ const query = graphql`
           allowFreePricing
           allowAdvancedSettings
           credentialType
+          assetAddress
         }
       }
     }
