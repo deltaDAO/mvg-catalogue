@@ -12,23 +12,23 @@ import styles from './index.module.css'
 import useNetworkMetadata from '../../../../hooks/useNetworkMetadata'
 import { useUserPreferences } from '../../../../providers/UserPreferences'
 
-// export function filterNetworksByType(
-//   type: 'mainnet' | 'testnet',
-//   chainIds: number[],
-//   networksList: { node: EthereumListsChain }[]
-// ) {
-//   const finalNetworks = chainIds.filter((chainId: number) => {
-//     const networkData = getNetworkDataById(networksList, chainId)
+export function filterNetworksByType(
+  type: 'mainnet' | 'testnet',
+  chainIds: number[],
+  networksList: { node: EthereumListsChain }[]
+) {
+  const finalNetworks = chainIds.filter((chainId: number) => {
+    const networkData = getNetworkDataById(networksList, chainId)
 
-//     // HEADS UP! Only networkData.network === 'mainnet' is consistent
-//     // while not every test network in the network data has 'testnet'
-//     // in its place. So for the 'testnet' case filter for all non-'mainnet'.
-//     return type === 'mainnet'
-//       ? networkData.network === type
-//       : networkData.network !== 'mainnet'
-//   })
-//   return finalNetworks
-// }
+    // HEADS UP! Only networkData.network === 'mainnet' is consistent
+    // while not every test network in the network data has 'testnet'
+    // in its place. So for the 'testnet' case filter for all non-'mainnet'.
+    return type === 'mainnet'
+      ? networkData.network === type
+      : networkData.network !== 'mainnet'
+  })
+  return finalNetworks
+}
 
 export default function Networks(): ReactElement {
   const { networksList } = useNetworkMetadata()

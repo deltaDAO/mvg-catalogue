@@ -33,7 +33,7 @@ export default function Tags({
 }: {
   location: Location
 }): ReactElement {
-  const [selectedTags, setSelectedTags] = useState([])
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   async function startSearch(tags: string) {
     const urlEncodedValue = encodeURIComponent(tags)
     const url = await addExistingParamsToUrl(location, [
