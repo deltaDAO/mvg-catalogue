@@ -20,3 +20,24 @@
   display: inline-block;
   background-color: var(--color-primary);
 }
+
+.tagLabel {
+  composes: label from '../../atoms/Input/Label.module.css';
+  margin-bottom: 0;
+  margin-left: calc(var(--spacer) / 2);
+  margin-right: calc(var(--spacer) / 1.5);
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  font-size: var(--font-size-small);
+}
+
+.tagButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--font-color-text);
+  background: inherit;
+  transform: none;
+  border: none;
+  cursor: pointer;
+}

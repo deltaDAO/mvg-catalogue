@@ -70,8 +70,10 @@ export default function Tags({
       placement="bottom"
       className={`${stylesIndex.preferences} ${styles.networks}`}
     >
-      <label>Tags</label>
-      <Caret aria-hidden="true" className={stylesIndex.caret} />
+      <button className={styles.tagButton}>
+        <label className={styles.tagLabel}>Tags</label>
+        <Caret aria-hidden="true" className={stylesIndex.caret} />
+      </button>
       <div className={styles.chainsSelected}>
         {selectedTags.map((tag, index) => (
           <span className={styles.chainsSelectedIndicator} key={index} />
