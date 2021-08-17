@@ -23,9 +23,9 @@
 
 .tagLabel {
   composes: label from '../../atoms/Input/Label.module.css';
-  margin-bottom: 0;
-  margin-left: calc(var(--spacer) / 2);
-  margin-right: calc(var(--spacer) / 1.5);
+  margin-bottom: -1px;
+  margin-top: 1px;
+  margin-right: calc(var(--spacer) / 6);
   text-transform: uppercase;
   color: var(--color-secondary);
   font-size: var(--font-size-small);
@@ -38,7 +38,6 @@
 .tagButton {
   display: flex;
   flex-direction: row;
-  align-items: center;
   color: var(--font-color-text);
   background: inherit;
   transform: none;
@@ -70,15 +69,23 @@ svg.caret {
   width: var(--font-size-small);
   height: var(--font-size-small);
   fill: var(--border-color);
-  margin-left: calc(var(--spacer) / 4);
+  margin-left: calc(var(--spacer) / 12);
+  margin-right: -5px;
   transition: transform 0.2s ease-out;
   display: none;
 }
 
-@media screen and (min-width: 42rem) {
+@media screen and (min-width: 40rem) {
   .caret,
   svg.caret {
     display: inline-block;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .preferences {
+    max-width: fit-content;
+    margin-left: 0;
   }
 }
 

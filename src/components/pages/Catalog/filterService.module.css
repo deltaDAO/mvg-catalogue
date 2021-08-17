@@ -15,8 +15,8 @@ button.filter,
 .filter:focus {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  margin-right: calc(var(--spacer) / 6);
-  margin-bottom: calc(var(--spacer) / 6);
+  margin-right: calc(var(--spacer) / 2);
+  margin-bottom: calc(var(--spacer) / 4);
   color: var(--color-secondary);
   background: var(--background-content);
 

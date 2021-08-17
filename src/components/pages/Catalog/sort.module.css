@@ -8,16 +8,24 @@
   overflow-y: auto;
 }
 
-@media (min-width: 40rem) {
+@media screen and (min-width: 40rem) {
   .sortList {
     align-self: flex-end;
     overflow-y: unset;
   }
 }
 
+@media screen and (max-width: 40rem) {
+  .sortList {
+    align-self: flex-start;
+    overflow-y: unset;
+    max-width: fit-content;
+  }
+}
+
 .sortLabel {
   composes: label from '../../atoms/Input/Label.module.css';
-  margin-bottom: 0;
+  margin-bottom: -1px;
   margin-left: calc(var(--spacer) / 2);
   margin-right: calc(var(--spacer) / 1.5);
   text-transform: uppercase;
