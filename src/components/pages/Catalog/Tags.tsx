@@ -3,7 +3,6 @@ import Label from '../../atoms/Input/Label'
 import Tooltip from '../../atoms/Tooltip'
 import { ReactComponent as Caret } from '../../../images/caret.svg'
 import TagsList from '../../molecules/TagsList'
-import stylesIndex from '../../molecules/UserPreferences/index.module.css'
 import styles from './Tags.module.css'
 import {
   addExistingParamsToUrl,
@@ -52,7 +51,7 @@ export default function Tags({
   return (
     <Tooltip
       content={
-        <ul className={stylesIndex.preferencesDetails}>
+        <ul className={styles.preferencesDetails}>
           <li>
             <Label htmlFor="chains">Filter by tag</Label>
             {/* <FormHelp>Filter by tag.</FormHelp> */}
@@ -68,11 +67,11 @@ export default function Tags({
       }
       trigger="click focus"
       placement="bottom"
-      className={`${stylesIndex.preferences} ${styles.networks}`}
+      className={`${styles.preferences} ${styles.networks}`}
     >
       <button className={styles.tagButton}>
         <label className={styles.tagLabel}>Tags</label>
-        <Caret aria-hidden="true" className={stylesIndex.caret} />
+        <Caret aria-hidden="true" className={styles.caret} />
       </button>
       <div className={styles.chainsSelected}>
         {selectedTags.map((tag, index) => (
