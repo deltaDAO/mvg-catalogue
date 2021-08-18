@@ -7,16 +7,13 @@ module.exports = {
   // return appConfig.metadataCacheUri
   metadataCacheUri:
     process.env.METADATACACHE_URI || 'https://aquarius.gaiax.delta-dao.com',
-  // process.env.METADATACACHE_URI || 'https://aquarius.oceanprotocol.com',
 
   // List of chainIds which metadata cache queries will return by default.
   // This preselects the Chains user preferences.
   chainIds: [2021000],
-  // chainIds: [1, 137, 56],
 
   // List of all supported chainIds. Used to populate the Chains user preferences list.
   chainIdsSupported: [2021000],
-  // chainIdsSupported: [1, 3, 4, 137, 80001, 1287, 56],
 
   rbacUrl: process.env.GATSBY_RBAC_URL,
 
@@ -66,5 +63,5 @@ module.exports = {
   credentialType: process.env.GATSBY_CREDENTIAL_TYPE || 'address',
 
   // Address to open assets from main page
-  assetAddress: 'https://market.oceanprotocol.com'
+  assetAddress: 'https://portal.minimal-gaia-x.eu'
 }
