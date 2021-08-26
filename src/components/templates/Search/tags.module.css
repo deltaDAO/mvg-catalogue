@@ -43,6 +43,8 @@
   transform: none;
   border: none;
   cursor: pointer;
+  white-space: normal;
+  size: small;
 }
 
 .preferences {
@@ -53,6 +55,7 @@
   margin-left: calc(var(--spacer) / 3);
   background-color: var(--background-content);
   white-space: nowrap;
+  height: min-content;
 }
 
 .preferences svg {
@@ -75,14 +78,14 @@ svg.caret {
   display: none;
 }
 
-@media screen and (min-width: var(--layout-min-width)) {
+@media screen and (min-width: 640px) {
   .caret,
   svg.caret {
     display: inline-block;
   }
 }
 
-@media screen and (max-width: var(--layout-min-width)) {
+@media screen and (max-width: 640px) {
   .preferences {
     max-width: fit-content;
     margin-left: 0;

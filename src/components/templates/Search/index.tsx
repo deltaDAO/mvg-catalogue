@@ -73,11 +73,13 @@ export default function SearchPage({
       <>
         <div className={styles.search}>
           <div className={styles.row}>
-            <ServiceFilter
-              serviceType={service}
-              setServiceType={setServiceType}
-            />
-            <Tags location={location} />
+            <div className={styles.menu}>
+              <ServiceFilter
+                serviceType={service}
+                setServiceType={setServiceType}
+              />
+              <Tags location={location} />
+            </div>
             <Sort
               sortType={sortType}
               sortDirection={sortDirection}
