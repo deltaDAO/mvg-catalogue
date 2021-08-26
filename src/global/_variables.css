@@ -60,6 +60,7 @@
   --spacer: 2rem;
   --border-radius: 0.2rem;
 
+  --layout-min-width: 40rem;
   --layout-max-width: 85rem;
   --checkbox-size: 1.6em;
 

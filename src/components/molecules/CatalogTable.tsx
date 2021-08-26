@@ -56,7 +56,6 @@ export default function CatalogTable({
       columns={columns}
       data={assetsWithPrices}
       paginationPerPage={assetsWithPrices.length}
-      emptyMessage="The assets will appear here."
       noTableHead
     />
   )

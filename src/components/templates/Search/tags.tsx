@@ -3,29 +3,26 @@ import Label from '../../atoms/Input/Label'
 import Tooltip from '../../atoms/Tooltip'
 import { ReactComponent as Caret } from '../../../images/caret.svg'
 import TagsList from '../../molecules/TagsList'
-import styles from './Tags.module.css'
-import {
-  addExistingParamsToUrl,
-  FilterByTypeOptions
-} from '../../templates/Search/utils'
+import styles from './tags.module.css'
+import { addExistingParamsToUrl } from './utils'
 import { navigate } from 'gatsby'
 
 const tagsList = [
-  { display: 'europe', value: FilterByTypeOptions.Tag },
-  { display: 'agriculture', value: FilterByTypeOptions.Tag },
-  { display: 'dovu', value: FilterByTypeOptions.Tag },
-  { display: 'ethereum', value: FilterByTypeOptions.Tag },
-  { display: 'gecko', value: FilterByTypeOptions.Tag },
-  { display: 'market', value: FilterByTypeOptions.Tag },
-  { display: 'cmc', value: FilterByTypeOptions.Tag },
-  { display: 'debt', value: FilterByTypeOptions.Tag },
-  { display: 'explorer', value: FilterByTypeOptions.Tag },
-  { display: 'co2e', value: FilterByTypeOptions.Tag },
-  { display: 'emissions', value: FilterByTypeOptions.Tag },
-  { display: 'e-commerce', value: FilterByTypeOptions.Tag },
-  { display: 'vinted', value: FilterByTypeOptions.Tag },
-  { display: 'scraping', value: FilterByTypeOptions.Tag },
-  { display: 'product', value: FilterByTypeOptions.Tag }
+  'europe',
+  'agriculture',
+  'dovu',
+  'ethereum',
+  'gecko',
+  'market',
+  'cmc',
+  'debt',
+  'explorer',
+  'co2e',
+  'emissions',
+  'e-commerce',
+  'vinted',
+  'scraping',
+  'product'
 ]
 export default function Tags({
   location
@@ -54,8 +51,6 @@ export default function Tags({
         <ul className={styles.preferencesDetails}>
           <li>
             <Label htmlFor="chains">Filter by tag</Label>
-            {/* <FormHelp>Filter by tag.</FormHelp> */}
-
             <TagsList
               title="Tags"
               tagsList={tagsList}

@@ -1,6 +1,6 @@
 .alert {
   composes: box from './Box.module.css';
-  max-width: 40rem;
+  max-width: var(--layout-min-width);
   margin: auto;
   border-width: 0;
   border-left-width: 0.5rem;

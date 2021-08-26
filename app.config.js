@@ -63,5 +63,6 @@ module.exports = {
   credentialType: process.env.GATSBY_CREDENTIAL_TYPE || 'address',
 
   // Address to open assets from main page
-  assetAddress: 'https://portal.minimal-gaia-x.eu'
+  assetAddress:
+    process.env.GATSBY_ASSET_ADDRESS || 'https://portal.minimal-gaia-x.eu'
 }

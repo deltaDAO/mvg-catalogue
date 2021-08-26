@@ -9,14 +9,14 @@ export default function TagsList({
   setSelectedTags
 }: {
   title: string
-  tagsList: { display: string; value: string }[]
+  tagsList: string[]
   selectedTags: string[]
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>
 }): ReactElement {
-  const content = tagsList.map((e, index) => (
+  const content = tagsList.map((tag, index) => (
     <TagItem
       key={index}
-      name={e.display}
+      name={tag}
       selectedTags={selectedTags}
       setSelectedTags={setSelectedTags}
     />
@@ -24,7 +24,7 @@ export default function TagsList({
 
   return (
     <>
-      <h4 className={styles.titleGroup}>{title}</h4>
+      <span className={styles.titleGroup}>{title}</span>
       <div className={styles.networks}>{content}</div>
     </>
   )

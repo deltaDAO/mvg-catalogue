@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-@media (min-width: 40rem) {
+@media (min-width: var(--layout-min-width)) {
   .container {
     padding-left: calc(var(--spacer) / 1.2);
     padding-right: calc(var(--spacer) / 1.2);

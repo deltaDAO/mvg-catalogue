@@ -6,6 +6,7 @@ import styles from './index.module.css'
 import queryString from 'query-string'
 import ServiceFilter from './filterService'
 import Sort from './sort'
+import Tags from './tags'
 import { getResults } from './utils'
 import { navigate } from 'gatsby'
 import { updateQueryStringParameter } from '../../../utils'
@@ -76,6 +77,7 @@ export default function SearchPage({
               serviceType={service}
               setServiceType={setServiceType}
             />
+            <Tags location={location} />
             <Sort
               sortType={sortType}
               sortDirection={sortDirection}
@@ -92,6 +94,7 @@ export default function SearchPage({
             page={queryResult?.page}
             totalPages={queryResult?.totalPages}
             onPageChange={setPage}
+            tableView
           />
         </div>
       </>

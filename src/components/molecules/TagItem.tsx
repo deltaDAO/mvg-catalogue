@@ -21,18 +21,15 @@ export default function TagItem({
   }
 
   return (
-    <div className={styles.radioWrap} /* key={chainId} */>
-      <label className={styles.radioLabel} /* htmlFor={`opt-${chainId}`} */>
+    <div className={styles.radioWrap}>
+      <label className={styles.radioLabel}>
         <input
           className={styles.input}
-          // id={`opt-${chainId}`}
           type="checkbox"
           name={name}
-          // value={chainId}
           onChange={handleTagSelection}
           defaultChecked={selectedTags.includes(name)}
         />
-        {/* <NetworkName key={chainId} networkId={chainId} /> */}
         <span className={styles.name}>{name}</span>
       </label>
     </div>

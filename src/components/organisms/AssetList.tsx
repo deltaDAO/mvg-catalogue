@@ -6,6 +6,7 @@ import { DDO } from '@oceanprotocol/lib'
 import classNames from 'classnames/bind'
 import { getAssetsBestPrices, AssetListPrices } from '../../utils/subgraph'
 import Loader from '../atoms/Loader'
+import CatalogTable from '../molecules/CatalogTable'
 
 const cx = classNames.bind(styles)
 
@@ -25,6 +26,7 @@ declare type AssetListProps = {
   isLoading?: boolean
   onPageChange?: React.Dispatch<React.SetStateAction<number>>
   className?: string
+  tableView?: boolean
 }
 
 const AssetList: React.FC<AssetListProps> = ({
@@ -34,7 +36,8 @@ const AssetList: React.FC<AssetListProps> = ({
   totalPages,
   isLoading,
   onPageChange,
-  className
+  className,
+  tableView
 }) => {
   const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -58,19 +61,21 @@ const AssetList: React.FC<AssetListProps> = ({
     [className]: className
   })
 
-  return assetsWithPrices &&
-    !loading &&
-    (isLoading === undefined || isLoading === false) ? (
+  return assetsWithPrices && !loading ? (
     <>
-      <div className={styleClasses}>
+      <div className={!tableView && styleClasses}>
         {assetsWithPrices.length > 0 ? (
-          assetsWithPrices.map((assetWithPrice) => (
-            <AssetTeaser
-              ddo={assetWithPrice.ddo}
-              price={assetWithPrice.price}
-              key={assetWithPrice.ddo.id}
-            />
-          ))
+          tableView ? (
+            <CatalogTable assetsWithPrices={assetsWithPrices} />
+          ) : (
+            assetsWithPrices.map((assetWithPrice) => (
+              <AssetTeaser
+                ddo={assetWithPrice.ddo}
+                price={assetWithPrice.price}
+                key={assetWithPrice.ddo.id}
+              />
+            ))
+          )
         ) : (
           <div className={styles.empty}>No results found.</div>
         )}

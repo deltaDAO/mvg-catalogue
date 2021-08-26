@@ -75,14 +75,14 @@ svg.caret {
   display: none;
 }
 
-@media screen and (min-width: 40rem) {
+@media screen and (min-width: var(--layout-min-width)) {
   .caret,
   svg.caret {
     display: inline-block;
   }
 }
 
-@media screen and (max-width: 40rem) {
+@media screen and (max-width: var(--layout-min-width)) {
   .preferences {
     max-width: fit-content;
     margin-left: 0;
