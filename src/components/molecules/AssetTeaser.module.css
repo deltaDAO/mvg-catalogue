@@ -1,5 +1,5 @@
 .teaser {
-  max-width: var(--layout-min-width);
+  max-width: 40rem;
   height: 100%;
 }
 

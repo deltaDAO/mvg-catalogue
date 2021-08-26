@@ -23,7 +23,7 @@
   text-align: left;
 }
 
-@media (min-width: var(--layout-min-width)) {
+@media (min-width: 640px) {
   .feedback {
     max-width: 30rem;
     margin: 0 auto;

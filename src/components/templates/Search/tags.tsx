@@ -48,7 +48,7 @@ export default function Tags({
   return (
     <Tooltip
       content={
-        <ul className={styles.preferencesDetails}>
+        <ul className={styles.tagTooltipDetails}>
           <li>
             <Label htmlFor="chains">Filter by tag</Label>
             <TagsList
@@ -62,7 +62,7 @@ export default function Tags({
       }
       trigger="click focus"
       placement="bottom"
-      className={`${styles.preferences} ${styles.networks}`}
+      className={styles.tagTooltip}
     >
       <button className={styles.tagButton}>
         <label className={styles.tagLabel}>Tags</label>

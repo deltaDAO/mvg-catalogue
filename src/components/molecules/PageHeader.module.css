@@ -9,7 +9,7 @@
   margin-bottom: 0;
 }
 
-@media (min-width: var(--layout-min-width)) {
+@media (min-width: 640px) {
   .title {
     font-size: var(--font-size-h2);
   }

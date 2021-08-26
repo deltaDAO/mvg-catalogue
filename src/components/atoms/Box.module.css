@@ -7,7 +7,7 @@
   padding: calc(var(--spacer) / 1.5);
 }
 
-@media (min-width: var(--layout-min-width)) {
+@media (min-width: 640px) {
   .box {
     padding: var(--spacer);
   }
