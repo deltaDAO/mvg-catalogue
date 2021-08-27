@@ -7,23 +7,8 @@ import styles from './tags.module.css'
 import { addExistingParamsToUrl } from './utils'
 import { navigate } from 'gatsby'
 
-const tagsList = [
-  'europe',
-  'agriculture',
-  'dovu',
-  'ethereum',
-  'gecko',
-  'market',
-  'cmc',
-  'debt',
-  'explorer',
-  'co2e',
-  'emissions',
-  'e-commerce',
-  'vinted',
-  'scraping',
-  'product'
-]
+const tagsList = ['Europe', 'Agriculture', 'Healthcare', 'Logistics', 'Gaia-X']
+
 export default function Tags({
   location
 }: {
@@ -50,9 +35,9 @@ export default function Tags({
       content={
         <ul className={styles.tagTooltipDetails}>
           <li>
-            <Label htmlFor="chains">Filter by tag</Label>
+            <Label htmlFor="tags">Filter by Categorie</Label>
             <TagsList
-              title="Tags"
+              title="Categories"
               tagsList={tagsList}
               selectedTags={selectedTags}
               setSelectedTags={setSelectedTags}
@@ -64,8 +49,8 @@ export default function Tags({
       placement="bottom"
       className={styles.tagTooltip}
     >
-      <button className={styles.tagButton}>
-        <label className={styles.tagLabel}>Tags</label>
+      <button className={styles.tagButton} id="tags">
+        <label className={styles.tagLabel}>Categories</label>
         <Caret aria-hidden="true" className={styles.caret} />
       </button>
       <div className={styles.chainsSelected}>

@@ -5,10 +5,11 @@ import Page from '../components/templates/Page'
 import queryString from 'query-string'
 import { accountTruncate } from '../utils/web3'
 import ethereumAddress from 'ethereum-address'
+import { useSiteMetadata } from '../hooks/useSiteMetadata'
+import Styles from '../global/Styles'
 
 export default function PageGatsbyCatalog(props: PageProps): ReactElement {
-  const content = (props.data as any).content.edges[0].node.childPagesJson
-  const { title, description } = content
+  const { siteTitle, siteTagline } = useSiteMetadata()
 
   const parsed = queryString.parse(props.location.search)
   const { text, owner, tags, categories } = parsed
@@ -35,7 +36,13 @@ export default function PageGatsbyCatalog(props: PageProps): ReactElement {
       }`
 
   return (
-    <Page title={title} description={description} uri={props.uri}>
+    <Page
+      title={siteTitle}
+      description={siteTagline}
+      uri={props.uri}
+      headerCenter
+    >
+      <h3>{results}</h3>
       <PageSearch
         location={props.location}
         setTotalResults={(totalResults) => setTotalResults(totalResults)}
@@ -43,18 +50,3 @@ export default function PageGatsbyCatalog(props: PageProps): ReactElement {
     </Page>
   )
 }
-
-export const contentQuery = graphql`
-  query CatalogPageQuery {
-    content: allFile(filter: { relativePath: { eq: "pages/catalog.json" } }) {
-      edges {
-        node {
-          childPagesJson {
-            title
-            description
-          }
-        }
-      }
-    }
-  }
-`
