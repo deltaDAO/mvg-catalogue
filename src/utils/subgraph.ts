@@ -151,7 +151,7 @@ export function getQueryContext(chainId: number): OperationContext {
     url: `${getSubgraphUri(
       Number(chainId)
     )}/subgraphs/name/oceanprotocol/ocean-subgraph`,
-    requestPolicy: 'cache-first'
+    requestPolicy: 'cache-and-network'
   }
 
   return queryContext
@@ -410,8 +410,24 @@ export async function getPrice(asset: DDO): Promise<BestPrice> {
   return bestPrice
 }
 
+export async function getSpotPrice(asset: DDO): Promise<number> {
+  const poolVariables = {
+    datatokenAddress: asset?.dataToken.toLowerCase()
+  }
+  const queryContext = getQueryContext(Number(asset.chainId))
+
+  const poolPriceResponse: OperationResult<AssetsPoolPrice> = await fetchData(
+    AssetPoolPriceQuerry,
+    poolVariables,
+    queryContext
+  )
+
+  return poolPriceResponse.data.pools[0].spotPrice
+}
+
 export async function getAssetsBestPrices(
-  assets: DDO[]
+  assets: DDO[],
+  filterByTypes?: BestPrice['type'][]
 ): Promise<AssetListPrices[]> {
   const assetsWithPrice: AssetListPrices[] = []
 
@@ -449,12 +465,16 @@ export async function getAssetsBestPrices(
     })
   }
 
-  return assetsWithPrice
+  return filterByTypes
+    ? assetsWithPrice.filter((asset) =>
+        filterByTypes.includes(asset.price.type)
+      )
+    : assetsWithPrice
 }
 
 export async function getHighestLiquidityDIDs(
   chainIds: number[]
-): Promise<string> {
+): Promise<[string, number]> {
   const didList: string[] = []
   let highestLiquidiyAssets: HighestLiquidityAssetsPools[] = []
   for (const chain of chainIds) {
@@ -480,5 +500,5 @@ export async function getHighestLiquidityDIDs(
     .replace(/"/g, '')
     .replace(/(\[|\])/g, '')
     .replace(/(did:op:)/g, '0x')
-  return searchDids
+  return [searchDids, didList.length]
 }

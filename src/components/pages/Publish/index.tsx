@@ -132,14 +132,16 @@ export default function PublishPage({
         'Publish with ',
         metadata,
         serviceType,
-        values.dataTokenOptions
+        values.dataTokenOptions,
+        values.providerUri
       )
 
       const ddo = await publish(
         metadata as unknown as Metadata,
         serviceType,
         values.dataTokenOptions,
-        timeout
+        timeout,
+        values.providerUri
       )
 
       // Publish failed
@@ -275,12 +277,6 @@ export default function PublishPage({
                 />
               ) : (
                 <>
-                  <Alert
-                    text={content.warning}
-                    state="info"
-                    className={styles.alert}
-                  />
-
                   <Tabs
                     className={styles.tabs}
                     items={tabs}

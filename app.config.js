@@ -22,7 +22,7 @@ module.exports = {
   // The ETH address the marketplace fee will be sent to.
   marketFeeAddress:
     process.env.GATSBY_MARKET_FEE_ADDRESS ||
-    '0x903322C7E45A60d7c8C3EA236c5beA9Af86310c7',
+    '0x98E87C0e258eb9BFc2a614A9585BfB5201D105BD',
 
   // Used for conversion display, can be whatever coingecko API supports
   // see: https://api.coingecko.com/api/v3/simple/supported_vs_currencies
@@ -55,12 +55,28 @@ module.exports = {
   // Used to show or hide the fixed, dynamic or free price options
   // tab to publishers during the price creation.
   allowFixedPricing: process.env.GATSBY_ALLOW_FIXED_PRICING || 'true',
-  allowDynamicPricing: process.env.GATSBY_ALLOW_DYNAMIC_PRICING || 'true',
+  allowDynamicPricing: process.env.GATSBY_ALLOW_DYNAMIC_PRICING || 'false',
   allowFreePricing: process.env.GATSBY_ALLOW_FREE_PRICING || 'false',
 
   // Used to show or hide advanced settings button in asset details page
-  allowAdvancedSettings: process.env.GATSBY_ALLOW_ADVANCED_SETTINGS || 'false',
+  allowAdvancedSettings: process.env.GATSBY_ALLOW_ADVANCED_SETTINGS || 'true',
+  allowAdvancedPublishSettings:
+    process.env.GATSBY_ALLOW_ADVANCED_PUBLISH_SETTINGS || 'true',
   credentialType: process.env.GATSBY_CREDENTIAL_TYPE || 'address',
+
+  // Set the default privacy policy to initially display
+  // this should be the slug of your default policy markdown file
+  defaultPrivacyPolicySlug: '/privacy/en',
+
+  // This enables / disables the use of a GDPR compliant
+  // privacy preference center to manage cookies on the market
+  // If set to true a gdpr.json file inside the content directory
+  // is used to create and show a privacy preference center / cookie banner
+  // To learn more about how to configure and use this, please refer to the readme
+  // https://github.com/deltaDAO/Ocean-Market/tree/main#-gdpr-compliance
+  privacyPreferenceCenter: false,
+
+  displayWarning: false,
 
   // Address to open assets from main page
   assetAddress:
