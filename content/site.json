@@ -1,6 +1,6 @@
 {
   "site": {
-    "siteTitle": "Gaia-X Catalogue",
+    "siteTitle": "MVG Catalogue Demonstrator",
     "siteTagline": "Browse and discover Data and their Self-Descriptions in the Gaia-X Test Network.",
     "siteUrl": "https://catalogue.minimal-gaia-x.eu",
     "siteIcon": "./src/images/siteIcon.png",
