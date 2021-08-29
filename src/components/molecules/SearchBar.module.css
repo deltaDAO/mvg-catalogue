@@ -49,6 +49,28 @@
   cursor: text;
 }
 
+@media screen and (min-width: 42rem) {
+  .input,
+  .input:focus {
+    width: auto;
+    position: relative;
+    left: initial;
+    right: initial;
+    border: 2px solid var(--border-color-menu);
+    border-radius: var(--border-radius-menu);
+  }
+
+  .button {
+    width: auto;
+    left: auto;
+    background: none;
+  }
+
+  .input:focus + .button {
+    z-index: 3;
+  }
+}
+
 .searchIcon {
   fill: var(--color-primary);
   transition: 0.2s ease-out;
