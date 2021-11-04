@@ -78,17 +78,12 @@ export default function SearchPage({
     fetchAssets(parsed, chainIds)
   }, [parsed, chainIds, newCancelToken, fetchAssets])
 
-  // TODO : update filters
   return (
     <Permission eventType="browse">
       <>
         <div className={styles.search}>
           <div className={styles.row}>
             <div className={styles.menu}>
-              {/* <ServiceFilter
-                serviceType={service}
-                setServiceType={setServiceType}
-              /> */}
               <Filters
                 serviceType={serviceType}
                 accessType={accessType}
@@ -110,11 +105,10 @@ export default function SearchPage({
           <AssetList
             assets={queryResult?.results}
             showPagination
-            isLoading={loading}
             page={queryResult?.page}
             totalPages={queryResult?.totalPages}
+            isLoading={loading}
             onPageChange={updatePage}
-            tableView
           />
         </div>
       </>

@@ -1,5 +1,7 @@
 .wrapper {
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
   left: 0;
   background-color: var(--background-body);
   width: 100%;

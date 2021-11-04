@@ -5,9 +5,10 @@ import Page from '../components/templates/Page'
 import queryString from 'query-string'
 import { accountTruncate } from '../utils/web3'
 import ethereumAddress from 'ethereum-address'
-import { MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS } from '../utils/aquarius'
+import { useSiteMetadata } from '../hooks/useSiteMetadata'
 
 export default function PageGatsbySearch(props: PageProps): ReactElement {
+  const { siteTitle, siteTagline } = useSiteMetadata()
   const parsed = queryString.parse(props.location.search)
   const { text, owner, tags, categories } = parsed
   const [totalResults, setTotalResults] = useState<number>()
@@ -35,21 +36,12 @@ export default function PageGatsbySearch(props: PageProps): ReactElement {
 
   return (
     <Page
-      title={
-        totalPagesNumber > MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS
-          ? `>10000 results ${
-              searchValue && searchValue !== ' ' ? `for ${searchValue}` : ''
-            }`
-          : title
-      }
-      description={
-        totalPagesNumber &&
-        totalPagesNumber > MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS
-          ? '**Results displayed are limited to the first 10k, please refine your search.**'
-          : undefined
-      }
+      title={siteTitle}
+      description={siteTagline}
       uri={props.uri}
+      headerCenter
     >
+      <h3>{title}</h3>
       <PageSearch
         location={props.location}
         setTotalResults={setTotalResults}

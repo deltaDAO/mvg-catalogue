@@ -1,3 +1,6 @@
-.spacer {
-  height: calc(var(--spacer) / 1.5 * 4);
+.header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
