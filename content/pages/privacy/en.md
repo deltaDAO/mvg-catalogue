@@ -50,15 +50,15 @@ When you contact us via e-mail, our (mail) service provider Microsoft supports u
 
 We process your personal data for the following purposes.
 
-## 4.1 Providing our market and creating log files
+## 4.1 Providing Ocean Market and creating log files
 
-We collect and use your IP address for providing our market hosted at Netlify. Moreover, deltaDAO uses Netlify Analytics to collect and store your IP address. Your personal data will never leave our service, and we will not track you across sites.
+We collect and use your IP address for providing Ocean Market hosted at Netlify. Moreover, OPF uses Netlify Analytics to collect and store your IP address. Your personal data will never leave our service, and we will not track you across sites.
 
 **Purposes:**
 
-Collecting and using your IP address is necessary for providing our market because it is a technical requirement for ensuring communication between your device and our market.
+Collecting and using your IP address is necessary for providing Ocean Market because it is a technical requirement for ensuring communication between your device and our market.
 
-deltaDAO uses Netlify Analytics to distinguish unique visitors based on IP addresses. This process helps us understand better how many users visit our market and in which countries the users are located. We use that information to measure traffic and popularity trends to improve our service.
+OPF uses Netlify Analytics to distinguish unique visitors based on IP addresses. This process helps us understand better how many users visit Ocean Market and in which countries the users are located. We use that information to measure traffic and popularity trends to improve our service.
 
 **Legal basis:**
 
@@ -102,15 +102,15 @@ The legal basis for this processing is Article 6(1)(b) GDPR, as the processing i
 
 **Retention period:**
 
-deltaDAO discloses your wallet address and author name by transmitting it to a smart contract stored in machine-readable format permanently on-chain to enable an audit trail.
+OPF discloses your wallet address and author name by transmitting it to a smart contract stored in machine-readable format permanently on-chain to enable an audit trail.
 
 ## 4.4 Showing data assets
 
-When you published a data asset, we retrieve, organize, and store your wallet address and author name on a metadata cache operated by deltaDAO. Moreover, we show your asset on our market.
+When you published a data asset, we retrieve, organize, and store your wallet address and author name on a metadata cache operated by OPF. Moreover, we show your asset on Ocean Market.
 
 **Purposes:**
 
-Retrieving data from the blockchain is time-consuming. Hence, we retrieve, organize, and store your personal data on a cache to improve the performance of our market. We show your data asset on our market, so visitors can find, consume and stake in it.
+Retrieving data from the blockchain is time-consuming. Hence, we retrieve, organize, and store your personal data on a cache to improve the performance of Ocean Market. We show your data asset on Ocean Market, so visitors can find, consume and stake in it.
 
 **Legal basis:**
 

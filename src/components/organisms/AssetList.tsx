@@ -9,6 +9,7 @@ import Loader from '../atoms/Loader'
 import CatalogTable from '../molecules/CatalogTable'
 import { useUserPreferences } from '../../providers/UserPreferences'
 import { useSiteMetadata } from '../../hooks/useSiteMetadata'
+import { useIsMounted } from '../../hooks/useIsMounted'
 
 const cx = classNames.bind(styles)
 
@@ -29,6 +30,7 @@ declare type AssetListProps = {
   onPageChange?: React.Dispatch<React.SetStateAction<number>>
   className?: string
   tableView?: boolean
+  noPublisher?: boolean
 }
 
 const AssetList: React.FC<AssetListProps> = ({
@@ -39,26 +41,25 @@ const AssetList: React.FC<AssetListProps> = ({
   isLoading,
   onPageChange,
   className,
-  tableView
+  tableView,
+  noPublisher
 }) => {
-  const { appConfig } = useSiteMetadata()
   const { chainIds } = useUserPreferences()
   const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>()
   const [loading, setLoading] = useState<boolean>(true)
-
+  const isMounted = useIsMounted()
   useEffect(() => {
     if (!assets) return
     isLoading && setLoading(true)
-    getAssetsBestPrices(
-      assets,
-      appConfig.allowDynamicPricing !== 'true' && {
-        filterType: 'blacklist',
-        priceTypes: ['pool']
-      }
-    ).then((asset) => {
+
+    async function fetchPrices() {
+      const asset = await getAssetsBestPrices(assets)
+      if (!isMounted()) return
       setAssetWithPrices(asset)
       setLoading(false)
-    })
+    }
+
+    fetchPrices()
   }, [assets])
 
   // // This changes the page field inside the query
@@ -83,13 +84,14 @@ const AssetList: React.FC<AssetListProps> = ({
                 ddo={assetWithPrice.ddo}
                 price={assetWithPrice.price}
                 key={assetWithPrice.ddo.id}
+                noPublisher={noPublisher}
               />
             ))
           )
         ) : chainIds.length === 0 ? (
           <div className={styles.empty}>No network selected.</div>
         ) : (
-          <div className={styles.empty}>No results found.</div>
+          <div className={styles.empty}>No results found</div>
         )}
       </div>
 

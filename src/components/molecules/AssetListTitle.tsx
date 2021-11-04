@@ -43,7 +43,7 @@ export default function AssetListTitle({
   return (
     <h3 className={styles.title}>
       <LinkOpener
-        uri={`${appConfig.assetAddress}/asset/${did || ddo.id}`}
+        uri={`${appConfig.assetAddress}/asset/${did || ddo?.id}`}
         openNewTab
       >
         {assetTitle}

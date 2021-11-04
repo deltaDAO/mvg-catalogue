@@ -34,11 +34,10 @@ interface UseSiteMetadata {
     allowFreePricing: string
     allowAdvancedSettings: string
     credentialType: string
-    assetAddress: string
-    allowAdvancedPublishSettings: string
-    displayWarning: boolean
     defaultPrivacyPolicySlug: string
-    privacyPreferenceCenter: boolean
+    privacyPreferenceCenter: string
+    allowAdvancedPublishSettings: string
+    assetAddress: string
   }
 }
 
@@ -75,10 +74,9 @@ const query = graphql`
           allowAdvancedSettings
           allowAdvancedPublishSettings
           credentialType
-          assetAddress
-          displayWarning
           defaultPrivacyPolicySlug
           privacyPreferenceCenter
+          assetAddress
         }
       }
     }
