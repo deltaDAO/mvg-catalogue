@@ -1,0 +1,13 @@
+{
+  "site": {
+    "title": "App title",
+    "description": "A short descriptive description.",
+    "menu": [
+      {
+        "label": "Home",
+        "target": "/"
+      }
+    ],
+    "siteIcon": "favicon.ico"
+  }
+}
