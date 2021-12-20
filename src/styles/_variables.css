@@ -1,0 +1,64 @@
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-cyan: #00ffff;
+  --color-purple: #7300f3;
+
+  --color-grey-dark: #6c7393;
+  --color-grey: #cccce0;
+  --color-grey-light: #f8f8fe;
+
+  --color-alert-green: #5fb359;
+  --color-alert-red: #d80606;
+  --color-alert-orange: #b35f36;
+  --color-alert-yellow: #eac146;
+
+  --color-primary: var(--color-purple);
+  --color-secondary: var(--color-black);
+
+  --gradient-primary: linear-gradient(
+    to right top,
+    var(--color-purple) 0%,
+    var(--color-cyan) 100%
+  );
+
+  --box-shadow-color: rgba(65, 65, 100, 0.15);
+  --box-shadow: 12px 22px 30px 0px var(--box-shadow-color);
+
+  --font-color-text: var(--color-grey-dark);
+  --font-color-heading: var(--color-black);
+
+  --font-family-base: 'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+  --font-family-heading: 'Overpass', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Helvetica, Arial, sans-serif;
+
+  --font-size-root: 15px;
+  --font-size-base: 1rem;
+  --font-size-large: 1.2rem;
+  --font-size-small: 0.85rem;
+  --font-size-mini: 0.65rem;
+  --font-size-text: 1rem;
+  --font-size-label: 1rem;
+  --font-size-title: 1.4rem;
+  --font-size-page-title: 5.3rem;
+  --font-size-h1: 3rem;
+  --font-size-h2: 2.5rem;
+  --font-size-h3: 1.7rem;
+  --font-size-h4: 1.3rem;
+  --font-size-h5: 1.1rem;
+  --font-weight-light: 300;
+  --font-weight-base: 400;
+  --font-weight-bold: 700;
+  --line-height: 1.6;
+
+  --spacer: 2rem;
+
+  --border-radius-sm: 0.2rem;
+  --border-radius-lg: 10px;
+
+  --break-point--small: 640px;
+  --break-point--medium: 860px;
+  --break-point--large: 1140px;
+  --break-point--huge: 1400px;
+}
