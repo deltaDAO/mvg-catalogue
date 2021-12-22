@@ -1,1 +1,4 @@
-export interface AppConfig {}
+export interface AppConfig {
+  metadataCacheUri: string
+  chainId: number
+}

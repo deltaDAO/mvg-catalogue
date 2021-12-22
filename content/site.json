@@ -1,7 +1,7 @@
 {
   "site": {
-    "title": "App title",
-    "description": "A short descriptive description.",
+    "title": "MVG Catalogue",
+    "description": "Browse and discover Data Services in the Gaia-X Testnet.",
     "menu": [
       {
         "label": "Home",

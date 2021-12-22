@@ -16,8 +16,6 @@
         "project": ["./tsconfig.json"]
       },
       "extends": [
-        "oceanprotocol",
-        "oceanprotocol/react",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
