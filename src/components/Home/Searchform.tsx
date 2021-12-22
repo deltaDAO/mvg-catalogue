@@ -2,11 +2,17 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import Button from '../atoms/Button'
 import Searchbar from '../atoms/Searchbar'
 import { getSearchQuery, searchMetadata } from '../../util/aquarius'
-import Metadata, { MetadataMain, Service } from '../../@types/Metadata'
+import Metadata, {
+  MetadataMain,
+  MetadataMainTypes,
+  Service
+} from '../../@types/Metadata'
 import styles from './Searchform.module.css'
 import Assetlist from '../Assetlist'
 import Loader from '../atoms/Loader'
 import Pagination from '../atoms/Pagination'
+import { useRouter } from 'next/router'
+import { ValueOf } from '../../@types/global'
 
 export interface SearchResults {
   total: number
@@ -18,8 +24,14 @@ export default function Searchform({
 }: {
   resultSize?: number
 }): ReactElement {
+  const { query } = useRouter()
+
   const [searchValue, setSearchValue] = useState('')
   const [currentSearchTerm, setCurrentSearchTerm] = useState('')
+
+  const [searchType, setSearchType] = useState<
+    MetadataMain['type'] | undefined
+  >()
 
   const [searchResults, setSearchResults] = useState<SearchResults>()
   const [loading, setLoading] = useState(false)
@@ -31,7 +43,12 @@ export default function Searchform({
     setLoading(true)
     setCurrentSearchTerm(searchValue)
     setCurrentPage(page)
-    const response = await searchMetadata(searchValue, page * resultSize)
+    console.log(`Searching for ${searchValue}, on page ${page}`)
+    const response = await searchMetadata({
+      term: searchValue,
+      from: page * resultSize,
+      type: searchType
+    })
 
     if (!response) {
       setLoading(false)
@@ -61,8 +78,22 @@ export default function Searchform({
   }
 
   useEffect(() => {
-    currentPage !== page && search()
-  }, [page])
+    if (currentSearchTerm || searchType || currentPage !== page) search()
+  }, [page, currentSearchTerm, searchType])
+
+  useEffect(() => {
+    if (!query) return
+    console.log(query)
+    const { term, sort, page, type } = query
+    if (term) setSearchValue(term as string)
+    if (page) setPage(Number.parseInt(page as string) - 1)
+    if (type && MetadataMainTypes.includes((type as string).toLowerCase()))
+      setSearchType(type as MetadataMain['type'])
+
+    if (term) {
+      setCurrentSearchTerm(term as string)
+    }
+  }, [query])
 
   return (
     <div className={styles.container}>
@@ -72,28 +103,23 @@ export default function Searchform({
           e.preventDefault()
           if (searchValue && currentSearchTerm !== searchValue) {
             setPage(0)
-            search()
+            setCurrentSearchTerm(searchValue)
           }
         }}
       >
-        <Searchbar onChange={(value) => setSearchValue(value)} />
-        <Button
-          style="primary"
-          type="submit"
-          onClick={() => {
-            getSearchQuery(searchValue)
-          }}
-          disabled={loading}
-        >
+        <Searchbar
+          onChange={(value) => setSearchValue(value)}
+          defaultValue={searchValue}
+        />
+        <Button style="primary" type="submit" disabled={loading}>
           Search
         </Button>
       </form>
       {!loading && searchResults ? (
         <>
           <h4>
-            {searchResults.total}{' '}
-            {searchResults.total > 1 ? 'results' : 'result'} for "
-            {currentSearchTerm}"
+            {searchResults.total} {searchType ? searchType : 'result'}
+            {searchResults.total > 1 ? 's' : ''} for "{currentSearchTerm}"
           </h4>
           <Assetlist assets={searchResults.metadata} />
           {searchResults.total > searchResults.metadata.length && (

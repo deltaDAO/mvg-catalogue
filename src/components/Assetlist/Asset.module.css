@@ -1,0 +1,36 @@
+.asset {
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: calc(var(--spacer) / 2);
+  padding: calc(var(--spacer) / 4) 0;
+  border-bottom: 1px solid var(--color-black);
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  text-transform: none;
+  color: var(--color-black);
+  font-weight: var(--font-weight-bold);
+}
+
+@media screen and (min-width: 60rem) {
+  .asset {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .name {
+    width: 60%;
+  }
+
+  .info {
+    margin-right: auto;
+    flex-grow: 1;
+  }
+}

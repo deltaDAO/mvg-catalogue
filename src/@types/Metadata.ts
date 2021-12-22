@@ -34,6 +34,8 @@ export interface Service {
   type: 'metadata' | 'compute' | 'download'
 }
 
+export const MetadataMainTypes = ['dataset', 'algorithm']
+
 export interface MetadataMain {
   author: string
   dateCreated: Date

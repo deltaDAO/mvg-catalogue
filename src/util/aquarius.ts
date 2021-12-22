@@ -6,6 +6,7 @@ import {
   Sort
 } from '../@types/SearchQuery'
 import axios, { AxiosResponse } from 'axios'
+import Metadata, { MetadataMain } from '../@types/Metadata'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -55,8 +56,13 @@ export function getBaseQuery(
   }
 }
 
-export function getSearchQuery(term: string): SearchQuery {
+export function getSearchQuery(
+  term: string,
+  type?: MetadataMain['type']
+): SearchQuery {
   const baseQuery = getBaseQuery()
+
+  const withTerm = term !== ''
 
   const query: SearchQuery = {
     ...baseQuery,
@@ -64,32 +70,39 @@ export function getSearchQuery(term: string): SearchQuery {
       ...baseQuery.query,
       bool: {
         ...baseQuery.query.bool,
-        should: [
-          {
-            query_string: {
-              boost: 5,
-              fields: defaultSearchFields,
-              minimum_should_match: '2<75%',
-              query: term
-            }
-          },
-          {
-            query_string: {
-              boost: 5,
-              fields: defaultSearchFields,
-              lenient: true,
-              query: term
-            }
-          },
-          {
-            match_phrase: {
-              content: {
-                boost: 10,
-                query: term
+        should: withTerm
+          ? [
+              {
+                query_string: {
+                  boost: 5,
+                  fields: defaultSearchFields,
+                  minimum_should_match: '2<75%',
+                  query: term
+                }
+              },
+              {
+                query_string: {
+                  boost: 5,
+                  fields: defaultSearchFields,
+                  lenient: true,
+                  query: term
+                }
+              },
+              {
+                match_phrase: {
+                  content: {
+                    boost: 10,
+                    query: term
+                  }
+                }
               }
-            }
+            ]
+          : undefined,
+        must: type && {
+          term: {
+            'service.attributes.main.type': type
           }
-        ]
+        }
       }
     },
     sort: {
@@ -97,19 +110,24 @@ export function getSearchQuery(term: string): SearchQuery {
         order: 'desc'
       }
     },
-    min_score: 1
+    min_score: withTerm ? 1 : undefined
   }
 
   return query
 }
 
-export async function searchMetadata(
-  term: string,
+export async function searchMetadata({
+  term,
+  type,
+  from
+}: {
+  term: string
+  type?: MetadataMain['type']
   from?: number
-): Promise<SearchResponse | undefined> {
+}): Promise<SearchResponse | undefined> {
   try {
     const searchQuery = {
-      ...getSearchQuery(term),
+      ...getSearchQuery(term, type),
       from: from || 0
     }
 

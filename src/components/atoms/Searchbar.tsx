@@ -16,7 +16,7 @@ export default function Searchbar({
         className={styles.input}
         type="text"
         placeholder="Search the Federated Catalogue..."
-        defaultValue={value}
+        value={value}
         onChange={(e) => {
           onChange && onChange(e.target.value)
           setValue(e.target.value)
