@@ -25,11 +25,11 @@ export const defaultSearchFields = [
 export function getBaseQuery(
   filter: FilterTerms[] = [],
   sort?: Sort,
-  size?: number
+  size = 10
 ): SearchQuery {
   return {
     from: 0,
-    size: size || 10,
+    size: size,
     query: {
       bool: {
         filter: [
@@ -64,12 +64,24 @@ export function getSearchQuery(
 
   const withTerm = term !== ''
 
+  console.log(`withTerm: ${withTerm} for term "${term}"`)
+
   const query: SearchQuery = {
     ...baseQuery,
     query: {
       ...baseQuery.query,
       bool: {
         ...baseQuery.query.bool,
+        filter: [
+          ...(baseQuery.query.bool?.filter as FilterTerms[]),
+          {
+            term: type
+              ? {
+                  'service.attributes.main.type': type
+                }
+              : undefined
+          }
+        ],
         should: withTerm
           ? [
               {
@@ -97,19 +109,16 @@ export function getSearchQuery(
                 }
               }
             ]
-          : undefined,
-        must: type && {
-          term: {
-            'service.attributes.main.type': type
+          : undefined
+      }
+    },
+    sort: withTerm
+      ? {
+          _score: {
+            order: 'desc'
           }
         }
-      }
-    },
-    sort: {
-      _score: {
-        order: 'desc'
-      }
-    },
+      : undefined,
     min_score: withTerm ? 1 : undefined
   }
 
@@ -137,6 +146,29 @@ export async function searchMetadata({
       searchQuery
     )
     //console.log(`Response:`, response.data)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function getPopularTags(size = 10) {
+  try {
+    const tagQuery = {
+      ...getBaseQuery(),
+      aggs: {
+        popular_tags: {
+          significant_text: {
+            field: 'service.attributes.additionalInformation.tags',
+            size: size
+          }
+        }
+      },
+      size: 0
+    }
+
+    const response = await axios.post(apiBasePath, tagQuery)
 
     return response.data
   } catch (error) {

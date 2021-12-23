@@ -21,21 +21,20 @@ export default function Pagination({
   return (
     <nav className={styles.pagination}>
       <ul>
-        {active > 0 && <li onClick={() => setPage(active - 1)}>previous</li>}
+        {active > 1 && <li onClick={() => setPage(active - 1)}>previous</li>}
         {pages.map((page, i) => {
+          const pageNo = i + 1
           return (
             <li
-              className={cx({ active: i === active })}
-              key={i}
-              onClick={() => setPage(i)}
+              className={cx({ active: pageNo === active })}
+              key={pageNo}
+              onClick={() => setPage(pageNo)}
             >
-              {i + 1}
+              {pageNo}
             </li>
           )
         })}
-        {active + 1 < maxPage && (
-          <li onClick={() => setPage(active + 1)}>next</li>
-        )}
+        {active < maxPage && <li onClick={() => setPage(active + 1)}>next</li>}
       </ul>
     </nav>
   )

@@ -1,7 +1,10 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { useSiteMetadata } from '../../hooks/UseSiteMetadata'
+import { getPopularTags } from '../../util/aquarius'
+import Searchform from '../Search/Searchform'
+import Assettypes from './Assettypes'
+import Categories from './Categories'
 import styles from './index.module.css'
-import Searchform from './Searchform'
 
 export default function HomePage(): ReactElement {
   const { title, description } = useSiteMetadata().site
@@ -14,6 +17,10 @@ export default function HomePage(): ReactElement {
         <p className={styles.description}>{description}</p>
 
         <Searchform />
+
+        <Assettypes />
+
+        <Categories />
       </div>
     </>
   )
