@@ -66,22 +66,24 @@ export function getSearchQuery(
 
   console.log(`withTerm: ${withTerm} for term "${term}"`)
 
+  const filters: FilterTerms[] = [
+    ...(baseQuery.query.bool?.filter as FilterTerms[])
+  ]
+
+  if (type)
+    filters.push({
+      term: {
+        'service.attributes.main.type': type
+      }
+    })
+
   const query: SearchQuery = {
     ...baseQuery,
     query: {
       ...baseQuery.query,
       bool: {
         ...baseQuery.query.bool,
-        filter: [
-          ...(baseQuery.query.bool?.filter as FilterTerms[]),
-          {
-            term: type
-              ? {
-                  'service.attributes.main.type': type
-                }
-              : undefined
-          }
-        ],
+        filter: filters,
         should: withTerm
           ? [
               {
