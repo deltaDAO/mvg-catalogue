@@ -1,0 +1,8 @@
+.logo {
+  width: 6rem;
+  margin: 0;
+}
+
+.logo path {
+  fill: var(--color-primary);
+}

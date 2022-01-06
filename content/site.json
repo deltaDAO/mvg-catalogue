@@ -4,7 +4,15 @@
     "description": "Browse and discover Data Services in the Gaia-X Testnet.",
     "menu": [
       {
-        "label": "Home",
+        "label": "Browse",
+        "target": "/"
+      },
+      {
+        "label": "Categories",
+        "target": "/"
+      },
+      {
+        "label": "Search",
         "target": "/"
       }
     ],

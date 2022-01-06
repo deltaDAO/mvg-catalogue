@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import React, { ReactElement, ReactNode } from 'react'
 import { useSiteMetadata } from '../hooks/UseSiteMetadata'
+import Navbar from './molecules/Navbar'
 
 export default function App({
   children
@@ -18,6 +19,7 @@ export default function App({
       </Head>
 
       <div>
+        <Navbar />
         <main>{children}</main>
       </div>
     </>
