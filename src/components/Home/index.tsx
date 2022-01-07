@@ -10,18 +10,12 @@ export default function HomePage(): ReactElement {
   const { title, description } = useSiteMetadata().site
 
   return (
-    <>
-      <div className={styles.container}>
-        <h1 className={styles.title}>{title}</h1>
-
-        <p className={styles.description}>{description}</p>
-
-        <Searchform />
-
-        <Assettypes />
-
-        <Categories />
-      </div>
-    </>
+    <div className={styles.container}>
+      <h1 className={styles.title}>{title}</h1>
+      <p className={styles.description}>{description}</p>
+      <Searchform />
+      <Assettypes />
+      <Categories />
+    </div>
   )
 }

@@ -9,6 +9,7 @@ import Pagination from './Pagination'
 import { useRouter } from 'next/router'
 import styles from './index.module.css'
 import Searchform from './Searchform'
+import content from '../../../content/search.json'
 
 export interface SearchResults {
   total: number
@@ -23,6 +24,7 @@ export default function SearchPage({
 }): ReactElement {
   const router = useRouter()
   const { query } = router
+  const { title } = content
 
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchType, setSearchType] = useState<
@@ -95,6 +97,7 @@ export default function SearchPage({
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.title}>{title}</h2>
       <Searchform
         disabled={loading}
         onSubmit={(value) => {
