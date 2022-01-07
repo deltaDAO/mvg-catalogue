@@ -1,15 +1,12 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import Button from '../atoms/Button'
-import Searchbar from './Searchbar'
 import { searchMetadata } from '../../util/aquarius'
 import { MetadataMain, MetadataMainTypes, Service } from '../../@types/Metadata'
-import Assetlist from '../Assetlist'
 import Loader from '../atoms/Loader'
-import Pagination from './Pagination'
 import { useRouter } from 'next/router'
 import styles from './index.module.css'
 import Searchform from './Searchform'
 import content from '../../../content/search.json'
+import Results from './Results'
 
 export interface SearchResults {
   total: number
@@ -41,15 +38,6 @@ export default function SearchPage({
 
     setPage(Number.parseInt(query.page as string))
     setSearchTerm((query.term as string) || '')
-  }
-
-  const changePage = (newPage: number) => {
-    router.push({
-      query: {
-        term: query.term,
-        page: newPage
-      }
-    })
   }
 
   const search = async () => {
@@ -112,22 +100,13 @@ export default function SearchPage({
         }}
       />
       {!loading && searchResults ? (
-        <>
-          <h4>
-            {searchResults.total} {searchType ? searchType : 'result'}
-            {searchResults.total === 1 ? '' : 's'}
-            {query.term && <span> for "{query.term}"</span>}
-          </h4>
-          <Assetlist assets={searchResults.metadata} />
-          {searchResults.total > searchResults.metadata.length && (
-            <Pagination
-              active={page || 1}
-              total={searchResults.total}
-              size={resultSize}
-              setPage={changePage}
-            />
-          )}
-        </>
+        <Results
+          query={query}
+          resultSize={resultSize}
+          searchResults={searchResults}
+          searchType={searchType}
+          page={page}
+        />
       ) : loading ? (
         <Loader style="spinner" />
       ) : (
