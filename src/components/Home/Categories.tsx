@@ -2,6 +2,8 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { getPopularTags } from '../../util/aquarius'
 import { AggregationBucket, Aggregations } from '../../@types/Aggregates'
 import styles from './Categories.module.css'
+import Link from 'next/link'
+import Box from '../atoms/Box'
 
 export default function Categories({
   size = 6
@@ -13,7 +15,6 @@ export default function Categories({
   useEffect(() => {
     const loadPopularCategories = async () => {
       const data = await getPopularTags(size)
-
       setCategories(data.aggregations?.popular_tags?.buckets)
     }
     loadPopularCategories()
@@ -21,10 +22,19 @@ export default function Categories({
 
   return (
     <div className={styles.container}>
-      {categories?.map((category, i) => {
-        console.log(category)
-        return <div key={i}>{category.key}</div>
-      })}
+      <h3 className={styles.title}>Popular Categories</h3>
+      <div className={styles.categories}>
+        {categories?.map((category, i) => (
+          <Link
+            key={i}
+            href={{ pathname: '/search', query: { tags: category.key } }}
+          >
+            <a>
+              <Box className={styles.box}>{category.key}</Box>
+            </a>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }
