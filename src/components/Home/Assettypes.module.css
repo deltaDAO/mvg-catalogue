@@ -1,0 +1,29 @@
+.container {
+  margin-top: calc(var(--spacer) * 2);
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 25rem));
+  gap: var(--spacer);
+  justify-content: center;
+}
+
+.box {
+  padding: calc(var(--spacer) * 2) var(--spacer);
+}
+
+.box h3 {
+  margin: 0;
+}
+
+@media screen and (min-width: 30rem) {
+  .title {
+    text-align: start;
+  }
+}
