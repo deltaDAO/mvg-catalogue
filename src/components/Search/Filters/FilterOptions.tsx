@@ -12,7 +12,7 @@ import classNames from 'classnames/bind'
 const cx = classNames.bind(styles)
 
 const filterTypeOptions = {
-  category: [
+  type: [
     { display: 'data sets', value: FilterByTypeOptions.Data },
     { display: 'algorithms', value: FilterByTypeOptions.Algorithm }
   ],
@@ -45,7 +45,7 @@ export default function FilterOptions({
   type,
   sortDirections
 }: {
-  type: 'category' | 'sort' | 'resultsPerPage'
+  type: 'type' | 'sort' | 'resultsPerPage'
   sortDirections?: boolean
 }): ReactElement {
   const router = useRouter()
@@ -60,8 +60,17 @@ export default function FilterOptions({
             <div
               key={i}
               className={cx({
-                selected: query.sort === option.value
+                selected: query.sortOrder === option.value
               })}
+              onClick={() =>
+                router.push({
+                  pathname: '/search',
+                  query: {
+                    ...query,
+                    sortOrder: option.value
+                  }
+                })
+              }
             >{`${option.display} ${option.directionArrow}`}</div>
           ))}
         </div>
@@ -72,8 +81,17 @@ export default function FilterOptions({
             <li
               key={i}
               className={cx({
-                selected: query.type === option.value
+                selected: query[type] === option.value
               })}
+              onClick={() =>
+                router.push({
+                  pathname: '/search',
+                  query: {
+                    ...query,
+                    [type]: option.value
+                  }
+                })
+              }
             >
               {option.display}
             </li>

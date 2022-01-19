@@ -7,7 +7,7 @@ import styles from './index.module.css'
 import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
-import Category from './Filters/Category'
+import FilterButton from './Filters/FilterButton'
 
 export interface SearchResults {
   total: number
@@ -100,7 +100,7 @@ export default function SearchPage({
           })
         }}
       />
-      <Category />
+      <FilterButton />
       {!loading && searchResults ? (
         <Results
           query={query}
