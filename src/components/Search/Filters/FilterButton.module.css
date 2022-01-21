@@ -1,7 +1,7 @@
 .box {
   display: flex;
   gap: 0.8rem;
-  padding: calc(var(--spacer) / 4) calc(var(--spacer) * 2);
+  padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
   color: var(--color-grey-dark);
   font-weight: var(--font-weight-light);
   text-transform: lowercase;

@@ -101,7 +101,6 @@ export default function SearchPage({
           })
         }}
       />
-      <FilterBar />
       {!loading && searchResults ? (
         <Results
           query={query}
