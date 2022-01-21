@@ -11,21 +11,33 @@ import classNames from 'classnames/bind'
 
 const cx = classNames.bind(styles)
 
-const filterTypeOptions = {
-  type: [
-    { display: 'data sets', value: FilterByTypeOptions.Data },
-    { display: 'algorithms', value: FilterByTypeOptions.Algorithm }
-  ],
-  sort: [
-    { display: 'relevance', value: SortByOptions.Relevance },
-    { display: 'created', value: SortByOptions.Created },
-    { display: 'updated', value: SortByOptions.Updated }
-  ],
-  resultsPerPage: [
-    { display: '10', value: ResultsPerPageOptions.Ten },
-    { display: '25', value: ResultsPerPageOptions.TwentyFive },
-    { display: '50', value: ResultsPerPageOptions.Fifty }
-  ]
+export type TypeKeys = keyof typeof filterTypeOptions
+
+export const filterTypeOptions = {
+  type: {
+    display: 'type',
+    options: [
+      { display: 'all', value: FilterByTypeOptions.All, default: true },
+      { display: 'algorithm', value: FilterByTypeOptions.Algorithm },
+      { display: 'dataset', value: FilterByTypeOptions.Data }
+    ]
+  },
+  sort: {
+    display: 'sort by',
+    options: [
+      { display: 'relevance', value: SortByOptions.Relevance, default: true },
+      { display: 'created', value: SortByOptions.Created },
+      { display: 'updated', value: SortByOptions.Updated }
+    ]
+  },
+  resultsPerPage: {
+    display: 'results per page',
+    options: [
+      { display: '10', value: ResultsPerPageOptions.Ten, default: true },
+      { display: '25', value: ResultsPerPageOptions.TwentyFive },
+      { display: '50', value: ResultsPerPageOptions.Fifty }
+    ]
+  }
 }
 
 const sortDirectionOptions = [
@@ -45,12 +57,11 @@ export default function FilterOptions({
   type,
   sortDirections
 }: {
-  type: 'type' | 'sort' | 'resultsPerPage'
+  type: TypeKeys
   sortDirections?: boolean
 }): ReactElement {
   const router = useRouter()
   const { query } = router
-  console.log(query)
 
   return (
     <div className={styles.container}>
@@ -77,7 +88,7 @@ export default function FilterOptions({
       )}
       <div className={styles.options}>
         <ul>
-          {filterTypeOptions[type].map((option, i) => (
+          {filterTypeOptions[type]?.options.map((option, i) => (
             <li
               key={i}
               className={cx({

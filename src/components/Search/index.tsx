@@ -8,6 +8,7 @@ import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
 import FilterButton from './Filters/FilterButton'
+import FilterBar from './Filters/FilterBar'
 
 export interface SearchResults {
   total: number
@@ -100,7 +101,7 @@ export default function SearchPage({
           })
         }}
       />
-      <FilterButton />
+      <FilterBar />
       {!loading && searchResults ? (
         <Results
           query={query}

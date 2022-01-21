@@ -4,8 +4,9 @@ export enum SortDirectionOptions {
 }
 
 export enum FilterByTypeOptions {
-  Data = 'dataset',
-  Algorithm = 'algorithm'
+  All = '',
+  Algorithm = 'algorithm',
+  Data = 'dataset'
 }
 
 export enum SortByOptions {
@@ -15,9 +16,9 @@ export enum SortByOptions {
 }
 
 export enum ResultsPerPageOptions {
-  Ten = 10,
-  TwentyFive = 25,
-  Fifty = 50
+  Ten = '10',
+  TwentyFive = '25',
+  Fifty = '50'
 }
 
 // TODO: verify query keys

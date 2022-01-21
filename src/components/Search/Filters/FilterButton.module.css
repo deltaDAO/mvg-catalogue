@@ -1,0 +1,19 @@
+.box {
+  display: flex;
+  gap: 0.8rem;
+  padding: calc(var(--spacer) / 4) calc(var(--spacer) * 2);
+  color: var(--color-grey-dark);
+  font-weight: var(--font-weight-light);
+  text-transform: lowercase;
+}
+
+.box strong {
+  color: var(--color-black);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-large);
+}
+
+.container[aria-expanded='true'] .arrow {
+  transform: rotate(180deg);
+  transition: all 0.3s ease;
+}

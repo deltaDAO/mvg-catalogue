@@ -1,20 +1,53 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import Box from '../../atoms/Box'
 import Tooltip from '../../atoms/Tooltip'
-import FilterOptions from './FilterOptions'
+import FilterOptions, { filterTypeOptions, TypeKeys } from './FilterOptions'
+import styles from './FilterButton.module.css'
+import { useRouter } from 'next/router'
 
-export default function FilterButton(): ReactElement {
+export interface FilterOption {
+  display: string
+  options: {
+    display: string
+    value: string
+    default?: boolean
+  }[]
+}
+
+export default function FilterButton({
+  option,
+  type
+}: {
+  option: FilterOption
+  type: TypeKeys
+}): ReactElement {
+  const router = useRouter()
+  const { query } = router
+  const [selected, setSelected] = useState(
+    filterTypeOptions[type]?.options?.find((e) => e.default)?.display
+  )
+  const { display } = option
+
+  useEffect(() => {
+    if (!query) return
+    if (query[type]) setSelected(query[type])
+  }, [query])
   return (
     <Tooltip
+      className={styles.container}
       placement="bottom"
       trigger="mouseenter | focus | click"
       content={
         <Box>
-          <FilterOptions type="type" sortDirections />
+          <FilterOptions type={type} sortDirections={type === 'sort'} />
         </Box>
       }
     >
-      <Box>Category</Box>
+      <Box className={styles.box}>
+        {display}
+        <strong>{selected}</strong>
+        <strong className={styles.arrow}>{String.fromCharCode(9650)}</strong>
+      </Box>
     </Tooltip>
   )
 }
