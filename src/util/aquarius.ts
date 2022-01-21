@@ -6,7 +6,7 @@ import {
   Sort
 } from '../@types/SearchQuery'
 import axios, { AxiosResponse } from 'axios'
-import Metadata, { MetadataMain } from '../@types/Metadata'
+import { MetadataMain } from '../@types/Metadata'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -58,7 +58,9 @@ export function getBaseQuery(
 
 export function getSearchQuery(
   term: string,
-  type?: MetadataMain['type']
+  type?: MetadataMain['type'],
+  sortBy?: string,
+  sortDirections?: Sort['type']['order']
 ): SearchQuery {
   const baseQuery = getBaseQuery()
 
@@ -117,7 +119,7 @@ export function getSearchQuery(
     sort: withTerm
       ? {
           _score: {
-            order: 'desc'
+            order: sortDirections || 'desc'
           }
         }
       : undefined,
@@ -130,15 +132,19 @@ export function getSearchQuery(
 export async function searchMetadata({
   term,
   type,
-  from
+  from,
+  sortBy,
+  sortDirection
 }: {
   term: string
   type?: MetadataMain['type']
   from?: number
+  sortBy?: string
+  sortDirection?: Sort['type']['order']
 }): Promise<SearchResponse | undefined> {
   try {
     const searchQuery = {
-      ...getSearchQuery(term, type),
+      ...getSearchQuery(term, type, sortBy, sortDirection),
       from: from || 0
     }
 

@@ -5,13 +5,15 @@ import FilterOptions, { filterTypeOptions, TypeKeys } from './FilterOptions'
 import styles from './FilterButton.module.css'
 import { useRouter } from 'next/router'
 
+export interface Option {
+  display: string
+  value: string
+  default?: boolean
+}
+
 export interface FilterOption {
   display: string
-  options: {
-    display: string
-    value: string
-    default?: boolean
-  }[]
+  options: Option[]
 }
 
 export default function FilterButton({
@@ -24,7 +26,7 @@ export default function FilterButton({
   const router = useRouter()
   const { query } = router
   const [selected, setSelected] = useState(
-    filterTypeOptions[type]?.options?.find((e) => e.default)?.display
+    filterTypeOptions[type]?.options.find((e: Option) => e.default).display
   )
   const { display } = option
 

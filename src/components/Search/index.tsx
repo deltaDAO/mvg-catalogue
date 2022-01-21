@@ -7,8 +7,8 @@ import styles from './index.module.css'
 import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
-import FilterButton from './Filters/FilterButton'
-import FilterBar from './Filters/FilterBar'
+import { FilterByTypeOptions } from '../../models/SortAndFilters'
+import { Sort } from '../../@types/SearchQuery'
 
 export interface SearchResults {
   total: number
@@ -29,16 +29,25 @@ export default function SearchPage({
   const [searchType, setSearchType] = useState<
     MetadataMain['type'] | undefined
   >()
+  const [searchSort, setSearchSort] = useState<string>('created')
+  const [searchSortDirection, setSearchSortDirection] =
+    useState<Sort['type']['order']>('desc')
   const [page, setPage] = useState<number>()
 
   const [searchResults, setSearchResults] = useState<SearchResults>()
   const [loading, setLoading] = useState(false)
 
   const initFromQueryParams = () => {
-    if (MetadataMainTypes.includes(query.type as string))
-      setSearchType(query.type as MetadataMain['type'])
-
+    if (MetadataMainTypes.includes(query.type as string)) {
+      if (query.type === FilterByTypeOptions.All) {
+        setSearchType(undefined)
+      } else {
+        setSearchType(query.type as MetadataMain['type'])
+      }
+    }
     setPage(Number.parseInt(query.page as string))
+    setSearchSort(query.sort as string)
+    setSearchSortDirection(query.sortDirection as Sort['type']['order'])
     setSearchTerm((query.term as string) || '')
   }
 
@@ -48,7 +57,9 @@ export default function SearchPage({
     const response = await searchMetadata({
       term: searchTerm,
       from: (page ? (page > 0 ? page - 1 : 0) : 0) * resultSize,
-      type: searchType
+      type: searchType,
+      sortBy: searchSort,
+      sortDirection: searchSortDirection
     })
 
     if (!response) {
@@ -83,7 +94,7 @@ export default function SearchPage({
 
   useEffect(() => {
     if (searchTerm || searchType) search()
-  }, [searchTerm, searchType, page])
+  }, [searchTerm, searchType, searchSort, searchSortDirection, page])
 
   return (
     <div className={styles.container}>
@@ -95,8 +106,10 @@ export default function SearchPage({
             pathname: '/search',
             query: {
               term: value,
-              type: searchType,
-              page: 1
+              type: searchType || FilterByTypeOptions.All,
+              page: 1,
+              sortBy: searchSort,
+              sortDirection: searchSortDirection
             }
           })
         }}

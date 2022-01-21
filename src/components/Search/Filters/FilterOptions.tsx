@@ -71,14 +71,14 @@ export default function FilterOptions({
             <div
               key={i}
               className={cx({
-                selected: query.sortOrder === option.value
+                selected: query.sortDirection === option.value
               })}
               onClick={() =>
                 router.push({
                   pathname: '/search',
                   query: {
                     ...query,
-                    sortOrder: option.value
+                    sortDirection: option.value
                   }
                 })
               }
