@@ -1,5 +1,6 @@
 .box {
   display: flex;
+  justify-content: center;
   gap: 0.8rem;
   padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
   color: var(--color-grey-dark);

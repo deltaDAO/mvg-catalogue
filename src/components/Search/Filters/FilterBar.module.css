@@ -1,4 +1,19 @@
 .container {
   display: flex;
-  gap: var(--spacer);
+  width: 100%;
+  justify-content: center;
+}
+.filters {
+  display: grid;
+  gap: calc(var(--spacer) / 2);
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 45rem) {
+  .container {
+    width: auto;
+  }
+  .filters {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

@@ -7,9 +7,11 @@ export default function FilterBar() {
 
   return (
     <div className={styles.container}>
-      {options.map(([type, option], i) => (
-        <FilterButton key={i} type={type as TypeKeys} option={option} />
-      ))}
+      <div className={styles.filters}>
+        {options.map(([type, option], i) => (
+          <FilterButton key={i} type={type as TypeKeys} option={option} />
+        ))}
+      </div>
     </div>
   )
 }
