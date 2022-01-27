@@ -22,7 +22,7 @@ export const filterTypeOptions = {
       { display: 'dataset', value: FilterByTypeOptions.Data }
     ]
   },
-  sort: {
+  sortBy: {
     display: 'sort by',
     options: [
       { display: 'relevance', value: SortByOptions.Relevance, default: true },

@@ -20,9 +20,3 @@ export enum ResultsPerPageOptions {
   TwentyFive = '25',
   Fifty = '50'
 }
-
-// TODO: verify query keys
-export enum QueryFilterOptions {
-  Type = 'type',
-  SortBy = 'sortBy'
-}

@@ -7,7 +7,7 @@ import styles from './index.module.css'
 import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
-import { FilterByTypeOptions } from '../../models/SortAndFilters'
+import { FilterByTypeOptions, SortByOptions } from '../../models/SortAndFilters'
 import { Sort } from '../../@types/SearchQuery'
 
 export interface SearchResults {
@@ -31,7 +31,7 @@ export default function SearchPage({
   const [searchType, setSearchType] = useState<
     MetadataMain['type'] | undefined
   >()
-  const [searchSort, setSearchSort] = useState<string>('created')
+  const [searchSortBy, setSearchSortBy] = useState<SortByOptions>()
   const [searchSortDirection, setSearchSortDirection] =
     useState<Sort['type']['order']>('desc')
   const [page, setPage] = useState<number>()
@@ -43,10 +43,10 @@ export default function SearchPage({
     if (MetadataMainTypes.includes(query.type as string))
       setSearchType(query.type as MetadataMain['type'])
     setPage(Number.parseInt(query.page as string))
-    setSearchResultsPerPage(query?.resultsPerPage)
-    setSearchSort(query.sort as string)
+    setSearchResultsPerPage(query.resultsPerPage as string)
+    setSearchSortBy(query.sortBy as SortByOptions)
     setSearchSortDirection(query.sortDirection as Sort['type']['order'])
-    if (query.tag) setSearchTag(query.tag)
+    setSearchTag(query.tag as string)
     setSearchTerm((query.term as string) || '')
   }
 
@@ -58,7 +58,7 @@ export default function SearchPage({
       from: (page ? (page > 0 ? page - 1 : 0) : 0) * resultSize,
       tag: searchTag,
       size: searchResultsPerPage,
-      sortBy: searchSort,
+      sortBy: searchSortBy,
       sortDirection: searchSortDirection,
       type: searchType
     })
@@ -98,7 +98,7 @@ export default function SearchPage({
   }, [
     searchTerm,
     searchType,
-    searchSort,
+    searchSortBy,
     searchSortDirection,
     searchResultsPerPage,
     searchTag,
@@ -117,8 +117,9 @@ export default function SearchPage({
               term: value,
               type: searchType || FilterByTypeOptions.All,
               page: 1,
-              sortBy: searchSort,
-              sortDirection: searchSortDirection
+              sortBy: searchSortBy,
+              sortDirection: searchSortDirection,
+              resultsPerPage: searchResultsPerPage
             }
           })
         }}

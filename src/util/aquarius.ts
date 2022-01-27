@@ -7,7 +7,11 @@ import {
 } from '../@types/SearchQuery'
 import axios, { AxiosResponse } from 'axios'
 import { MetadataMain } from '../@types/Metadata'
-import { FilterByTypeOptions } from '../models/SortAndFilters'
+import {
+  FilterByTypeOptions,
+  SortByOptions,
+  SortDirectionOptions
+} from '../models/SortAndFilters'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -22,6 +26,12 @@ export const defaultSearchFields = [
   'service.attributes.additionalInformation.description',
   'service.attributes.additionalInformation.tags'
 ]
+
+export const defaultSortByFields = {
+  [SortByOptions.Relevance]: '_score',
+  [SortByOptions.Created]: 'created',
+  [SortByOptions.Updated]: 'updated'
+}
 
 export function getBaseQuery(
   filter: FilterTerms[] = [],
@@ -61,8 +71,8 @@ export function getSearchQuery(
   term: string,
   tag?: string,
   size?: string,
-  sortBy?: string,
-  sortDirections?: Sort['type']['order'],
+  sortBy?: SortByOptions,
+  sortDirection?: Sort['type']['order'],
   type?: MetadataMain['type']
 ): SearchQuery {
   const baseQuery = getBaseQuery()
@@ -74,6 +84,9 @@ export function getSearchQuery(
   const filters: FilterTerms[] = [
     ...(baseQuery.query.bool?.filter as FilterTerms[])
   ]
+  const sortKey = sortBy
+    ? defaultSortByFields[sortBy]
+    : defaultSortByFields[SortByOptions.Relevance]
 
   if (type)
     filters.push(
@@ -139,8 +152,8 @@ export function getSearchQuery(
     },
     sort: withTerm
       ? {
-          _score: {
-            order: sortDirections || 'desc'
+          [sortKey]: {
+            order: sortDirection || SortDirectionOptions.Descending
           }
         }
       : undefined,
@@ -156,20 +169,20 @@ export async function searchMetadata({
   tag,
   size,
   sortBy,
-  sortDirections,
+  sortDirection,
   type
 }: {
   term: string
   from?: number
   tag?: string
   size?: string
-  sortBy?: string
-  sortDirections?: Sort['type']['order']
+  sortBy?: SortByOptions
+  sortDirection?: Sort['type']['order']
   type?: MetadataMain['type']
 }): Promise<SearchResponse | undefined> {
   try {
     const searchQuery = {
-      ...getSearchQuery(term, tag, size, sortBy, sortDirections, type),
+      ...getSearchQuery(term, tag, size, sortBy, sortDirection, type),
       from: from || 0
     }
 
@@ -178,8 +191,6 @@ export async function searchMetadata({
       apiBasePath,
       searchQuery
     )
-    //console.log(`Response:`, response.data)
-    console.log(response.data)
     return response.data
   } catch (error) {
     console.error(error)

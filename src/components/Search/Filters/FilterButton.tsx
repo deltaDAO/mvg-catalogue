@@ -45,7 +45,7 @@ export default function FilterButton({
           <FilterOptions
             selected={selected}
             type={type}
-            sortDirections={type === 'sort'}
+            sortDirections={type === 'sortBy'}
           />
         </Box>
       }
