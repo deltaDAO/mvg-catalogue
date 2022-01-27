@@ -77,14 +77,14 @@ export default function SearchPage({
           )
           return service
         })
-        .map(
-          (hit) =>
-            (
-              hit._source.service.find(
-                (service) => service.type === 'metadata'
-              ) as Service
-            ).attributes.main
-        )
+        .map((hit) => ({
+          _id: hit._id,
+          ...(
+            hit._source.service.find(
+              (service) => service.type === 'metadata'
+            ) as Service
+          ).attributes.main
+        }))
     })
     setLoading(false)
   }

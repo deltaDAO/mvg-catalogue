@@ -48,4 +48,5 @@ export interface MetadataMain {
   license: string
   name: string
   type: 'dataset' | 'algorithm' | 'all'
+  _id: string
 }

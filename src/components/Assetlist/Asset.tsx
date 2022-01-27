@@ -11,10 +11,7 @@ export default function Asset({
   asset: MetadataMain
 }): ReactElement {
   return (
-    // TODO: replace link with correct DID
-    <Link
-      href={`https://portal.minimal-gaia-x.eu/asset/did:op:87152E582e3B05Cc6940E9763b9e0c22eA812448`}
-    >
+    <Link href={`https://portal.minimal-gaia-x.eu/asset/${asset._id}`}>
       <a className={styles.asset} target="blank" rel="noopener noreferrer">
         <Dotdotdot className={styles.name} clamp={1}>
           {asset.name}
