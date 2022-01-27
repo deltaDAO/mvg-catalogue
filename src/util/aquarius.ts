@@ -29,7 +29,7 @@ export const defaultSearchFields = [
 
 export const defaultSortByFields = {
   [SortByOptions.Relevance]: '_score',
-  [SortByOptions.Created]: 'created',
+  [SortByOptions.Published]: 'service.attributes.main.datePublished',
   [SortByOptions.Updated]: 'updated'
 }
 
@@ -150,6 +150,7 @@ export function getSearchQuery(
           : undefined
       }
     },
+    // TODO: allow sort even without searchTerm?
     sort: withTerm
       ? {
           [sortKey]: {

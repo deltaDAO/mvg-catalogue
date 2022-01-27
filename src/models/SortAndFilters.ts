@@ -10,7 +10,7 @@ export enum FilterByTypeOptions {
 }
 
 export enum SortByOptions {
-  Created = 'created',
+  Published = 'published',
   Relevance = 'relevance',
   Updated = 'updated'
 }

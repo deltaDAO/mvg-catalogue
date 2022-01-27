@@ -26,7 +26,7 @@ export const filterTypeOptions = {
     display: 'sort by',
     options: [
       { display: 'relevance', value: SortByOptions.Relevance, default: true },
-      { display: 'created', value: SortByOptions.Created },
+      { display: 'published', value: SortByOptions.Published },
       { display: 'updated', value: SortByOptions.Updated }
     ]
   },
