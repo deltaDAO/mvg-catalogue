@@ -1,7 +1,7 @@
 .box {
   display: flex;
   justify-content: center;
-  gap: 0.8rem;
+  gap: calc(var(--spacer) / 2.5);
   padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
   color: var(--color-grey-dark);
   font-weight: var(--font-weight-light);
@@ -17,4 +17,8 @@
 .container[aria-expanded='true'] .arrow {
   transform: rotate(180deg);
   transition: all 0.3s ease;
+}
+
+.tooltip {
+  min-width: 15rem;
 }

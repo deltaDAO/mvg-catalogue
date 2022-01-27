@@ -29,22 +29,23 @@ export default function FilterButton({
     filterTypeOptions[type]?.options.find((e: Option) => e.default).display
   )
   const { display } = option
-  console.log(selected)
+
   useEffect(() => {
     if (!query) return
     if (query[type]) setSelected(query[type])
   }, [query])
+
   return (
     <Tooltip
       className={styles.container}
       placement="bottom"
       trigger="mouseenter | focus | click"
       content={
-        <Box>
+        <Box className={styles.tooltip}>
           <FilterOptions
+            selected={selected}
             type={type}
             sortDirections={type === 'sort'}
-            selected={selected}
           />
         </Box>
       }

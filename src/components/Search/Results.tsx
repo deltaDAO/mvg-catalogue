@@ -29,7 +29,6 @@ export default function Results({
       }
     })
   }
-
   return (
     <div>
       <div className={styles.header}>
