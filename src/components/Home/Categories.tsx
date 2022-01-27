@@ -27,7 +27,7 @@ export default function Categories({
         {categories?.map((category, i) => (
           <Link
             key={i}
-            href={{ pathname: '/search', query: { tags: category.key } }}
+            href={{ pathname: '/search', query: { tag: category.key } }}
           >
             <a>
               <Box className={styles.box}>{category.key}</Box>

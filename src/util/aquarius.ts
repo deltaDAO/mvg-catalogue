@@ -58,9 +58,11 @@ export function getBaseQuery(
 
 export function getSearchQuery(
   term: string,
-  type?: MetadataMain['type'],
+  tag?: string,
+  size?: string,
   sortBy?: string,
-  sortDirections?: Sort['type']['order']
+  sortDirections?: Sort['type']['order'],
+  type?: MetadataMain['type']
 ): SearchQuery {
   const baseQuery = getBaseQuery()
 
@@ -78,6 +80,13 @@ export function getSearchQuery(
         'service.attributes.main.type': type
       }
     })
+  if (tag)
+    filters.push({
+      term: {
+        'service.attributes.additionalInformation.tags': tag
+      }
+    })
+  if (size) baseQuery.size = parseInt(size)
 
   const query: SearchQuery = {
     ...baseQuery,
@@ -131,30 +140,34 @@ export function getSearchQuery(
 
 export async function searchMetadata({
   term,
-  type,
   from,
+  tag,
+  size,
   sortBy,
-  sortDirection
+  sortDirections,
+  type
 }: {
   term: string
-  type?: MetadataMain['type']
   from?: number
+  tag?: string
+  size?: string
   sortBy?: string
-  sortDirection?: Sort['type']['order']
+  sortDirections?: Sort['type']['order']
+  type?: MetadataMain['type']
 }): Promise<SearchResponse | undefined> {
   try {
     const searchQuery = {
-      ...getSearchQuery(term, type, sortBy, sortDirection),
+      ...getSearchQuery(term, tag, size, sortBy, sortDirections, type),
       from: from || 0
     }
 
-    //console.log(`Query ${apiBasePath} for ${term}:`, searchQuery)
+    console.log(`Query ${apiBasePath} for ${term}:`, searchQuery)
     const response: AxiosResponse<SearchResponse> = await axios.post(
       apiBasePath,
       searchQuery
     )
     //console.log(`Response:`, response.data)
-
+    console.log(response.data)
     return response.data
   } catch (error) {
     console.error(error)

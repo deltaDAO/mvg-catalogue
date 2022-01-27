@@ -26,6 +26,8 @@ export default function SearchPage({
   const { title } = content
 
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [searchTag, setSearchTag] = useState<string>()
+  const [searchResultsPerPage, setSearchResultsPerPage] = useState<string>('')
   const [searchType, setSearchType] = useState<
     MetadataMain['type'] | undefined
   >()
@@ -48,6 +50,7 @@ export default function SearchPage({
     setPage(Number.parseInt(query.page as string))
     setSearchSort(query.sort as string)
     setSearchSortDirection(query.sortDirection as Sort['type']['order'])
+    if (query.tag) setSearchTag(query.tag)
     setSearchTerm((query.term as string) || '')
   }
 
@@ -57,9 +60,11 @@ export default function SearchPage({
     const response = await searchMetadata({
       term: searchTerm,
       from: (page ? (page > 0 ? page - 1 : 0) : 0) * resultSize,
-      type: searchType,
+      tag: searchTag,
+      size: searchResultsPerPage,
       sortBy: searchSort,
-      sortDirection: searchSortDirection
+      sortDirection: searchSortDirection,
+      type: searchType
     })
 
     if (!response) {
@@ -93,8 +98,8 @@ export default function SearchPage({
   }, [query])
 
   useEffect(() => {
-    if (searchTerm || searchType) search()
-  }, [searchTerm, searchType, searchSort, searchSortDirection, page])
+    if (searchTerm || searchType || searchTag) search()
+  }, [searchTerm, searchType, searchSort, searchSortDirection, searchTag, page])
 
   return (
     <div className={styles.container}>
