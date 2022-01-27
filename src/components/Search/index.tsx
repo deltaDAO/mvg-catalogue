@@ -27,7 +27,7 @@ export default function SearchPage({
 
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchTag, setSearchTag] = useState<string>()
-  const [searchResultsPerPage, setSearchResultsPerPage] = useState<string>('')
+  const [searchResultsPerPage, setSearchResultsPerPage] = useState<string>()
   const [searchType, setSearchType] = useState<
     MetadataMain['type'] | undefined
   >()
@@ -40,14 +40,10 @@ export default function SearchPage({
   const [loading, setLoading] = useState(false)
 
   const initFromQueryParams = () => {
-    if (MetadataMainTypes.includes(query.type as string)) {
-      if (query.type === FilterByTypeOptions.All) {
-        setSearchType(undefined)
-      } else {
-        setSearchType(query.type as MetadataMain['type'])
-      }
-    }
+    if (MetadataMainTypes.includes(query.type as string))
+      setSearchType(query.type as MetadataMain['type'])
     setPage(Number.parseInt(query.page as string))
+    setSearchResultsPerPage(query?.resultsPerPage)
     setSearchSort(query.sort as string)
     setSearchSortDirection(query.sortDirection as Sort['type']['order'])
     if (query.tag) setSearchTag(query.tag)
@@ -99,7 +95,15 @@ export default function SearchPage({
 
   useEffect(() => {
     if (searchTerm || searchType || searchTag) search()
-  }, [searchTerm, searchType, searchSort, searchSortDirection, searchTag, page])
+  }, [
+    searchTerm,
+    searchType,
+    searchSort,
+    searchSortDirection,
+    searchResultsPerPage,
+    searchTag,
+    page
+  ])
 
   return (
     <div className={styles.container}>

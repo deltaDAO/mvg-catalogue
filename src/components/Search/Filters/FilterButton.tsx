@@ -29,7 +29,7 @@ export default function FilterButton({
     filterTypeOptions[type]?.options.find((e: Option) => e.default).display
   )
   const { display } = option
-
+  console.log(selected)
   useEffect(() => {
     if (!query) return
     if (query[type]) setSelected(query[type])
@@ -41,7 +41,11 @@ export default function FilterButton({
       trigger="mouseenter | focus | click"
       content={
         <Box>
-          <FilterOptions type={type} sortDirections={type === 'sort'} />
+          <FilterOptions
+            type={type}
+            sortDirections={type === 'sort'}
+            selected={selected}
+          />
         </Box>
       }
     >

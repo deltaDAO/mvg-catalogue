@@ -54,9 +54,11 @@ const sortDirectionOptions = [
 ]
 
 export default function FilterOptions({
+  selected,
   type,
   sortDirections
 }: {
+  selected: string
   type: TypeKeys
   sortDirections?: boolean
 }): ReactElement {
@@ -71,7 +73,9 @@ export default function FilterOptions({
             <div
               key={i}
               className={cx({
-                selected: query.sortDirection === option.value
+                selected: query.sortDirection
+                  ? query.sortDirection === option.value
+                  : option.value === SortDirectionOptions.Descending
               })}
               onClick={() =>
                 router.push({
@@ -92,7 +96,7 @@ export default function FilterOptions({
             <li
               key={i}
               className={cx({
-                selected: query[type] === option.value
+                selected: option.value === selected
               })}
               onClick={() =>
                 router.push({

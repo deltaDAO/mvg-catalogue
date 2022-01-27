@@ -7,6 +7,7 @@ import {
 } from '../@types/SearchQuery'
 import axios, { AxiosResponse } from 'axios'
 import { MetadataMain } from '../@types/Metadata'
+import { FilterByTypeOptions } from '../models/SortAndFilters'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -75,11 +76,22 @@ export function getSearchQuery(
   ]
 
   if (type)
-    filters.push({
-      term: {
-        'service.attributes.main.type': type
-      }
-    })
+    filters.push(
+      type === 'all'
+        ? {
+            terms: {
+              'service.attributes.main.type': [
+                FilterByTypeOptions.Algorithm,
+                FilterByTypeOptions.Data
+              ]
+            }
+          }
+        : {
+            term: {
+              'service.attributes.main.type': type
+            }
+          }
+    )
   if (tag)
     filters.push({
       term: {
