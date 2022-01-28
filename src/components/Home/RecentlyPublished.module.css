@@ -1,20 +1,5 @@
-.container {
-  margin-top: calc(var(--spacer) * 2);
-}
-
-.title {
-  width: 100%;
-  text-align: center;
-}
-
 .browseAll {
   margin-top: var(--spacer);
   text-align: start;
   color: var(--color-primary);
-}
-
-@media screen and (min-width: 30rem) {
-  .title {
-    text-align: start;
-  }
 }

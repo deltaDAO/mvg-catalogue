@@ -221,6 +221,28 @@ export async function getPopularTags(size = 10) {
   }
 }
 
+export async function getAllTags() {
+  try {
+    const tagQuery = {
+      ...getBaseQuery(),
+      aggs: {
+        popular_tags: {
+          significant_text: {
+            field: 'service.attributes.additionalInformation.tags'
+          }
+        }
+      },
+      size: 0
+    }
+
+    const response = await axios.post(apiBasePath, tagQuery)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export async function getRecentlyPublishedAssets(size = 10) {
   try {
     const recentQuery = {

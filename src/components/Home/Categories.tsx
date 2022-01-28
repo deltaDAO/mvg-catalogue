@@ -1,9 +1,10 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { getPopularTags } from '../../util/aquarius'
-import { AggregationBucket, Aggregations } from '../../@types/Aggregates'
+import { AggregationBucket } from '../../@types/Aggregates'
 import styles from './Categories.module.css'
 import Link from 'next/link'
 import Box from '../atoms/Box'
+import HomeSection from './HomeSection'
 
 export default function Categories({
   size = 6
@@ -21,8 +22,7 @@ export default function Categories({
   }, [size])
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>Popular Categories</h3>
+    <HomeSection title="Popular Categories">
       <div className={styles.categories}>
         {categories?.map((category, i) => (
           <Link
@@ -35,6 +35,6 @@ export default function Categories({
           </Link>
         ))}
       </div>
-    </div>
+    </HomeSection>
   )
 }

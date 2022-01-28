@@ -2,13 +2,13 @@ import Link from 'next/link'
 import React, { ReactElement } from 'react'
 import Box from '../atoms/Box'
 import styles from './Assettypes.module.css'
+import HomeSection from './HomeSection'
 
 const services = ['dataset', 'algorithm']
 
 export default function Assettypes(): ReactElement {
   return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>Service Types</h3>
+    <HomeSection title="Service Types">
       <div className={styles.services}>
         {services.map((category, i) => (
           <Link
@@ -23,6 +23,6 @@ export default function Assettypes(): ReactElement {
           </Link>
         ))}
       </div>
-    </div>
+    </HomeSection>
   )
 }

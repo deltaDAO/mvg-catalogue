@@ -5,6 +5,7 @@ import { getRecentlyPublishedAssets } from '../../util/aquarius'
 import Assetlist from '../Assetlist'
 import Loader from '../atoms/Loader'
 import { filterAssetMetadata, SearchResults } from '../Search'
+import HomeSection from './HomeSection'
 import styles from './RecentlyPublished.module.css'
 
 export default function RecentlyPublished({
@@ -23,10 +24,9 @@ export default function RecentlyPublished({
   }, [size])
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>Latest Services</h3>
+    <HomeSection title="Latest Services">
       {recentAssets?.metadata ? (
-        <>
+        <div>
           <Assetlist assets={recentAssets.metadata} />
           <Link
             href={{
@@ -38,10 +38,10 @@ export default function RecentlyPublished({
               <p className={styles.browseAll}>Browse all services</p>
             </a>
           </Link>
-        </>
+        </div>
       ) : (
         <Loader style="spinner" />
       )}
-    </div>
+    </HomeSection>
   )
 }
