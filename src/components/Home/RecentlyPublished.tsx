@@ -5,8 +5,9 @@ import { getRecentlyPublishedAssets } from '../../util/aquarius'
 import Assetlist from '../Assetlist'
 import Loader from '../atoms/Loader'
 import { filterAssetMetadata, SearchResults } from '../Search'
+import styles from './RecentlyPublished.module.css'
 
-export default function RecentlyPublishedAssets({
+export default function RecentlyPublished({
   size = 10
 }: {
   size?: number
@@ -17,13 +18,13 @@ export default function RecentlyPublishedAssets({
     const loadPopularCategories = async () => {
       const data = await getRecentlyPublishedAssets(size)
       setRecentAssets(filterAssetMetadata(data))
-      console.log(data)
     }
     loadPopularCategories()
   }, [size])
 
   return (
-    <div>
+    <div className={styles.container}>
+      <h3 className={styles.title}>Latest Services</h3>
       {recentAssets?.metadata ? (
         <>
           <Assetlist assets={recentAssets.metadata} />
@@ -34,7 +35,7 @@ export default function RecentlyPublishedAssets({
             }}
           >
             <a>
-              <h4>Browse all services</h4>
+              <p className={styles.browseAll}>Browse all services</p>
             </a>
           </Link>
         </>
