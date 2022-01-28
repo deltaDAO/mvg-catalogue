@@ -31,7 +31,7 @@ export default function RecentlyPublished({
           <Link
             href={{
               pathname: '/search',
-              query: { type: FilterByTypeOptions.All }
+              query: { type: FilterByTypeOptions.All, page: 1 }
             }}
           >
             <a>
