@@ -40,7 +40,7 @@ export const filterTypeOptions = {
   }
 }
 
-const sortDirectionOptions = [
+export const sortDirectionOptions = [
   {
     display: `Asc`,
     value: SortDirectionOptions.Ascending,

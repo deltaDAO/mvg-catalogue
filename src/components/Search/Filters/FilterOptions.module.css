@@ -1,6 +1,7 @@
 .sort {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .sort,

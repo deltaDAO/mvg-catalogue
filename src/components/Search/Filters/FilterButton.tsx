@@ -1,9 +1,9 @@
 import { ReactElement, useEffect, useState } from 'react'
 import Box from '../../atoms/Box'
-import Tooltip from '../../atoms/Tooltip'
-import FilterOptions, { TypeKeys } from './FilterOptions'
+import FilterOptions, { sortDirectionOptions, TypeKeys } from './FilterOptions'
 import styles from './FilterButton.module.css'
 import { useRouter } from 'next/router'
+import { SortDirectionOptions } from '../../../models/SortAndFilters'
 
 export interface Option {
   display: string
@@ -25,10 +25,19 @@ export default function FilterButton({
 }): ReactElement {
   const router = useRouter()
   const { query } = router
+  const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState(
     option.options.find((e: Option) => e.default)?.display
   )
   const { display } = option
+
+  const sortDirectionIndicator = sortDirectionOptions.find(
+    (e) =>
+      e.value ===
+      (query?.sortDirection
+        ? query.sortDirection
+        : SortDirectionOptions.Descending)
+  )?.directionArrow
 
   useEffect(() => {
     if (!query) return
@@ -36,25 +45,32 @@ export default function FilterButton({
   }, [query, type])
 
   return (
-    <Tooltip
-      className={styles.container}
-      placement="bottom"
-      trigger="mouseenter | focus | click"
-      content={
-        <Box className={styles.tooltip}>
+    <div
+      onClick={() => setIsOpen(!isOpen)}
+      onMouseOver={() => setIsOpen(true)}
+      onMouseOut={() => setIsOpen(false)}
+    >
+      <Box
+        className={
+          isOpen ? `${styles.dropdown} ${styles.active}` : styles.dropdown
+        }
+      >
+        <div className={styles.dropdown__text}>
+          {display}
+          <strong>{selected}</strong>
+          {type === 'sortBy' && (
+            <strong className={styles.arrow}>{sortDirectionIndicator}</strong>
+          )}
+        </div>
+
+        <Box className={styles.dropdown__items}>
           <FilterOptions
             selected={selected}
             type={type}
             sortDirections={type === 'sortBy'}
           />
         </Box>
-      }
-    >
-      <Box className={styles.box}>
-        {display}
-        <strong>{selected}</strong>
-        <strong className={styles.arrow}>{String.fromCharCode(9650)}</strong>
       </Box>
-    </Tooltip>
+    </div>
   )
 }

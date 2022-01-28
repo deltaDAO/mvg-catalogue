@@ -1,6 +1,5 @@
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import { useSiteMetadata } from '../../hooks/UseSiteMetadata'
-import { getPopularTags } from '../../util/aquarius'
 import Searchform from '../Search/Searchform'
 import Assettypes from './Assettypes'
 import Categories from './Categories'
