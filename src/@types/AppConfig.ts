@@ -1,4 +1,4 @@
 export interface AppConfig {
   metadataCacheUri: string
-  chainId: number
+  chainId: number | string
 }
