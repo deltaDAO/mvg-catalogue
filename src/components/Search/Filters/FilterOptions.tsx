@@ -54,12 +54,12 @@ const sortDirectionOptions = [
 ]
 
 export default function FilterOptions({
-  selected,
   type,
+  selected,
   sortDirections
 }: {
-  selected: string
   type: TypeKeys
+  selected?: string
   sortDirections?: boolean
 }): ReactElement {
   const router = useRouter()

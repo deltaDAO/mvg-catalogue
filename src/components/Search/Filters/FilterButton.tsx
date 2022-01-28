@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import Box from '../../atoms/Box'
 import Tooltip from '../../atoms/Tooltip'
-import FilterOptions, { filterTypeOptions, TypeKeys } from './FilterOptions'
+import FilterOptions, { TypeKeys } from './FilterOptions'
 import styles from './FilterButton.module.css'
 import { useRouter } from 'next/router'
 
@@ -26,14 +26,14 @@ export default function FilterButton({
   const router = useRouter()
   const { query } = router
   const [selected, setSelected] = useState(
-    filterTypeOptions[type]?.options.find((e: Option) => e.default).display
+    option.options.find((e: Option) => e.default)?.display
   )
   const { display } = option
 
   useEffect(() => {
     if (!query) return
-    if (query[type]) setSelected(query[type])
-  }, [query])
+    if (query[type]) setSelected(query[type] as string)
+  }, [query, type])
 
   return (
     <Tooltip
