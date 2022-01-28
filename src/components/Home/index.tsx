@@ -5,6 +5,7 @@ import Searchform from '../Search/Searchform'
 import Assettypes from './Assettypes'
 import Categories from './Categories'
 import styles from './index.module.css'
+import RecentlyPublishedAssets from './RecentlyPublished'
 
 export default function HomePage(): ReactElement {
   const { title, description } = useSiteMetadata().site
@@ -16,6 +17,7 @@ export default function HomePage(): ReactElement {
       <Searchform />
       <Assettypes />
       <Categories />
+      <RecentlyPublishedAssets />
     </div>
   )
 }

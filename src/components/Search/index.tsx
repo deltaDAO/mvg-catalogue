@@ -8,12 +8,31 @@ import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
 import { FilterByTypeOptions, SortByOptions } from '../../models/SortAndFilters'
-import { Sort } from '../../@types/SearchQuery'
+import { SearchResponse, Sort } from '../../@types/SearchQuery'
 
 export interface SearchResults {
   total: number
   metadata: MetadataMain[]
 }
+
+export const filterAssetMetadata = (data: SearchResponse): SearchResults => ({
+  total: data.hits.total,
+  metadata: data.hits.hits
+    .filter((hit) => {
+      const service = hit._source.service.find(
+        (service) => service.type === 'metadata'
+      )
+      return service
+    })
+    .map((hit) => ({
+      ...(
+        hit._source.service.find(
+          (service) => service.type === 'metadata'
+        ) as Service
+      ).attributes.main,
+      _id: hit._id
+    }))
+})
 
 //TODO: refactor / re-scope for readability
 export default function SearchPage({
@@ -68,24 +87,7 @@ export default function SearchPage({
       return
     }
 
-    setSearchResults({
-      total: response.hits.total,
-      metadata: response.hits.hits
-        .filter((hit) => {
-          const service = hit._source.service.find(
-            (service) => service.type === 'metadata'
-          )
-          return service
-        })
-        .map((hit) => ({
-          _id: hit._id,
-          ...(
-            hit._source.service.find(
-              (service) => service.type === 'metadata'
-            ) as Service
-          ).attributes.main
-        }))
-    })
+    setSearchResults(filterAssetMetadata(response))
     setLoading(false)
   }
 

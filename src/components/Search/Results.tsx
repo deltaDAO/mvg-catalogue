@@ -7,6 +7,7 @@ import router from 'next/router'
 import { MetadataMain } from '../../@types/Metadata'
 import FilterBar from './Filters/FilterBar'
 import styles from './Results.module.css'
+import { FilterByTypeOptions } from '../../models/SortAndFilters'
 
 export default function Results({
   query,
@@ -33,7 +34,12 @@ export default function Results({
     <div>
       <div className={styles.header}>
         <h4>
-          {searchResults.total} {searchType ? searchType : 'result'}
+          {searchResults.total}{' '}
+          {searchType === FilterByTypeOptions.All
+            ? 'asset'
+            : searchType
+            ? searchType
+            : 'result'}
           {searchResults.total === 1 ? '' : 's'}
           {query.term && <span> for "{query.term}"</span>}
         </h4>

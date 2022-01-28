@@ -220,3 +220,22 @@ export async function getPopularTags(size = 10) {
     console.error(error)
   }
 }
+
+export async function getRecentlyPublishedAssets(size = 10) {
+  try {
+    const recentQuery = {
+      ...getBaseQuery(),
+      sort: {
+        [defaultSortByFields[SortByOptions.Published]]: {
+          order: SortDirectionOptions.Descending
+        }
+      },
+      size
+    }
+    const response = await axios.post(apiBasePath, recentQuery)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
