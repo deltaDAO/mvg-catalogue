@@ -29,7 +29,7 @@
   padding: var(--spacer) 0;
   opacity: 0;
   max-height: 0px;
-  transition: max-height 0.6s ease;
+  transition: max-height 0.3s ease;
 }
 
 .dropdown.active {
@@ -45,6 +45,6 @@
   height: auto;
   max-height: max-content;
   opacity: 1;
-  transition: max-height 0.6s ease;
+  transition: max-height, opacity 0.3s, visibility 0.3s ease;
   z-index: 2;
 }
