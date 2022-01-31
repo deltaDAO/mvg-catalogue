@@ -13,7 +13,7 @@
       },
       {
         "label": "Search",
-        "target": "/"
+        "target": "/search"
       }
     ],
     "siteIcon": "favicon.ico"
