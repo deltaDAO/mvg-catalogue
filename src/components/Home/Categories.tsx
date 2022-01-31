@@ -5,36 +5,46 @@ import styles from './Categories.module.css'
 import Link from 'next/link'
 import Box from '../atoms/Box'
 import HomeSection from './HomeSection'
+import Loader from '../atoms/Loader'
 
 export default function Categories({
   size = 6
 }: {
   size?: number
 }): ReactElement {
-  const [categories, setCategories] = useState<AggregationBucket[]>()
+  const [loading, setLoading] = useState(false)
+  const [categories, setCategories] = useState<AggregationBucket[]>([])
 
   useEffect(() => {
     const loadPopularCategories = async () => {
+      setLoading(true)
       const data = await getPopularTags(size)
       setCategories(data.aggregations?.popular_tags?.buckets)
+      setLoading(false)
     }
     loadPopularCategories()
   }, [size])
 
   return (
     <HomeSection title="Popular Categories">
-      <div className={styles.categories}>
-        {categories?.map((category, i) => (
-          <Link
-            key={i}
-            href={{ pathname: '/search', query: { tag: category.key } }}
-          >
-            <a>
-              <Box className={styles.box}>{category.key}</Box>
-            </a>
-          </Link>
-        ))}
-      </div>
+      {categories.length > 0 ? (
+        <div className={styles.categories}>
+          {categories?.map((category, i) => (
+            <Link
+              key={i}
+              href={{ pathname: '/search', query: { tag: category.key } }}
+            >
+              <a>
+                <Box className={styles.box}>{category.key}</Box>
+              </a>
+            </Link>
+          ))}
+        </div>
+      ) : loading ? (
+        <Loader style="spinner" />
+      ) : (
+        <code>Categories could not be loaded.</code>
+      )}
     </HomeSection>
   )
 }
