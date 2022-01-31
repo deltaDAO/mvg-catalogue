@@ -71,7 +71,6 @@ export default function SearchPage({
 
   const search = async () => {
     setLoading(true)
-    console.log(`Searching for ${searchTerm}, on page ${page}`)
     const response = await searchMetadata({
       term: searchTerm,
       from: (page ? (page > 0 ? page - 1 : 0) : 0) * resultSize,

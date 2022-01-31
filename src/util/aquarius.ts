@@ -79,8 +79,6 @@ export function getSearchQuery(
 
   const withTerm = term !== ''
 
-  console.log(`withTerm: ${withTerm} for term "${term}"`)
-
   const filters: FilterTerms[] = [
     ...(baseQuery.query.bool?.filter as FilterTerms[])
   ]
@@ -187,7 +185,6 @@ export async function searchMetadata({
       from: from || 0
     }
 
-    console.log(`Query ${apiBasePath} for ${term}:`, searchQuery)
     const response: AxiosResponse<SearchResponse> = await axios.post(
       apiBasePath,
       searchQuery
