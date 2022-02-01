@@ -16,7 +16,7 @@ export const filterTypeOptions: IFilterTypeOptions = {
   type: {
     display: 'type',
     options: [
-      { value: FilterByTypeOptions.All, default: true },
+      { display: 'all', value: FilterByTypeOptions.All, default: true },
       { value: FilterByTypeOptions.Algorithm },
       { value: FilterByTypeOptions.Data }
     ]
@@ -68,7 +68,7 @@ export default function FilterOptions({
   const [selectedTypeOption, setSelectedTypeOption] = useState(query[type])
 
   useEffect(() => {
-    if (!selectedOrderOption && !selectedTypeOption) return
+    if (!selectedOrderOption && !selectedTypeOption && type !== 'type') return
     router.push({
       pathname: '/search',
       query: {

@@ -12,6 +12,7 @@ import {
   SortByOptions,
   SortDirectionOptions
 } from '../models/SortAndFilters'
+import { filterTypeOptions } from '../components/Search/Filters/FilterOptions'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -86,23 +87,23 @@ export function getSearchQuery(
     ? defaultSortByFields[sortBy]
     : defaultSortByFields[SortByOptions.Relevance]
 
-  if (type)
-    filters.push(
-      type === 'all'
-        ? {
-            terms: {
-              'service.attributes.main.type': [
-                FilterByTypeOptions.Algorithm,
-                FilterByTypeOptions.Data
-              ]
-            }
+  filters.push(
+    type
+      ? {
+          term: {
+            'service.attributes.main.type': type
           }
-        : {
-            term: {
-              'service.attributes.main.type': type
-            }
+        }
+      : {
+          terms: {
+            'service.attributes.main.type': [
+              FilterByTypeOptions.Algorithm,
+              FilterByTypeOptions.Data
+            ]
           }
-    )
+        }
+  )
+
   if (tag)
     filters.push({
       term: {
@@ -148,7 +149,6 @@ export function getSearchQuery(
           : undefined
       }
     },
-    // TODO: allow sort even without searchTerm?
     sort: withTerm
       ? {
           [sortKey]: {

@@ -34,8 +34,6 @@ export interface Service {
   type: 'metadata' | 'compute' | 'download'
 }
 
-export const MetadataMainTypes = ['dataset', 'algorithm', 'all']
-
 export interface MetadataMain {
   author: string
   dateCreated: Date
@@ -47,6 +45,6 @@ export interface MetadataMain {
   }[]
   license: string
   name: string
-  type: 'dataset' | 'algorithm' | 'all'
+  type: 'dataset' | 'algorithm'
   _id: string
 }

@@ -4,7 +4,7 @@ export enum SortDirectionOptions {
 }
 
 export enum FilterByTypeOptions {
-  All = 'all',
+  All = '',
   Algorithm = 'algorithm',
   Data = 'dataset'
 }

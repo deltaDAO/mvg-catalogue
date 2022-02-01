@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { searchMetadata } from '../../util/aquarius'
-import { MetadataMain, MetadataMainTypes, Service } from '../../@types/Metadata'
+import { MetadataMain, Service } from '../../@types/Metadata'
 import Loader from '../atoms/Loader'
 import { useRouter } from 'next/router'
 import styles from './index.module.css'
@@ -47,20 +47,17 @@ export default function SearchPage({
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchTag, setSearchTag] = useState<string>()
   const [searchResultsPerPage, setSearchResultsPerPage] = useState<string>()
-  const [searchType, setSearchType] = useState<
-    MetadataMain['type'] | undefined
-  >()
+  const [searchType, setSearchType] = useState<MetadataMain['type']>()
   const [searchSortBy, setSearchSortBy] = useState<SortByOptions>()
   const [searchSortDirection, setSearchSortDirection] =
-    useState<Sort['type']['order']>('desc')
+    useState<Sort['type']['order']>()
   const [page, setPage] = useState<number>()
 
   const [searchResults, setSearchResults] = useState<SearchResults>()
   const [loading, setLoading] = useState(false)
 
   const initFromQueryParams = () => {
-    if (MetadataMainTypes.includes(query.type as string))
-      setSearchType(query.type as MetadataMain['type'])
+    setSearchType(query.type as MetadataMain['type'])
     setPage(Number.parseInt(query.page as string))
     setSearchResultsPerPage(query.resultsPerPage as string)
     setSearchSortBy(query.sortBy as SortByOptions)
@@ -116,7 +113,7 @@ export default function SearchPage({
             pathname: '/search',
             query: {
               term: value,
-              type: searchType || FilterByTypeOptions.All,
+              type: searchType,
               page: 1,
               sortBy: searchSortBy,
               sortDirection: searchSortDirection,
