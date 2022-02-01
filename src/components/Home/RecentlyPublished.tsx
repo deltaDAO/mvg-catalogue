@@ -13,21 +13,22 @@ export default function RecentlyPublished({
 }: {
   size?: number
 }): ReactElement {
-  const [recentAssets, setRecentAssets] = useState<SearchResults>()
+  const [recentlyPublishedAssets, setRecentlyPublishedAssets] =
+    useState<SearchResults>()
 
   useEffect(() => {
-    const loadPopularCategories = async () => {
+    const loadRecentlyPublishedAssets = async () => {
       const data = await getRecentlyPublishedAssets(size)
-      setRecentAssets(filterAssetMetadata(data))
+      setRecentlyPublishedAssets(filterAssetMetadata(data))
     }
-    loadPopularCategories()
+    loadRecentlyPublishedAssets()
   }, [size])
 
   return (
     <HomeSection title="Latest Services">
-      {recentAssets?.metadata ? (
+      {recentlyPublishedAssets?.metadata ? (
         <div>
-          <Assetlist assets={recentAssets.metadata} />
+          <Assetlist assets={recentlyPublishedAssets.metadata} />
           <Link
             href={{
               pathname: '/search',
