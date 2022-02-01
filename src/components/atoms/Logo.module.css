@@ -1,6 +1,7 @@
 .logo {
   width: 6rem;
   margin: 0;
+  cursor: pointer;
 }
 
 .logo path {

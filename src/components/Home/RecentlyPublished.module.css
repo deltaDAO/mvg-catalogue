@@ -2,4 +2,5 @@
   margin-top: var(--spacer);
   text-align: start;
   color: var(--color-primary);
+  cursor: pointer;
 }

@@ -34,9 +34,7 @@ export default function RecentlyPublished({
               query: { type: FilterByTypeOptions.All, page: 1 }
             }}
           >
-            <a>
-              <p className={styles.browseAll}>Browse all services</p>
-            </a>
+            <p className={styles.browseAll}>Browse all services</p>
           </Link>
         </div>
       ) : (
