@@ -8,8 +8,8 @@ export default function FilterBar() {
   return (
     <div className={styles.container}>
       <div className={styles.filters}>
-        {options.map(([type, option], i) => (
-          <FilterButton key={i} type={type as TypeKeys} option={option} />
+        {options.map(([type, list], i) => (
+          <FilterButton key={i} type={type as TypeKeys} list={list} />
         ))}
       </div>
     </div>

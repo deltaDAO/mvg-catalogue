@@ -32,10 +32,7 @@ export default function Searchform({
         }
       }}
     >
-      <Searchbar
-        onChange={(value) => setSearchValue(value)}
-        defaultValue={searchValue}
-      />
+      <Searchbar onChange={(value) => setSearchValue(value)} />
       <Button style="primary" type="submit" disabled={disabled}>
         Search
       </Button>

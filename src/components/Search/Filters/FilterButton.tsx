@@ -17,19 +17,20 @@ export interface FilterOption {
 }
 
 export default function FilterButton({
-  option,
+  // TODO: find better name for option
+  list,
   type
 }: {
-  option: FilterOption
+  list: FilterOption
   type: TypeKeys
 }): ReactElement {
   const router = useRouter()
   const { query } = router
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState(
-    option.options.find((e: Option) => e.default)?.display
+  const { display, options } = list
+  const [preSelected, setPreSelected] = useState(
+    options.findIndex((e: Option) => e.default)
   )
-  const { display } = option
 
   const sortDirectionIndicator = sortDirectionOptions.find(
     (e) =>
@@ -41,9 +42,9 @@ export default function FilterButton({
 
   useEffect(() => {
     if (!query) return
-    if (query[type]) setSelected(query[type] as string)
-  }, [query, type])
-
+    if (query[type])
+      setPreSelected(options.findIndex((e: Option) => e.value === query[type]))
+  }, [options, query, type])
   return (
     <div
       onClick={() => setIsOpen(!isOpen)}
@@ -57,7 +58,7 @@ export default function FilterButton({
       >
         <div className={styles.dropdown__text}>
           {display}
-          <strong>{selected}</strong>
+          <strong>{options[preSelected]?.display}</strong>
           {type === 'sortBy' && (
             <strong className={styles.arrow}>{sortDirectionIndicator}</strong>
           )}
@@ -65,7 +66,7 @@ export default function FilterButton({
 
         <Box className={styles.dropdown__items}>
           <FilterOptions
-            selected={selected}
+            preSelected={options[preSelected]?.value}
             type={type}
             sortDirections={type === 'sortBy'}
           />

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import {
   FilterByTypeOptions,
   ResultsPerPageOptions,
@@ -7,9 +7,6 @@ import {
   SortDirectionOptions
 } from '../../../models/SortAndFilters'
 import styles from './FilterOptions.module.css'
-import classNames from 'classnames/bind'
-
-const cx = classNames.bind(styles)
 
 export type TypeKeys = keyof typeof filterTypeOptions
 
@@ -54,61 +51,74 @@ export const sortDirectionOptions = [
 ]
 
 export default function FilterOptions({
+  preSelected,
   type,
-  selected,
   sortDirections
 }: {
+  preSelected: string
   type: TypeKeys
-  selected?: string
   sortDirections?: boolean
 }): ReactElement {
   const router = useRouter()
   const { query } = router
+
+  const [selectedOrderOption, setSelectedOrderOption] = useState(
+    query.sortDirection
+  )
+  const [selectedTypeOption, setSelectedTypeOption] = useState(query[type])
+
+  useEffect(() => {
+    if (!selectedOrderOption && !selectedTypeOption) return
+    router.push({
+      pathname: '/search',
+      query: {
+        ...query,
+        [type]: selectedTypeOption,
+        sortDirection: selectedOrderOption
+      }
+    })
+  }, [selectedTypeOption, selectedOrderOption])
 
   return (
     <div className={styles.container}>
       {sortDirections && (
         <div className={styles.sort}>
           {sortDirectionOptions.map((option, i) => (
-            <div
-              key={i}
-              className={cx({
-                selected: query.sortDirection
-                  ? query.sortDirection === option.value
-                  : option.value === SortDirectionOptions.Descending
-              })}
-              onClick={() =>
-                router.push({
-                  pathname: '/search',
-                  query: {
-                    ...query,
-                    sortDirection: option.value
-                  }
-                })
-              }
-            >{`${option.display} ${option.directionArrow}`}</div>
+            <label key={i} className={styles.filterLabel}>
+              <input
+                type="radio"
+                name="sortDirection"
+                checked={
+                  selectedOrderOption
+                    ? option.value === selectedOrderOption
+                    : option.value === SortDirectionOptions.Descending
+                }
+                value={option.value}
+                onChange={(e) => setSelectedOrderOption(e.target.value)}
+              />
+              <span>{`${option.display} ${option.directionArrow}`}</span>
+            </label>
           ))}
         </div>
       )}
       <div className={styles.options}>
         <ul>
           {filterTypeOptions[type]?.options.map((option, i) => (
-            <li
-              key={i}
-              className={cx({
-                selected: option.value === selected
-              })}
-              onClick={() =>
-                router.push({
-                  pathname: '/search',
-                  query: {
-                    ...query,
-                    [type]: option.value
+            <li key={i}>
+              <label className={styles.filterLabel}>
+                <input
+                  type="radio"
+                  name="filterTypeOptions"
+                  checked={
+                    selectedTypeOption
+                      ? option.value === selectedTypeOption
+                      : option.value === preSelected
                   }
-                })
-              }
-            >
-              {option.display}
+                  value={option.value}
+                  onChange={(e) => setSelectedTypeOption(e.target.value)}
+                />
+                <span>{option.display}</span>
+              </label>
             </li>
           ))}
         </ul>
