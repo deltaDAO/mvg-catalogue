@@ -6,7 +6,9 @@ import Link from 'next/link'
 export default function Logo(): ReactElement {
   return (
     <Link href="/">
-      <GaiaXLogo className={styles.logo} />
+      <a>
+        <GaiaXLogo className={styles.logo} />
+      </a>
     </Link>
   )
 }

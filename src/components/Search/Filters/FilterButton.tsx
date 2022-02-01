@@ -37,8 +37,10 @@ export default function FilterButton({
     if (query[type])
       setPreSelected(options.findIndex((e) => e.value === query[type]))
   }, [options, query, type])
+
   return (
-    <div
+    <button
+      className={styles.filterButton}
       onClick={() => setIsOpen(!isOpen)}
       onMouseOver={() => setIsOpen(true)}
       onMouseOut={() => setIsOpen(false)}
@@ -66,6 +68,6 @@ export default function FilterButton({
           />
         </Box>
       </Box>
-    </div>
+    </button>
   )
 }

@@ -1,3 +1,8 @@
+.filterButton {
+  all: unset;
+  cursor: pointer;
+}
+
 .dropdown {
   position: relative;
   padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
@@ -11,7 +16,6 @@
   text-transform: lowercase;
   color: var(--color-grey-dark);
   height: auto;
-  cursor: pointer;
 }
 
 .dropdown__text strong {
