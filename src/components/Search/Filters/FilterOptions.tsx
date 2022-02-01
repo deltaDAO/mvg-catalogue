@@ -16,37 +16,35 @@ export const filterTypeOptions: IFilterTypeOptions = {
   type: {
     display: 'type',
     options: [
-      { display: 'all', value: FilterByTypeOptions.All, default: true },
-      { display: 'algorithm', value: FilterByTypeOptions.Algorithm },
-      { display: 'dataset', value: FilterByTypeOptions.Data }
+      { value: FilterByTypeOptions.All, default: true },
+      { value: FilterByTypeOptions.Algorithm },
+      { value: FilterByTypeOptions.Data }
     ]
   },
   sortBy: {
     display: 'sort by',
     options: [
-      { display: 'relevance', value: SortByOptions.Relevance, default: true },
-      { display: 'published', value: SortByOptions.Published },
-      { display: 'updated', value: SortByOptions.Updated }
+      { value: SortByOptions.Relevance, default: true },
+      { value: SortByOptions.Published },
+      { value: SortByOptions.Updated }
     ]
   },
   resultsPerPage: {
     display: 'results per page',
     options: [
-      { display: '10', value: ResultsPerPageOptions.Ten, default: true },
-      { display: '25', value: ResultsPerPageOptions.TwentyFive },
-      { display: '50', value: ResultsPerPageOptions.Fifty }
+      { value: ResultsPerPageOptions.Ten, default: true },
+      { value: ResultsPerPageOptions.TwentyFive },
+      { value: ResultsPerPageOptions.Fifty }
     ]
   }
 }
 
 export const sortDirectionOptions = [
   {
-    display: `Asc`,
     value: SortDirectionOptions.Ascending,
     directionArrow: String.fromCharCode(9650)
   },
   {
-    display: `Desc`,
     value: SortDirectionOptions.Descending,
     directionArrow: String.fromCharCode(9660)
   }
@@ -82,7 +80,7 @@ export default function FilterOptions({
   }, [selectedTypeOption, selectedOrderOption])
 
   return (
-    <div className={styles.container}>
+    <div>
       {sortDirections && (
         <div className={styles.sort}>
           {sortDirectionOptions.map((option, i) => (
@@ -98,12 +96,12 @@ export default function FilterOptions({
                 value={option.value}
                 onChange={(e) => setSelectedOrderOption(e.target.value)}
               />
-              <span>{`${option.display} ${option.directionArrow}`}</span>
+              <span>{`${option.value} ${option.directionArrow}`}</span>
             </label>
           ))}
         </div>
       )}
-      <div className={styles.options}>
+      <div>
         <ul>
           {filterTypeOptions[type]?.options.map((option, i) => (
             <li key={i}>
@@ -119,7 +117,7 @@ export default function FilterOptions({
                   value={option.value}
                   onChange={(e) => setSelectedTypeOption(e.target.value)}
                 />
-                <span>{option.display}</span>
+                <span>{option?.display || option.value}</span>
               </label>
             </li>
           ))}

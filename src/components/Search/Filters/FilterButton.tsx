@@ -50,7 +50,9 @@ export default function FilterButton({
       >
         <div className={styles.dropdown__text}>
           {display}
-          <strong>{options[preSelected]?.display}</strong>
+          <strong>
+            {options[preSelected]?.display || options[preSelected].value}
+          </strong>
           {type === 'sortBy' && (
             <strong className={styles.arrow}>{sortDirectionIndicator}</strong>
           )}
