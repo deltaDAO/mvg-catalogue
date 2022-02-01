@@ -1,6 +1,10 @@
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import {
+  IFilterTypeOpt,
+  IFilterTypeOptions
+} from '../../../@types/SearchFilterOptions'
+import {
   FilterByTypeOptions,
   ResultsPerPageOptions,
   SortByOptions,
@@ -8,9 +12,7 @@ import {
 } from '../../../models/SortAndFilters'
 import styles from './FilterOptions.module.css'
 
-export type TypeKeys = keyof typeof filterTypeOptions
-
-export const filterTypeOptions = {
+export const filterTypeOptions: IFilterTypeOptions = {
   type: {
     display: 'type',
     options: [
@@ -56,7 +58,7 @@ export default function FilterOptions({
   sortDirections
 }: {
   preSelected: string
-  type: TypeKeys
+  type: IFilterTypeOpt
   sortDirections?: boolean
 }): ReactElement {
   const router = useRouter()

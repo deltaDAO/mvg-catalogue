@@ -1,4 +1,4 @@
-import { filterTypeOptions, TypeKeys } from './FilterOptions'
+import { filterTypeOptions } from './FilterOptions'
 import FilterButton from './FilterButton'
 import styles from './FilterBar.module.css'
 
@@ -9,7 +9,7 @@ export default function FilterBar() {
     <div className={styles.container}>
       <div className={styles.filters}>
         {options.map(([type, list], i) => (
-          <FilterButton key={i} type={type as TypeKeys} list={list} />
+          <FilterButton key={i} type={type} list={list} />
         ))}
       </div>
     </div>

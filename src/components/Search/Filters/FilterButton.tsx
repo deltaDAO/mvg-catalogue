@@ -1,35 +1,27 @@
 import { ReactElement, useEffect, useState } from 'react'
 import Box from '../../atoms/Box'
-import FilterOptions, { sortDirectionOptions, TypeKeys } from './FilterOptions'
+import FilterOptions, { sortDirectionOptions } from './FilterOptions'
 import styles from './FilterButton.module.css'
 import { useRouter } from 'next/router'
 import { SortDirectionOptions } from '../../../models/SortAndFilters'
-
-export interface Option {
-  display: string
-  value: string
-  default?: boolean
-}
-
-export interface FilterOption {
-  display: string
-  options: Option[]
-}
+import {
+  IFilterOption,
+  IFilterTypeOpt
+} from '../../../@types/SearchFilterOptions'
 
 export default function FilterButton({
-  // TODO: find better name for option
   list,
   type
 }: {
-  list: FilterOption
-  type: TypeKeys
+  list: IFilterOption
+  type: IFilterTypeOpt
 }): ReactElement {
   const router = useRouter()
   const { query } = router
   const [isOpen, setIsOpen] = useState(false)
   const { display, options } = list
   const [preSelected, setPreSelected] = useState(
-    options.findIndex((e: Option) => e.default)
+    options.findIndex((e) => e.default)
   )
 
   const sortDirectionIndicator = sortDirectionOptions.find(
@@ -43,7 +35,7 @@ export default function FilterButton({
   useEffect(() => {
     if (!query) return
     if (query[type])
-      setPreSelected(options.findIndex((e: Option) => e.value === query[type]))
+      setPreSelected(options.findIndex((e) => e.value === query[type]))
   }, [options, query, type])
   return (
     <div
