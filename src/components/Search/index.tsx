@@ -7,7 +7,7 @@ import styles from './index.module.css'
 import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
-import { FilterByTypeOptions, SortByOptions } from '../../models/SortAndFilters'
+import { SortByOptions } from '../../models/SortAndFilters'
 import { SearchResponse, Sort } from '../../@types/SearchQuery'
 
 export interface SearchResults {

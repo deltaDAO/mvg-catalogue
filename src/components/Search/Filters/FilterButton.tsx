@@ -50,7 +50,7 @@ export default function FilterButton({
           isOpen ? `${styles.dropdown} ${styles.active}` : styles.dropdown
         }
       >
-        <div className={styles.dropdown__text}>
+        <div className={styles.dropdownText}>
           {display}
           <strong>
             {options[preSelected]?.display || options[preSelected].value}
@@ -60,7 +60,7 @@ export default function FilterButton({
           )}
         </div>
 
-        <Box className={styles.dropdown__items}>
+        <Box className={styles.dropdownItems}>
           <FilterOptions
             preSelected={options[preSelected]?.value}
             type={type}
