@@ -3,14 +3,12 @@ import styles from './Searchbar.module.css'
 import content from '../../../content/search.json'
 
 export default function Searchbar({
-  defaultValue,
   onChange
 }: {
-  defaultValue?: string
   onChange?: (value: string) => void
 }): ReactElement {
   const { placeholder } = content
-  const [value, setValue] = useState(defaultValue || '')
+  const [value, setValue] = useState('')
 
   return (
     <input
