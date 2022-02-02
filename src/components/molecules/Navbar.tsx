@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Logo from '../atoms/Logo'
 import Menu from '../atoms/Menu'
 import styles from './Navbar.module.css'

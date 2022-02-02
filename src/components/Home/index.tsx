@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { useSiteMetadata } from '../../hooks/UseSiteMetadata'
 import Searchform from '../Search/Searchform'
 import Assettypes from './Assettypes'

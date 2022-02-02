@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Box from '../atoms/Box'
 import styles from './Assettypes.module.css'
 import HomeSection from './HomeSection'

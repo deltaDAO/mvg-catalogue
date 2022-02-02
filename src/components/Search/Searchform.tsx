@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
 import Button from '../atoms/Button'
 import Searchbar from './Searchbar'

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import styles from './Searchbar.module.css'
 import content from '../../../content/search.json'
 

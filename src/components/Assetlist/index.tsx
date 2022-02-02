@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { MetadataMain } from '../../@types/Metadata'
 import Asset from './Asset'
 import styles from './index.module.css'

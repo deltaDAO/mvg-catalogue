@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { useSiteMetadata } from '../../hooks/UseSiteMetadata'
 import styles from './Menu.module.css'
 import Link from 'next/link'

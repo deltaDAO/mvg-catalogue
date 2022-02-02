@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { getPopularTags } from '../../util/aquarius'
 import { AggregationBucket } from '../../@types/Aggregates'
 import styles from './Categories.module.css'

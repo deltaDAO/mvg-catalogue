@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import styles from './Logo.module.css'
 import GaiaXLogo from '../../../public/images/gaia-x-logo.svg'
 import Link from 'next/link'

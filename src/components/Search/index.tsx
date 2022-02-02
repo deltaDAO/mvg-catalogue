@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { searchMetadata } from '../../util/aquarius'
 import { MetadataMain, Service } from '../../@types/Metadata'
 import Loader from '../atoms/Loader'

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { MetadataMain } from '../../@types/Metadata'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'

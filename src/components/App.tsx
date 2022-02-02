@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import { useSiteMetadata } from '../hooks/UseSiteMetadata'
 import Navbar from './molecules/Navbar'
 
