@@ -24,7 +24,7 @@ export default function Results({
   const changePage = (newPage: number) => {
     router.push({
       query: {
-        term: query.term,
+        ...query,
         page: newPage
       }
     })

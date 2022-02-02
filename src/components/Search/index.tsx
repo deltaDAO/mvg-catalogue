@@ -58,7 +58,7 @@ export default function SearchPage({
 
   const initFromQueryParams = () => {
     setSearchType(query.type as MetadataMain['type'])
-    setPage(Number.parseInt(query.page as string))
+    setPage(parseInt(query.page as string) || 1)
     setSearchResultsPerPage(query.resultsPerPage as string)
     setSearchSortBy(query.sortBy as SortByOptions)
     setSearchSortDirection(query.sortDirection as Sort['type']['order'])
@@ -114,7 +114,7 @@ export default function SearchPage({
             query: {
               term: value,
               type: searchType,
-              page: 1,
+              page: page,
               sortBy: searchSortBy,
               sortDirection: searchSortDirection,
               resultsPerPage: searchResultsPerPage
