@@ -84,7 +84,7 @@ export default function FilterOptions({
       {sortDirections && (
         <div className={styles.sort}>
           {sortDirectionOptions.map((option, i) => (
-            <label key={i} className={styles.filterLabel}>
+            <label key={`${option.value}-${i}`} className={styles.filterLabel}>
               <input
                 type="radio"
                 name="sortDirection"
@@ -104,7 +104,7 @@ export default function FilterOptions({
       <div>
         <ul>
           {filterTypeOptions[type]?.options.map((option, i) => (
-            <li key={i}>
+            <li key={`${option.value}-${i}`}>
               <label className={styles.filterLabel}>
                 <input
                   type="radio"

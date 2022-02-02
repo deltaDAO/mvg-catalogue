@@ -24,14 +24,13 @@ export default function Categories({
     }
     loadPopularCategories()
   }, [size])
-
   return (
     <HomeSection title="Popular Categories">
       {categories.length > 0 ? (
         <div className={styles.categories}>
           {categories?.map((category, i) => (
             <Link
-              key={i}
+              key={category.key}
               href={{ pathname: '/search', query: { tag: category.key } }}
             >
               <a>

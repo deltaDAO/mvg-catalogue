@@ -12,7 +12,7 @@ export default function Assettypes(): ReactElement {
       <div className={styles.services}>
         {services.map((category, i) => (
           <Link
-            key={i}
+            key={`${category}-${i}`}
             href={{ pathname: '/search', query: { type: category } }}
           >
             <a>

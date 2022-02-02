@@ -11,7 +11,7 @@ export default function Menu(): ReactElement {
     <nav className={styles.menu}>
       <ul>
         {menu.map((item, i) => (
-          <li key={i} className={styles.link}>
+          <li key={`${item.label}-${i}`} className={styles.link}>
             <Link href={item.target}>{item.label}</Link>
           </li>
         ))}

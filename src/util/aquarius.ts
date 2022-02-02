@@ -12,7 +12,6 @@ import {
   SortByOptions,
   SortDirectionOptions
 } from '../models/SortAndFilters'
-import { filterTypeOptions } from '../components/Search/Filters/FilterOptions'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -182,7 +181,6 @@ export async function searchMetadata({
       ...getSearchQuery(term, tag, size, sortBy, sortDirection, type),
       from: from || 0
     }
-
     const response: AxiosResponse<SearchResponse> = await axios.post(
       apiBasePath,
       searchQuery
