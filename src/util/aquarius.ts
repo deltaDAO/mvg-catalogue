@@ -149,13 +149,11 @@ export function getSearchQuery(
           : undefined
       }
     },
-    sort: withTerm
-      ? {
-          [sortKey]: {
-            order: sortDirection || SortDirectionOptions.Descending
-          }
-        }
-      : undefined,
+    sort: {
+      [sortKey]: {
+        order: sortDirection || SortDirectionOptions.Descending
+      }
+    },
     min_score: withTerm ? 1 : undefined
   }
 
