@@ -16,8 +16,8 @@ export interface SearchResults {
 }
 
 export const filterAssetMetadata = (data: SearchResponse): SearchResults => ({
-  total: data.hits.total,
-  metadata: data.hits.hits
+  total: data?.hits?.total,
+  metadata: data?.hits?.hits
     .filter((hit) => {
       const service = hit._source.service.find(
         (service) => service.type === 'metadata'

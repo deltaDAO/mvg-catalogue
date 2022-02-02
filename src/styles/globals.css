@@ -149,3 +149,5 @@ table td {
 table th {
   font-weight: var(--font-weight-bold);
 }
+
+@import '_toast.css';

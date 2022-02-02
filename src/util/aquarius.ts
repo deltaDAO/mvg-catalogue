@@ -12,6 +12,7 @@ import {
   SortByOptions,
   SortDirectionOptions
 } from '../models/SortAndFilters'
+import { toast } from 'react-toastify'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -188,6 +189,7 @@ export async function searchMetadata({
     return response.data
   } catch (error) {
     console.error(error)
+    toast.error('Could not retrieve assets metadata.')
   }
 }
 
@@ -211,6 +213,7 @@ export async function getPopularTags(size = 10) {
     return response.data
   } catch (error) {
     console.error(error)
+    toast.error('Could not retrieve popular tags list.')
   }
 }
 
@@ -233,6 +236,7 @@ export async function getAllTags() {
     return response.data
   } catch (error) {
     console.error(error)
+    toast.error('Could not retrieve tags list.')
   }
 }
 
@@ -252,5 +256,6 @@ export async function getRecentlyPublishedAssets(size = 10) {
     return response.data
   } catch (error) {
     console.error(error)
+    toast.error('Could not retrieve recently published assets list.')
   }
 }
