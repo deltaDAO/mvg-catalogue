@@ -92,7 +92,7 @@ export default function SearchPage({
   }, [query])
 
   useEffect(() => {
-    if (searchTerm || searchType || searchTag) search()
+    search()
   }, [
     searchTerm,
     searchType,
