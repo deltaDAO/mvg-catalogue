@@ -31,7 +31,7 @@ export interface Service {
     }
   }
   index: number
-  type: 'metadata' | 'compute' | 'download'
+  type: 'compute' | 'download' | 'metadata'
 }
 
 export interface MetadataMain {
@@ -45,6 +45,6 @@ export interface MetadataMain {
   }[]
   license: string
   name: string
-  type: 'dataset' | 'algorithm'
+  type: 'algorithm' | 'dataset'
   _id: string
 }
