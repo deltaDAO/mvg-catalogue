@@ -1,6 +1,8 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { MetadataMain } from '../../@types/Metadata'
+import { useCancelToken } from '../../hooks/useCancelToken'
 import { useIsMounted } from '../../hooks/useIsMounted'
+import { retrieveDDOListByDIDs } from '../../utils/aquarius'
 import { AssetListPrices, getAssetsBestPrices } from '../../utils/subgraph'
 import Asset from './Asset'
 import styles from './index.module.css'
@@ -11,23 +13,30 @@ export default function Assetlist({
   assets: MetadataMain[] | undefined
 }): ReactElement {
   const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>()
-  const [loading, setLoading] = useState<boolean>(true)
   const isMounted = useIsMounted()
+  const newCancelToken = useCancelToken()
+
   useEffect(() => {
     if (!assets || assets?.length === 0) return
-    // isLoading && setLoading(true)
-    console.log(assets)
-    const didList = assets.map((e) => e)
+    const didList = assets.map((e) => e._id)
 
     async function fetchPrices() {
-      const asset = await getAssetsBestPrices(assets)
+      const ddoList = await retrieveDDOListByDIDs(didList, newCancelToken())
+      retrieveDDOListByDIDs(didList, newCancelToken()).then((data) =>
+        console.log(data)
+      )
+
+      const asset = await getAssetsBestPrices(ddoList)
       if (!isMounted()) return
       setAssetWithPrices(asset)
-      setLoading(false)
     }
 
     fetchPrices()
   }, [assets])
+
+  useEffect(() => {
+    console.log(assetsWithPrices)
+  }, [assetsWithPrices])
 
   return (
     <div className={styles.list}>

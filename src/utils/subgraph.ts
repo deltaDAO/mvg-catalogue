@@ -100,6 +100,9 @@ export async function fetchData(
 ): Promise<any> {
   try {
     const client = getUrqlClientInstance()
+    console.log(client)
+    console.log(variables)
+    console.log(context)
     const response = await client.query(query, variables, context).toPromise()
     return response
   } catch (error) {
@@ -134,7 +137,7 @@ async function getAssetsPoolsExchangesAndDatatokenMap(
   let poolPriceResponse: AssetsPoolPricePool[] = []
   let frePriceResponse: AssetsFrePriceFixedRateExchange[] = []
   let freePriceResponse: AssetFreePriceDispenser[] = []
-
+  console.log(chainAssetLists)
   for (const chainKey in chainAssetLists) {
     const freVariables = {
       datatoken_in: chainAssetLists[chainKey]
@@ -147,7 +150,7 @@ async function getAssetsPoolsExchangesAndDatatokenMap(
     }
 
     const queryContext = getQueryContext(Number(chainKey))
-
+    console.log(queryContext)
     const chainPoolPriceResponse: OperationResult<AssetsPoolPrice> =
       await fetchData(PoolQuery, poolVariables, queryContext)
 
@@ -169,6 +172,68 @@ async function getAssetsPoolsExchangesAndDatatokenMap(
     )
   }
   return [poolPriceResponse, frePriceResponse, freePriceResponse, didDTMap]
+}
+
+function transformPriceToBestPrice(
+  frePrice: AssetsFrePriceFixedRateExchange[],
+  poolPrice: AssetsPoolPricePool[],
+  freePrice: AssetFreePriceDispenser[]
+) {
+  if (poolPrice?.length > 0) {
+    const price: BestPrice = {
+      type: 'pool',
+      address: poolPrice[0]?.id,
+      value:
+        poolPrice[0]?.consumePrice === '-1'
+          ? poolPrice[0]?.spotPrice
+          : poolPrice[0]?.consumePrice,
+      ocean: poolPrice[0]?.oceanReserve,
+      oceanSymbol: poolPrice[0]?.tokens[0]?.symbol,
+      datatoken: poolPrice[0]?.datatokenReserve,
+      pools: [poolPrice[0]?.id],
+      isConsumable: poolPrice[0]?.consumePrice === '-1' ? 'false' : 'true'
+    }
+    return price
+  } else if (frePrice?.length > 0) {
+    // TODO Hacky hack, temporary™: set isConsumable to true for fre assets.
+    // isConsumable: 'true'
+    const price: BestPrice = {
+      type: 'exchange',
+      value: frePrice[0]?.rate,
+      address: frePrice[0]?.id,
+      exchangeId: frePrice[0]?.id,
+      oceanSymbol: frePrice[0]?.baseTokenSymbol,
+      ocean: 0,
+      datatoken: 0,
+      pools: [],
+      isConsumable: 'true'
+    }
+    return price
+  } else if (freePrice?.length > 0) {
+    const price: BestPrice = {
+      type: 'free',
+      value: 0,
+      address: freePrice[0]?.datatoken.id,
+      exchangeId: '',
+      ocean: 0,
+      datatoken: 0,
+      pools: [],
+      isConsumable: 'true'
+    }
+    return price
+  } else {
+    const price: BestPrice = {
+      type: '',
+      value: 0,
+      address: '',
+      exchangeId: '',
+      ocean: 0,
+      datatoken: 0,
+      pools: [],
+      isConsumable: 'false'
+    }
+    return price
+  }
 }
 
 export async function getAssetsBestPrices(
@@ -209,6 +274,7 @@ export async function getAssetsBestPrices(
     )
     free && freePrice.push(free)
     const bestPrice = transformPriceToBestPrice(frePrice, poolPrice, freePrice)
+    // TODO: modify function to output MetadataMain + Price instead of DDO
     assetsWithPrice.push({
       ddo: ddo,
       price: bestPrice

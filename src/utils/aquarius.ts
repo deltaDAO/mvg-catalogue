@@ -15,7 +15,6 @@ import {
   SortTermOptions
 } from '../models/SortAndFilters'
 import { toast } from 'react-toastify'
-import { BaseQueryParams } from '../models/aquarius/BaseQueryParams'
 import { PagedAssets } from '../models/PagedAssets'
 
 /**
@@ -331,18 +330,17 @@ export async function queryMetadata(
 
 export async function retrieveDDOListByDIDs(
   didList: string[],
-  chainIds: number[],
   cancelToken: CancelToken
 ): Promise<DDO[]> {
   try {
-    if (didList?.length === 0 || chainIds?.length === 0) return []
+    if (didList?.length === 0) return []
     const orderedDDOListByDIDList: DDO[] = []
 
     const filter = [getFilterTerm('id', didList)]
     const sort = {
       [SortTermOptions.Created]: { order: SortDirectionOptions.Descending }
     }
-    const query = getBaseQuery(filter, sort)
+    const query = getBaseQuery(filter, sort, didList.length)
 
     const result = await queryMetadata(query, cancelToken)
     didList.forEach((did: string | DID) => {
