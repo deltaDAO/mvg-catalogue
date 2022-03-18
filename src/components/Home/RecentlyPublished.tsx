@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ReactElement, useEffect, useState } from 'react'
 import { FilterByTypeOptions } from '../../models/SortAndFilters'
-import { getRecentlyPublishedAssets } from '../../util/aquarius'
+import { getRecentlyPublishedAssets } from '../../utils/aquarius'
 import Assetlist from '../Assetlist'
 import Loader from '../atoms/Loader'
 import { filterAssetMetadata, SearchResults } from '../Search'

@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { searchMetadata } from '../../util/aquarius'
+import { searchMetadata } from '../../utils/aquarius'
 import { MetadataMain, Service } from '../../@types/Metadata'
 import Loader from '../atoms/Loader'
 import { useRouter } from 'next/router'

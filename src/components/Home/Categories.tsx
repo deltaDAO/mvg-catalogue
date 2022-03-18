@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { getPopularTags } from '../../util/aquarius'
+import { getPopularTags } from '../../utils/aquarius'
 import { AggregationBucket } from '../../@types/Aggregates'
 import styles from './Categories.module.css'
 import Link from 'next/link'
@@ -28,7 +28,7 @@ export default function Categories({
     <HomeSection title="Popular Categories">
       {categories.length > 0 ? (
         <div className={styles.categories}>
-          {categories?.map((category, i) => (
+          {categories?.map((category) => (
             <Link
               key={category.key}
               href={{ pathname: '/search', query: { tag: category.key } }}

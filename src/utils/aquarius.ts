@@ -1,3 +1,4 @@
+import { DID, DDO, Logger } from '@oceanprotocol/lib'
 import { chainId, metadataCacheUri } from '../../app.config'
 import {
   FilterTerms,
@@ -5,14 +6,36 @@ import {
   SearchResponse,
   Sort
 } from '../@types/SearchQuery'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, CancelToken } from 'axios'
 import { MetadataMain } from '../@types/Metadata'
 import {
   FilterByTypeOptions,
   SortByOptions,
-  SortDirectionOptions
+  SortDirectionOptions,
+  SortTermOptions
 } from '../models/SortAndFilters'
 import { toast } from 'react-toastify'
+import { BaseQueryParams } from '../models/aquarius/BaseQueryParams'
+import { PagedAssets } from '../models/PagedAssets'
+
+/**
+ * @param filterField the name of the actual field from the ddo schema e.g. 'id','service.attributes.main.type'
+ * @param value the value of the filter
+ * @returns json structure of the es filter
+ */
+export function getFilterTerm(
+  filterField: string,
+  value: string | number | boolean | number[] | string[],
+  key: 'terms' | 'term' | 'match' = 'term'
+): FilterTerms {
+  const isArray = Array.isArray(value)
+  const useKey = key === 'term' ? (isArray ? 'terms' : 'term') : key
+  return {
+    [useKey]: {
+      [filterField]: value
+    }
+  }
+}
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -252,10 +275,82 @@ export async function getRecentlyPublishedAssets(size = 10) {
       size
     }
     const response = await axios.post(apiBasePath, recentQuery)
-
+    console.log(response.data)
     return response.data
   } catch (error) {
     console.error(error)
     toast.error('Could not retrieve recently published assets list.')
+  }
+}
+
+export function transformQueryResult(
+  queryResult: SearchResponse,
+  from = 0,
+  size = 21
+): PagedAssets {
+  const result: PagedAssets = {
+    results: [],
+    page: 0,
+    totalPages: 0,
+    totalResults: 0
+  }
+
+  result.results = (queryResult.hits.hits || []).map(
+    (hit) => new DDO(hit._source as DDO)
+  )
+  result.totalResults = queryResult.hits.total
+  result.totalPages =
+    result.totalResults / size < 1
+      ? Math.floor(result.totalResults / size)
+      : Math.ceil(result.totalResults / size)
+  result.page = from ? from / size + 1 : 1
+
+  return result
+}
+
+export async function queryMetadata(
+  query: SearchQuery,
+  cancelToken: CancelToken
+): Promise<PagedAssets> {
+  try {
+    const response: AxiosResponse<SearchResponse> = await axios.post(
+      `${metadataCacheUri}/api/v1/aquarius/assets/query`,
+      { ...query },
+      { cancelToken }
+    )
+    if (!response || response.status !== 200 || !response.data) return
+    return transformQueryResult(response.data, query.from, query.size)
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      Logger.log(error.message)
+    } else {
+      Logger.error(error.message)
+    }
+  }
+}
+
+export async function retrieveDDOListByDIDs(
+  didList: string[],
+  chainIds: number[],
+  cancelToken: CancelToken
+): Promise<DDO[]> {
+  try {
+    if (didList?.length === 0 || chainIds?.length === 0) return []
+    const orderedDDOListByDIDList: DDO[] = []
+
+    const filter = [getFilterTerm('id', didList)]
+    const sort = {
+      [SortTermOptions.Created]: { order: SortDirectionOptions.Descending }
+    }
+    const query = getBaseQuery(filter, sort)
+
+    const result = await queryMetadata(query, cancelToken)
+    didList.forEach((did: string | DID) => {
+      const ddo: DDO = result.results.find((ddo: DDO) => ddo.id === did)
+      orderedDDOListByDIDList.push(ddo)
+    })
+    return orderedDDOListByDIDList
+  } catch (error) {
+    Logger.error(error.message)
   }
 }
