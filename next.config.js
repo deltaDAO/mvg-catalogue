@@ -15,6 +15,10 @@ module.exports = {
         }
       ]
     })
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false
+    }
 
     return config
   },
