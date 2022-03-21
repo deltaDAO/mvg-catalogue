@@ -27,6 +27,6 @@ export default function Price({
   ) : !price || price?.type === '' ? (
     <div className={styles.empty}>No price set</div>
   ) : (
-    <Loader message="Retrieving price..." />
+    <Loader style="dots" />
   )
 }

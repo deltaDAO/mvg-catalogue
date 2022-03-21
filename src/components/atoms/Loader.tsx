@@ -1,15 +1,24 @@
 import React, { ReactElement } from 'react'
 import styles from './Loader.module.css'
+import classNames from 'classnames/bind'
+
+const cx = classNames.bind(styles)
 
 export default function Loader({
-  message
+  style,
+  small,
+  className
 }: {
-  message?: string
+  style: 'spinner' | 'dots'
+  small?: boolean
+  className?: string
 }): ReactElement {
   return (
-    <div className={styles.loaderWrap}>
-      <span className={styles.loader} />
-      {message && <span className={styles.message}>{message}</span>}
+    <div className={cx(style, { small: small }, className)}>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   )
 }

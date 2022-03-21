@@ -23,7 +23,7 @@ export default function Assetlist({
 
     async function fetchPrices() {
       const ddoList = await retrieveDDOListByDIDs(didList, newCancelToken())
-
+      if (!ddoList) return
       const asset = await getAssetsBestPrices(ddoList)
       if (!isMounted()) return
       setAssetWithPrices(asset)
@@ -39,7 +39,7 @@ export default function Assetlist({
           <Asset ddo={asset.ddo} price={asset.price} key={asset.ddo.id} />
         ))
       ) : (
-        <Loader message="Loading results" />
+        <Loader style="spinner" />
       )}
     </div>
   )
