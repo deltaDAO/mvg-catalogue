@@ -24,19 +24,6 @@ export default function Asset({
       setMetadata(attributes.main)
       return
     }
-
-    // const source = axios.CancelToken.source()
-
-    // async function getAssetName() {
-    //   const title = await getAssetsNames([did], source.token)
-    //   setAssetTitle(title[did])
-    // }
-
-    // !ddo && did && getAssetName()
-
-    // return () => {
-    //   source.cancel()
-    // }
   }, [ddo])
   return (
     <Link href={`${portalUri}/asset/${ddo?.id}`}>
