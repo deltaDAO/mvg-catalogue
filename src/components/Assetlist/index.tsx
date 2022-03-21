@@ -4,6 +4,7 @@ import { useCancelToken } from '../../hooks/useCancelToken'
 import { useIsMounted } from '../../hooks/useIsMounted'
 import { retrieveDDOListByDIDs } from '../../utils/aquarius'
 import { AssetListPrices, getAssetsBestPrices } from '../../utils/subgraph'
+import Loader from '../atoms/Loader'
 import Asset from './Asset'
 import styles from './index.module.css'
 
@@ -38,7 +39,7 @@ export default function Assetlist({
           <Asset ddo={asset.ddo} price={asset.price} key={asset.ddo.id} />
         ))
       ) : (
-        <h1>LOADING</h1>
+        <Loader message="Loading results" />
       )}
     </div>
   )
