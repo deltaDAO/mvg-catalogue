@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  gap: calc(var(--spacer) / 2);
   text-align: left;
   text-transform: uppercase;
   margin-top: calc(var(--spacer) / 2);
@@ -17,6 +18,7 @@
   align-items: center;
   gap: calc(var(--spacer) / 2);
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .name {
@@ -30,7 +32,6 @@
     display: grid;
     grid-template-columns: 3fr 4fr 2fr;
     gap: 0;
-    width: 100%;
   }
   .price {
     justify-self: flex-start;
@@ -49,8 +50,5 @@
   }
   .info {
     width: 50%;
-  }
-  .price {
-    justify-self: center;
   }
 }
