@@ -23,6 +23,10 @@
 /content/networks-metadata.json
 /content/repo-metadata.json
 
+#graphql
+src/@types/graph.types.ts
+graphql.schema.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*
