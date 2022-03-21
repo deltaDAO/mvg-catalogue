@@ -12,7 +12,7 @@ export default function Assetlist({
 }: {
   assets: MetadataMain[] | undefined
 }): ReactElement {
-  const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>()
+  const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>([])
   const isMounted = useIsMounted()
   const newCancelToken = useCancelToken()
 
@@ -22,9 +22,6 @@ export default function Assetlist({
 
     async function fetchPrices() {
       const ddoList = await retrieveDDOListByDIDs(didList, newCancelToken())
-      retrieveDDOListByDIDs(didList, newCancelToken()).then((data) =>
-        console.log(data)
-      )
 
       const asset = await getAssetsBestPrices(ddoList)
       if (!isMounted()) return
@@ -34,15 +31,15 @@ export default function Assetlist({
     fetchPrices()
   }, [assets])
 
-  useEffect(() => {
-    console.log(assetsWithPrices)
-  }, [assetsWithPrices])
-
   return (
     <div className={styles.list}>
-      {assets?.map((asset) => (
-        <Asset asset={asset} key={asset._id} />
-      ))}
+      {assetsWithPrices.length > 0 ? (
+        assetsWithPrices?.map((asset) => (
+          <Asset ddo={asset.ddo} price={asset.price} key={asset.ddo.id} />
+        ))
+      ) : (
+        <h1>LOADING</h1>
+      )}
     </div>
   )
 }

@@ -1,121 +1,30 @@
-/* based on https://loading.io/css/ */
-
-/*
-    Dots
-*/
-
-.dots,
-.spinner {
-  display: inline-block;
-  position: relative;
+.loaderWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.dots {
-  width: calc(var(--spacer) * 2.5);
-  height: calc(var(--spacer) / 2);
-
-  --size-dots: var(--spacer);
-}
-
-.spinner {
-  width: calc(var(--spacer) * 2);
-  height: calc(var(--spacer) * 2);
-
-  --size-spinner: calc(var(--spacer) * 2);
-}
-
-.dots.small,
-.spinner.small {
-  scale: 0.5;
-}
-
-.dots div {
-  position: absolute;
-  width: calc(var(--size-dots) / 2);
-  height: calc(var(--size-dots) / 2);
-  border-radius: 50%;
-  background: var(--color-black);
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-
-.dots div:nth-child(1) {
-  animation: dotframes1 0.6s infinite;
-}
-
-.dots div:nth-child(2) {
-  animation: dotframes2 0.6s infinite;
-}
-
-.dots div:nth-child(3) {
-  left: var(--size);
-  animation: dotframes2 0.6s infinite;
-}
-
-.dots div:nth-child(4) {
-  left: calc(var(--size) * 2);
-  animation: dotframes3 0.6s infinite;
-}
-
-@keyframes dotframes1 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes dotframes3 {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-
-@keyframes dotframes2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
-}
-
-/*
-    Spinner
-*/
-
-.spinner div {
-  box-sizing: border-box;
+.loader {
   display: block;
-  position: absolute;
-  width: var(--size-spinner);
-  height: var(--size-spinner);
-  border: 8px solid;
+  flex: 0 0 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
   border-radius: 50%;
-  animation: spinnerframes 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: var(--color-blue) transparent transparent transparent;
+  border: 2px solid var(--brand-purple);
+  border-top-color: var(--brand-violet);
+  animation: loader 0.6s linear infinite;
 }
 
-.spinner div:nth-child(1) {
-  animation-delay: -0.45s;
+.message {
+  font-weight: var(--font-weight-base);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  display: block;
+  margin-left: calc(var(--spacer) / 4);
 }
 
-.spinner div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-
-.spinner div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-
-@keyframes spinnerframes {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+@keyframes loader {
+  to {
     transform: rotate(360deg);
   }
 }

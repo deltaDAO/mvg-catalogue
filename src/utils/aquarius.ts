@@ -274,7 +274,7 @@ export async function getRecentlyPublishedAssets(size = 10) {
       size
     }
     const response = await axios.post(apiBasePath, recentQuery)
-    console.log(response.data)
+
     return response.data
   } catch (error) {
     console.error(error)

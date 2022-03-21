@@ -1,28 +1,57 @@
-import { ReactElement } from 'react'
-import { MetadataMain } from '../../@types/Metadata'
+import { ReactElement, useEffect, useState } from 'react'
+import { DDO } from '@oceanprotocol/lib'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import styles from './Asset.module.css'
 import Link from 'next/link'
 import { portalUri } from '../../../app.config'
+import Price from '../Price'
+import { BestPrice } from '../../models/BestPrice'
+import { MetadataMain } from '../../@types/Metadata'
 
 export default function Asset({
-  asset
+  ddo,
+  price
 }: {
-  asset: MetadataMain
+  ddo: DDO
+  price: BestPrice
 }): ReactElement {
+  const [metadata, setMetadata] = useState<Omit<MetadataMain, '_id'>>()
+
+  useEffect(() => {
+    if (ddo) {
+      const { attributes } = ddo.findServiceByType('metadata')
+      setMetadata(attributes.main)
+      return
+    }
+
+    // const source = axios.CancelToken.source()
+
+    // async function getAssetName() {
+    //   const title = await getAssetsNames([did], source.token)
+    //   setAssetTitle(title[did])
+    // }
+
+    // !ddo && did && getAssetName()
+
+    // return () => {
+    //   source.cancel()
+    // }
+  }, [ddo])
   return (
-    <Link href={`${portalUri}/asset/${asset._id}`}>
+    <Link href={`${portalUri}/asset/${ddo?.id}`}>
       <a className={styles.asset} target="blank" rel="noopener noreferrer">
         <Dotdotdot className={styles.name} clamp={1}>
-          {asset.name}
+          {metadata?.name}
         </Dotdotdot>
 
         <div className={styles.info}>
+          <Price price={price} conversion />
           <span className={styles.date}>
-            {format(new Date(asset.datePublished), 'dd/MM/yy, hh:mm z')}
+            {metadata?.datePublished &&
+              format(new Date(metadata.datePublished), 'dd/MM/yy, hh:mm z')}
           </span>
-          <span className={styles.type}>{asset.type}</span>
+          <span className={styles.type}>{metadata?.type}</span>
         </div>
       </a>
     </Link>

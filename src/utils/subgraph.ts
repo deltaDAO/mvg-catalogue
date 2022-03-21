@@ -100,9 +100,6 @@ export async function fetchData(
 ): Promise<any> {
   try {
     const client = getUrqlClientInstance()
-    console.log(client)
-    console.log(variables)
-    console.log(context)
     const response = await client.query(query, variables, context).toPromise()
     return response
   } catch (error) {
@@ -137,7 +134,6 @@ async function getAssetsPoolsExchangesAndDatatokenMap(
   let poolPriceResponse: AssetsPoolPricePool[] = []
   let frePriceResponse: AssetsFrePriceFixedRateExchange[] = []
   let freePriceResponse: AssetFreePriceDispenser[] = []
-  console.log(chainAssetLists)
   for (const chainKey in chainAssetLists) {
     const freVariables = {
       datatoken_in: chainAssetLists[chainKey]
@@ -150,7 +146,6 @@ async function getAssetsPoolsExchangesAndDatatokenMap(
     }
 
     const queryContext = getQueryContext(Number(chainKey))
-    console.log(queryContext)
     const chainPoolPriceResponse: OperationResult<AssetsPoolPrice> =
       await fetchData(PoolQuery, poolVariables, queryContext)
 
@@ -274,7 +269,6 @@ export async function getAssetsBestPrices(
     )
     free && freePrice.push(free)
     const bestPrice = transformPriceToBestPrice(frePrice, poolPrice, freePrice)
-    // TODO: modify function to output MetadataMain + Price instead of DDO
     assetsWithPrice.push({
       ddo: ddo,
       price: bestPrice
