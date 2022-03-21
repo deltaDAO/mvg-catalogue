@@ -33,7 +33,9 @@ export default function Asset({
         </Dotdotdot>
 
         <div className={styles.info}>
-          <Price price={price} conversion />
+          <span className={styles.price}>
+            <Price price={price} conversion />
+          </span>
           <span className={styles.date}>
             {metadata?.datePublished &&
               format(new Date(metadata.datePublished), 'dd/MM/yy, hh:mm z')}
