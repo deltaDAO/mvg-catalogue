@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { DDO } from '@oceanprotocol/lib'
+import { DDO, MetadataMain } from '@oceanprotocol/lib'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import styles from './Asset.module.css'
@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { portalUri } from '../../../app.config'
 import Price from '../Price'
 import { BestPrice } from '../../models/BestPrice'
-import { MetadataMain } from '../../@types/Metadata'
 
 export default function Asset({
   ddo,
@@ -16,7 +15,7 @@ export default function Asset({
   ddo: DDO
   price: BestPrice
 }): ReactElement {
-  const [metadata, setMetadata] = useState<Omit<MetadataMain, '_id'>>()
+  const [metadata, setMetadata] = useState<MetadataMain>()
 
   useEffect(() => {
     if (ddo) {

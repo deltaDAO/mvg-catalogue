@@ -30,3 +30,9 @@ export interface SortOptions {
   sortBy: SortTermOptions
   sortDirection?: SortDirectionOptions
 }
+
+export interface Sort {
+  [field: string]: {
+    order: 'asc' | 'desc'
+  }
+}

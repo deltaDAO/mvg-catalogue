@@ -1,11 +1,10 @@
 import { DID, DDO, Logger } from '@oceanprotocol/lib'
 import { chainId, metadataCacheUri } from '../../app.config'
-import {
-  FilterTerms,
-  SearchQuery,
-  SearchResponse,
-  Sort
-} from '../@types/SearchQuery'
+import { Sort } from '../models/SortAndFilters'
+import { FilterTerms } from '../models/aquarius/FilterTerm'
+import { SearchResponse } from '../models/aquarius/SearchResponse'
+import { SearchQuery } from '../models/aquarius/SearchQuery'
+import { PagedAssets } from '../models/PagedAssets'
 import axios, { AxiosResponse, CancelToken } from 'axios'
 import { MetadataMain } from '../@types/Metadata'
 import {
@@ -15,7 +14,6 @@ import {
   SortTermOptions
 } from '../models/SortAndFilters'
 import { toast } from 'react-toastify'
-import { PagedAssets } from '../models/PagedAssets'
 
 /**
  * @param filterField the name of the actual field from the ddo schema e.g. 'id','service.attributes.main.type'

@@ -1,5 +1,6 @@
-export interface FilterTerm {
-  [property: string]: {
-    [property: string]: string | number | boolean | number[] | string[]
+export interface FilterTerms {
+  terms?: {
+    [key: string]: string[] | number[]
   }
+  term?: { [key: string]: string | number }
 }

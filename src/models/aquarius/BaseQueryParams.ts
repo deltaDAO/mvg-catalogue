@@ -1,12 +1,12 @@
 import { SortOptions } from '../SortAndFilters'
 import { EsPaginationOptions } from './EsPaginationOptions'
-import { FilterTerm } from './FilterTerm'
+import { FilterTerms } from './FilterTerm'
 
 export interface BaseQueryParams {
   chainIds: number[]
   nestedQuery?: any
   esPaginationOptions?: EsPaginationOptions
   sortOptions?: SortOptions
-  filters?: FilterTerm[]
+  filters?: FilterTerms[]
   ignorePurgatory?: boolean
 }
