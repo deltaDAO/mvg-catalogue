@@ -7,6 +7,7 @@
     "start": "npm run pregenerate && next start",
     "pregenerate": "bash scripts/pregenerate.sh",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
     "postinstall": "husky install && rm -r node_modules/apollo-language-server/node_modules/graphql",
     "apollo:codegen": "apollo client:codegen --target typescript --tsFileExtension=d.ts --outputFlat src/@types/apollo/",
     "graphql:graphTypes": "graphql-codegen --config codegen.yml"
