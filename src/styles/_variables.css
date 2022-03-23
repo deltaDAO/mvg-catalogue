@@ -14,7 +14,7 @@
   --color-alert-orange: #b35f36;
   --color-alert-yellow: #eac146;
 
-  --color-primary: var(--color-purple);
+  --color-primary: var(--color-blue);
   --color-secondary: var(--color-black);
 
   --gradient-primary: linear-gradient(

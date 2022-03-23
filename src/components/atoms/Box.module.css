@@ -1,0 +1,9 @@
+.container {
+  padding: var(--spacer);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--color-grey-light);
+  box-shadow: var(--box-shadow);
+  color: var(--color-black);
+  font-weight: var(--font-weight-bold);
+  text-transform: capitalize;
+}

@@ -1,0 +1,19 @@
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(var(--spacer) / 2) var(--spacer);
+  margin: 0 auto;
+}
+
+.navbar > *:nth-child(2) {
+  width: 100%;
+}
+
+@media screen and (min-width: 40rem) {
+  .navbar > *:nth-child(2) {
+    width: auto;
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,60 @@
+.filterButton {
+  all: unset;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
+}
+
+.dropdownText {
+  display: flex;
+  justify-content: center;
+  gap: calc(var(--spacer) / 2.5);
+  color: var(--color-grey-dark);
+  font-weight: var(--font-weight-light);
+  text-transform: lowercase;
+}
+
+.dropdownText strong {
+  color: var(--color-black);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-large);
+}
+
+.dropdownItems {
+  visibility: hidden;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: var(--spacer) 0;
+}
+
+.dropdown.active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown.active .dropdownItems {
+  visibility: visible;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  animation: growDown 300ms ease-in-out forwards;
+  transform-origin: top center;
+  z-index: 2;
+}
+
+@keyframes growDown {
+  0% {
+    transform: scaleY(0);
+  }
+  80% {
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}

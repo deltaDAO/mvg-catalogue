@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import styles from './Pagination.module.css'
 import classnames from 'classnames/bind'
 

@@ -1,0 +1,14 @@
+.container {
+  margin-top: calc(var(--spacer) * 2);
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (min-width: 30rem) {
+  .title {
+    text-align: start;
+  }
+}

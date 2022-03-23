@@ -6,7 +6,13 @@ import {
   Sort
 } from '../@types/SearchQuery'
 import axios, { AxiosResponse } from 'axios'
-import Metadata, { MetadataMain } from '../@types/Metadata'
+import { MetadataMain } from '../@types/Metadata'
+import {
+  FilterByTypeOptions,
+  SortByOptions,
+  SortDirectionOptions
+} from '../models/SortAndFilters'
+import { toast } from 'react-toastify'
 
 const apiBasePath = `${metadataCacheUri}/api/v1/aquarius/assets/query`
 
@@ -21,6 +27,12 @@ export const defaultSearchFields = [
   'service.attributes.additionalInformation.description',
   'service.attributes.additionalInformation.tags'
 ]
+
+export const defaultSortByFields = {
+  [SortByOptions.Relevance]: '_score',
+  [SortByOptions.Published]: 'service.attributes.main.datePublished',
+  [SortByOptions.Updated]: 'updated'
+}
 
 export function getBaseQuery(
   filter: FilterTerms[] = [],
@@ -58,24 +70,47 @@ export function getBaseQuery(
 
 export function getSearchQuery(
   term: string,
+  tag?: string,
+  size?: string,
+  sortBy?: SortByOptions,
+  sortDirection?: Sort['type']['order'],
   type?: MetadataMain['type']
 ): SearchQuery {
   const baseQuery = getBaseQuery()
 
   const withTerm = term !== ''
 
-  console.log(`withTerm: ${withTerm} for term "${term}"`)
-
   const filters: FilterTerms[] = [
     ...(baseQuery.query.bool?.filter as FilterTerms[])
   ]
+  const sortKey = sortBy
+    ? defaultSortByFields[sortBy]
+    : defaultSortByFields[SortByOptions.Relevance]
 
-  if (type)
+  filters.push(
+    type
+      ? {
+          term: {
+            'service.attributes.main.type': type
+          }
+        }
+      : {
+          terms: {
+            'service.attributes.main.type': [
+              FilterByTypeOptions.Algorithm,
+              FilterByTypeOptions.Data
+            ]
+          }
+        }
+  )
+
+  if (tag)
     filters.push({
       term: {
-        'service.attributes.main.type': type
+        'service.attributes.additionalInformation.tags': tag
       }
     })
+  if (size) baseQuery.size = parseInt(size)
 
   const query: SearchQuery = {
     ...baseQuery,
@@ -114,13 +149,11 @@ export function getSearchQuery(
           : undefined
       }
     },
-    sort: withTerm
-      ? {
-          _score: {
-            order: 'desc'
-          }
-        }
-      : undefined,
+    sort: {
+      [sortKey]: {
+        order: sortDirection || SortDirectionOptions.Descending
+      }
+    },
     min_score: withTerm ? 1 : undefined
   }
 
@@ -129,29 +162,34 @@ export function getSearchQuery(
 
 export async function searchMetadata({
   term,
-  type,
-  from
+  from,
+  tag,
+  size,
+  sortBy,
+  sortDirection,
+  type
 }: {
   term: string
-  type?: MetadataMain['type']
   from?: number
+  tag?: string
+  size?: string
+  sortBy?: SortByOptions
+  sortDirection?: Sort['type']['order']
+  type?: MetadataMain['type']
 }): Promise<SearchResponse | undefined> {
   try {
     const searchQuery = {
-      ...getSearchQuery(term, type),
+      ...getSearchQuery(term, tag, size, sortBy, sortDirection, type),
       from: from || 0
     }
-
-    //console.log(`Query ${apiBasePath} for ${term}:`, searchQuery)
     const response: AxiosResponse<SearchResponse> = await axios.post(
       apiBasePath,
       searchQuery
     )
-    //console.log(`Response:`, response.data)
-
     return response.data
   } catch (error) {
     console.error(error)
+    toast.error('Could not retrieve assets metadata.')
   }
 }
 
@@ -175,5 +213,49 @@ export async function getPopularTags(size = 10) {
     return response.data
   } catch (error) {
     console.error(error)
+    toast.error('Could not retrieve popular tags list.')
+  }
+}
+
+export async function getAllTags() {
+  try {
+    const tagQuery = {
+      ...getBaseQuery(),
+      aggs: {
+        popular_tags: {
+          significant_text: {
+            field: 'service.attributes.additionalInformation.tags'
+          }
+        }
+      },
+      size: 0
+    }
+
+    const response = await axios.post(apiBasePath, tagQuery)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+    toast.error('Could not retrieve tags list.')
+  }
+}
+
+export async function getRecentlyPublishedAssets(size = 10) {
+  try {
+    const recentQuery = {
+      ...getBaseQuery(),
+      sort: {
+        [defaultSortByFields[SortByOptions.Published]]: {
+          order: SortDirectionOptions.Descending
+        }
+      },
+      size
+    }
+    const response = await axios.post(apiBasePath, recentQuery)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+    toast.error('Could not retrieve recently published assets list.')
   }
 }

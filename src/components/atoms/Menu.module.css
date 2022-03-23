@@ -1,0 +1,31 @@
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: calc(var(--spacer) / 2) 0;
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: var(--color-black);
+}
+
+.menu ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.link > * {
+  padding: calc(var(--spacer) / 2);
+  color: var(--color-black);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 40rem) {
+  .menu {
+    border: none;
+    margin: 0;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
 import Button from '../atoms/Button'
 import Searchbar from './Searchbar'
@@ -32,10 +32,7 @@ export default function Searchform({
         }
       }}
     >
-      <Searchbar
-        onChange={(value) => setSearchValue(value)}
-        defaultValue={searchValue}
-      />
+      <Searchbar onChange={(value) => setSearchValue(value)} />
       <Button style="primary" type="submit" disabled={disabled}>
         Search
       </Button>

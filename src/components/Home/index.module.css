@@ -8,3 +8,7 @@
 .title {
   margin-bottom: calc(var(--spacer) / 2);
 }
+
+.description {
+  margin-bottom: calc(var(--spacer) * 2);
+}

@@ -31,10 +31,8 @@ export interface Service {
     }
   }
   index: number
-  type: 'metadata' | 'compute' | 'download'
+  type: 'compute' | 'download' | 'metadata'
 }
-
-export const MetadataMainTypes = ['dataset', 'algorithm']
 
 export interface MetadataMain {
   author: string
@@ -47,5 +45,6 @@ export interface MetadataMain {
   }[]
   license: string
   name: string
-  type: 'dataset' | 'algorithm'
+  type: 'algorithm' | 'dataset'
+  _id: string
 }

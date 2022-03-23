@@ -1,27 +1,25 @@
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import styles from './Searchbar.module.css'
+import content from '../../../content/search.json'
 
 export default function Searchbar({
-  defaultValue,
   onChange
 }: {
-  defaultValue?: string
   onChange?: (value: string) => void
 }): ReactElement {
-  const [value, setValue] = useState(defaultValue || '')
+  const { placeholder } = content
+  const [value, setValue] = useState('')
 
   return (
-    <>
-      <input
-        className={styles.input}
-        type="text"
-        placeholder="Search the Federated Catalogue..."
-        value={value}
-        onChange={(e) => {
-          onChange && onChange(e.target.value)
-          setValue(e.target.value)
-        }}
-      />
-    </>
+    <input
+      className={styles.input}
+      type="text"
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => {
+        onChange && onChange(e.target.value)
+        setValue(e.target.value)
+      }}
+    />
   )
 }

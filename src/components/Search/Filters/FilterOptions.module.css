@@ -1,0 +1,43 @@
+.sort {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* hide the radio input while keeping it visible for screen readers */
+.filterLabel input[type='radio'] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+.filterLabel {
+  font-weight: var(--font-weight-light);
+  color: var(--color-grey-dark);
+}
+
+.filterLabel:hover {
+  cursor: pointer;
+  color: var(--color-black);
+}
+
+.filterLabel input[type='radio']:checked + span {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-black);
+}
+
+.sort > .filterLabel {
+  padding: 0 calc(var(--spacer) / 2);
+  margin-bottom: calc(var(--spacer) / 2);
+  text-transform: uppercase;
+}
+
+.sort > .filterLabel:first-child {
+  border-right: 1px solid var(--color-black);
+}
