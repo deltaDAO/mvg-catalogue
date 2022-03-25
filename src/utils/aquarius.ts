@@ -81,7 +81,12 @@ export function getBaseQuery(
             }
           },
           ...filter
-        ]
+        ],
+        must_not: {
+          term: {
+            'price.type': 'pool'
+          }
+        }
       }
     },
     sort: sort
