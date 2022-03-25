@@ -16,7 +16,6 @@ export enum FilterByTypeOptions {
 
 export enum SortByOptions {
   Published = 'published',
-  Relevance = 'relevance',
   Updated = 'updated'
 }
 

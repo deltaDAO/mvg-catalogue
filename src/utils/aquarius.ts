@@ -49,7 +49,6 @@ export const defaultSearchFields = [
 ]
 
 export const defaultSortByFields = {
-  [SortByOptions.Relevance]: '_score',
   [SortByOptions.Published]: 'service.attributes.main.datePublished',
   [SortByOptions.Updated]: 'updated'
 }
@@ -110,7 +109,7 @@ export function getSearchQuery(
   ]
   const sortKey = sortBy
     ? defaultSortByFields[sortBy]
-    : defaultSortByFields[SortByOptions.Relevance]
+    : defaultSortByFields[SortByOptions.Updated]
 
   filters.push(
     type
