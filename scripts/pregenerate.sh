@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Write out repo metadata
-node ./scripts/write-repo-metadata > content/repo-metadata.json
-
 # Run post install script
 npm run postinstall
 

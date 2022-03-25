@@ -8,7 +8,7 @@ const chains = [
     networkId: 2021000,
     nodeUri: 'https://rpc.gaiaxtestnet.oceanprotocol.com/',
     providerUri: 'https://provider.gaiax.delta-dao.com/',
-    explorerUri: 'https://blockscout.gaiaxtestnet.oceanprotocol.com/',
+    explorerUri: 'https://exchangelog.minimal-gaia-x.eu/',
     isDefault: true
   }
 ]

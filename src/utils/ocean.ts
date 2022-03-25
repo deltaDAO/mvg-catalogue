@@ -8,14 +8,7 @@ import { ConfigHelperConfigOverwrite } from '../@types/Chains'
 export function getOceanConfig(network: string | number): ConfigHelperConfig {
   const config = new ConfigHelper().getConfig(
     network,
-    network === 'moonbeamalpha' ||
-      network === 1287 ||
-      network === 'bsc' ||
-      network === 56 ||
-      network === 'gaiaxtestnet' ||
-      network === 2021000 ||
-      network === 'catenaxtestnet' ||
-      network === 2021001
+    network === 'gaiaxtestnet' || network === 2021000
       ? undefined
       : process.env.GATSBY_INFURA_PROJECT_ID
   ) as ConfigHelperConfig

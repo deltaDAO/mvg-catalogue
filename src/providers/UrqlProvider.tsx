@@ -1,5 +1,5 @@
 import { createClient, Provider, Client } from 'urql'
-import React, { useState, useEffect, ReactNode, ReactElement } from 'react'
+import { useState, useEffect, ReactNode, ReactElement } from 'react'
 import { Logger } from '@oceanprotocol/lib'
 import { getOceanConfig } from '../utils/ocean'
 

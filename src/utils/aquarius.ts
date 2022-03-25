@@ -336,7 +336,7 @@ export async function retrieveDDOListByDIDs(
 
     const filter = [getFilterTerm('id', didList)]
     const sort = {
-      [SortTermOptions.Created]: { order: SortDirectionOptions.Descending }
+      [SortTermOptions.Relevance]: { order: SortDirectionOptions.Descending }
     }
     const query = getBaseQuery(filter, sort, didList.length)
 

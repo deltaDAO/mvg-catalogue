@@ -15,24 +15,7 @@ import {
   AssetsFreePrice_dispensers as AssetFreePriceDispenser
 } from '../@types/apollo/AssetsFreePrice'
 import { BestPrice } from '../models/BestPrice'
-
-export interface UserLiquidity {
-  price: string
-  oceanBalance: string
-}
-
-export interface PriceList {
-  [key: string]: string
-}
-
-export interface AssetListPrices {
-  ddo: DDO
-  price: BestPrice
-}
-
-interface DidAndDatatokenMap {
-  [name: string]: string
-}
+import { AssetListPrices, DidAndDatatokenMap } from '../@types/Subgraph'
 
 const FreeQuery = gql`
   query AssetsFreePrice($datatoken_in: [String!]) {
