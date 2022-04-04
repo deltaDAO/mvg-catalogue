@@ -101,7 +101,6 @@ export function getSearchQuery(
   type?: MetadataMain['type']
 ): SearchQuery {
   const baseQuery = getBaseQuery()
-
   const withTerm = term !== ''
 
   const filters: FilterTerms[] = [
