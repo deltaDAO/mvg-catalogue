@@ -1,4 +1,6 @@
-import Metadata from './Metadata'
+import Metadata from '../../@types/Metadata'
+import { FilterTerms } from './FilterTerm'
+import { Sort } from '../SortAndFilters'
 
 export interface SearchQuery {
   query: Query
@@ -32,19 +34,6 @@ export interface BoolQuery {
   must?: FilterTerms | Query | Query[]
   should?: FilterTerms | Query | Query[]
   must_not?: FilterTerms | Query | Query[]
-}
-
-export interface FilterTerms {
-  terms?: {
-    [key: string]: string[] | number[]
-  }
-  term?: { [key: string]: string | number }
-}
-
-export interface Sort {
-  [field: string]: {
-    order: 'asc' | 'desc'
-  }
 }
 
 export interface SearchResponse {

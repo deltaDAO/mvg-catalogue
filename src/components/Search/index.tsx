@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { searchMetadata } from '../../util/aquarius'
+import { searchMetadata } from '../../utils/aquarius'
 import { MetadataMain, Service } from '../../@types/Metadata'
 import Loader from '../atoms/Loader'
 import { useRouter } from 'next/router'
@@ -8,7 +8,8 @@ import Searchform from './Searchform'
 import content from '../../../content/search.json'
 import Results from './Results'
 import { SortByOptions } from '../../models/SortAndFilters'
-import { SearchResponse, Sort } from '../../@types/SearchQuery'
+import { Sort } from '../../models/SortAndFilters'
+import { SearchResponse } from '../../models/aquarius/SearchResponse'
 
 export interface SearchResults {
   total: number

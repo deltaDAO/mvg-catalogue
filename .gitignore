@@ -19,6 +19,14 @@
 .DS_Store
 *.pem
 
+#content
+/content/networks-metadata.json
+/content/repo-metadata.json
+
+#graphql
+src/@types/graph.types.ts
+graphql.schema.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*
@@ -35,3 +43,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+src/@types/apollo

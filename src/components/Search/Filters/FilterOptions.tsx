@@ -24,9 +24,8 @@ export const filterTypeOptions: IFilterTypeOptions = {
   sortBy: {
     display: 'sort by',
     options: [
-      { value: SortByOptions.Relevance, default: true },
       { value: SortByOptions.Published },
-      { value: SortByOptions.Updated }
+      { value: SortByOptions.Updated, default: true }
     ]
   },
   resultsPerPage: {
