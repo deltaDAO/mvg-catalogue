@@ -2,11 +2,14 @@ import { Logger } from '@oceanprotocol/lib'
 import axios from 'axios'
 import { complianceUri } from '../../app.config'
 
-export async function getServiceSD(url: string): Promise<string> {
+export async function getServiceSD(
+  url: string,
+  signal: AbortSignal
+): Promise<string> {
   if (!url) return
 
   try {
-    const serviceSD = await axios.get(url)
+    const serviceSD = await axios.get(url, { signal })
     return serviceSD.data
   } catch (error) {
     Logger.error(error.message)
@@ -15,10 +18,12 @@ export async function getServiceSD(url: string): Promise<string> {
 
 export async function verifyServiceSD({
   body,
-  raw
+  raw,
+  signal
 }: {
   body: string
   raw?: boolean
+  signal: AbortSignal
 }): Promise<boolean> {
   if (!body) return false
 
@@ -28,7 +33,9 @@ export async function verifyServiceSD({
   const requestBody = raw ? body : { url: body }
 
   try {
-    const response = await axios.post(baseUrl, requestBody)
+    const response = await axios.post(baseUrl, requestBody, {
+      signal
+    })
     if (response?.status === 200) {
       return true
     }

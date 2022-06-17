@@ -32,7 +32,9 @@ export default function Assetlist({
 }: {
   assets: MetadataMain[] | undefined
 }): ReactElement {
-  const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>([])
+  const [assetsWithPrices, setAssetsWithPrices] = useState<AssetListPrices[]>(
+    []
+  )
   const [assetsWithPricesAndAuthor, setAssetsWithPricesAndAuthor] = useState<
     AssetListPricesAndAuthor[]
   >([])
@@ -48,7 +50,7 @@ export default function Assetlist({
       if (!ddoList) return
       const asset = await getAssetsBestPrices(ddoList)
       if (!isMounted()) return
-      setAssetWithPrices(asset)
+      setAssetsWithPrices(asset)
     }
 
     fetchPrices()
@@ -56,6 +58,7 @@ export default function Assetlist({
 
   useEffect(() => {
     if (assetsWithPrices.length === 0) return
+    const controller = new AbortController()
 
     async function fetchVerifiedAuthor(asset: AssetListPrices) {
       try {
@@ -70,11 +73,14 @@ export default function Assetlist({
           : { body: serviceSD.raw, raw: true }
         if (!requestBody) throw new Error()
 
-        const isServiceSDVerified = await verifyServiceSD(requestBody)
+        const isServiceSDVerified = await verifyServiceSD({
+          ...requestBody,
+          signal: controller.signal
+        })
         if (!isServiceSDVerified) throw new Error()
 
         const serviceSDContent = serviceSD?.url
-          ? await getServiceSD(serviceSD.url)
+          ? await getServiceSD(serviceSD.url, controller.signal)
           : serviceSD.raw
 
         const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
@@ -90,10 +96,16 @@ export default function Assetlist({
         fetchVerifiedAuthor(asset)
       )
       const assetsWithPricesAndAuthor = await Promise.all(promises)
-      setAssetsWithPricesAndAuthor(assetsWithPricesAndAuthor)
+      if (!controller.signal.aborted) {
+        setAssetsWithPricesAndAuthor(assetsWithPricesAndAuthor)
+      }
     }
 
     fetchAssetsWithPricesAndAuthor()
+
+    return () => {
+      controller.abort()
+    }
   }, [assetsWithPrices])
 
   return (
