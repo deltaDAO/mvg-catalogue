@@ -1,4 +1,4 @@
-import { Logger } from '@oceanprotocol/lib'
+import { AdditionalInformation, Logger } from '@oceanprotocol/lib'
 import { ReactElement, useEffect, useState } from 'react'
 import { MetadataMain } from '../../@types/Metadata'
 import { AssetListPrices } from '../../@types/Subgraph'
@@ -17,6 +17,14 @@ import styles from './index.module.css'
 
 interface AssetListPricesAndAuthor extends AssetListPrices {
   verifiedAuthor?: string
+  isServiceSDVerified?: boolean
+}
+
+interface AdditionalInformationExtended extends AdditionalInformation {
+  serviceSelfDescription?: {
+    raw?: any
+    url?: any
+  }
 }
 
 export default function Assetlist({
@@ -52,8 +60,9 @@ export default function Assetlist({
     async function fetchVerifiedAuthor(asset: AssetListPrices) {
       try {
         const { attributes } = asset.ddo.findServiceByType('metadata')
-        const serviceSD =
-          attributes?.additionalInformation?.serviceSelfDescription
+        const additionalInformation: AdditionalInformationExtended =
+          attributes.additionalInformation
+        const serviceSD = additionalInformation?.serviceSelfDescription
         if (!serviceSD) throw new Error()
 
         const requestBody = serviceSD?.url
@@ -69,9 +78,7 @@ export default function Assetlist({
           : serviceSD.raw
 
         const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
-        if (!verifiedAuthor) throw new Error()
-
-        return { ...asset, verifiedAuthor }
+        return { ...asset, verifiedAuthor, isServiceSDVerified }
       } catch (error) {
         Logger.debug(error.message)
         return asset
@@ -96,6 +103,7 @@ export default function Assetlist({
           <Asset
             ddo={asset.ddo}
             price={asset.price}
+            isServiceSDVerified={asset?.isServiceSDVerified}
             verifiedAuthor={asset?.verifiedAuthor}
             key={asset.ddo.id}
           />
