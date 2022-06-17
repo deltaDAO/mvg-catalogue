@@ -7,13 +7,16 @@ import Link from 'next/link'
 import { portalUri } from '../../../app.config'
 import Price from '../Price'
 import { BestPrice } from '../../models/BestPrice'
+import VerifiedBadge from '../atoms/VerifiedBadge'
 
 export default function Asset({
   ddo,
-  price
+  price,
+  verifiedAuthor
 }: {
   ddo: DDO
   price: BestPrice
+  verifiedAuthor?: string
 }): ReactElement {
   const [metadata, setMetadata] = useState<MetadataMain>()
 
@@ -27,10 +30,17 @@ export default function Asset({
   return (
     <Link href={`${portalUri}/asset/${ddo?.id}`}>
       <a className={styles.asset} target="blank" rel="noopener noreferrer">
-        <Dotdotdot className={styles.name} clamp={1}>
-          {metadata?.name}
-        </Dotdotdot>
-
+        <div>
+          <Dotdotdot className={styles.name} clamp={1}>
+            {metadata?.name}
+          </Dotdotdot>
+          <div className={styles.author}>
+            <p>{verifiedAuthor || ddo.event.from}</p>
+            {verifiedAuthor && (
+              <VerifiedBadge text="Verified Self-Description" />
+            )}
+          </div>
+        </div>
         <div className={styles.info}>
           <span className={styles.price}>
             <Price price={price} conversion />

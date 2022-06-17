@@ -27,6 +27,17 @@
   font-weight: var(--font-weight-bold);
 }
 
+.author {
+  display: flex;
+  align-items: center;
+  text-transform: none;
+}
+
+.author p {
+  margin-bottom: 0;
+  margin-right: calc(var(--spacer) / 2);
+}
+
 @media screen and (min-width: 35rem) {
   .info {
     display: grid;
