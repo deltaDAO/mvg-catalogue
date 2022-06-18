@@ -8,3 +8,12 @@
 .box h3 {
   margin: 0;
 }
+
+.box {
+  transition: all ease 0.2s;
+}
+
+.box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow-hover);
+}

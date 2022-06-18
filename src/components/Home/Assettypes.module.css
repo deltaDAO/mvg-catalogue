@@ -7,8 +7,14 @@
 
 .box {
   padding: calc(var(--spacer) * 2) var(--spacer);
+  transition: all ease 0.2s;
 }
 
 .box h3 {
   margin: 0;
+}
+
+.box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow-hover);
 }
