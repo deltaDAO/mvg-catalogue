@@ -8,7 +8,6 @@ import { portalUri } from '../../../app.config'
 import Price from '../Price'
 import { BestPrice } from '../../models/BestPrice'
 import VerifiedBadge from '../atoms/VerifiedBadge'
-import { accountTruncate } from '../../utils'
 
 export default function Asset({
   ddo,
@@ -38,7 +37,7 @@ export default function Asset({
             {metadata?.name}
           </Dotdotdot>
           <div className={styles.author}>
-            <p>{verifiedAuthor || accountTruncate(ddo.event.from)}</p>
+            <p>{verifiedAuthor || ddo.event.from}</p>
             {isServiceSDVerified && (
               <VerifiedBadge text="Verified Self-Description" />
             )}
