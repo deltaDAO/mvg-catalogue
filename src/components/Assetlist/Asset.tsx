@@ -1,5 +1,10 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { DDO, MetadataMain } from '@oceanprotocol/lib'
+import {
+  AdditionalInformation,
+  DDO,
+  Logger,
+  MetadataMain
+} from '@oceanprotocol/lib'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import styles from './Asset.module.css'
@@ -8,25 +13,84 @@ import { portalUri } from '../../../app.config'
 import Price from '../Price'
 import { BestPrice } from '../../models/BestPrice'
 import VerifiedBadge from '../atoms/VerifiedBadge'
+import Loader from '../atoms/Loader'
+import {
+  getPublisherFromServiceSD,
+  getServiceSD,
+  verifyServiceSD
+} from '../../utils/metadata'
+
+interface AdditionalInformationExtended extends AdditionalInformation {
+  serviceSelfDescription?: {
+    raw?: any
+    url?: any
+  }
+}
 
 export default function Asset({
   ddo,
-  price,
-  isServiceSDVerified,
-  verifiedAuthor
+  price
 }: {
   ddo: DDO
   price: BestPrice
-  isServiceSDVerified?: boolean
-  verifiedAuthor?: string
 }): ReactElement {
   const [metadata, setMetadata] = useState<MetadataMain>()
+  const [isLoadingServiceSD, setIsLoadingServiceSD] = useState(false)
+  const [isServiceSDVerified, setIsServiceSDVerified] = useState(false)
+  const [verifiedAuthor, setVerifiedAuthor] = useState<string>()
 
   useEffect(() => {
     if (ddo) {
       const { attributes } = ddo.findServiceByType('metadata')
       setMetadata(attributes.main)
       return
+    }
+  }, [ddo])
+
+  useEffect(() => {
+    if (!ddo) return
+    const controller = new AbortController()
+
+    async function fetchVerifiedAuthor(ddo: DDO) {
+      setIsLoadingServiceSD(true)
+      try {
+        const { attributes } = ddo.findServiceByType('metadata')
+        const additionalInformation: AdditionalInformationExtended =
+          attributes.additionalInformation
+        const serviceSD = additionalInformation?.serviceSelfDescription
+        if (!serviceSD) return
+
+        const requestBody = serviceSD?.url
+          ? { body: serviceSD.url }
+          : { body: serviceSD.raw, raw: true }
+        if (!requestBody) return
+
+        const isServiceSDVerified = await verifyServiceSD({
+          ...requestBody,
+          signal: controller.signal
+        })
+        if (!isServiceSDVerified) throw new Error()
+
+        const serviceSDContent = serviceSD?.url
+          ? await getServiceSD(serviceSD.url, controller.signal)
+          : serviceSD.raw
+
+        const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
+        setIsServiceSDVerified(isServiceSDVerified)
+        setVerifiedAuthor(verifiedAuthor)
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          Logger.debug(error.message)
+        }
+      } finally {
+        setIsLoadingServiceSD(false)
+      }
+    }
+
+    fetchVerifiedAuthor(ddo)
+
+    return () => {
+      controller.abort()
     }
   }, [ddo])
   return (
@@ -40,6 +104,12 @@ export default function Asset({
             <p>{verifiedAuthor || ddo.event.from}</p>
             {isServiceSDVerified && (
               <VerifiedBadge text="Verified Self-Description" />
+            )}
+            {isLoadingServiceSD && (
+              <div className={styles.loader}>
+                <span>Checking compliance</span>
+                <Loader style="dots" />
+              </div>
             )}
           </div>
         </div>

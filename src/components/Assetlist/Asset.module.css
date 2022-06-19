@@ -39,6 +39,16 @@
   margin-right: calc(var(--spacer) / 2);
 }
 
+.loader {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacer) / 2);
+}
+
+.loader span {
+  color: var(--color-blue);
+}
+
 @media screen and (min-width: 35rem) {
   .info {
     display: grid;
