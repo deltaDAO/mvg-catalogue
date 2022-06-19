@@ -102,14 +102,15 @@ export default function Asset({
           </Dotdotdot>
           <div className={styles.author}>
             <p>{verifiedAuthor || ddo.event.from}</p>
-            {isServiceSDVerified && (
-              <VerifiedBadge text="Verified Self-Description" />
-            )}
-            {isLoadingServiceSD && (
+            {isLoadingServiceSD ? (
               <div className={styles.loader}>
                 <span>Checking compliance</span>
                 <Loader style="dots" />
               </div>
+            ) : isServiceSDVerified ? (
+              <VerifiedBadge text="Verified Self-Description" />
+            ) : (
+              <VerifiedBadge text="Invalid Self-Description" isInvalid />
             )}
           </div>
         </div>

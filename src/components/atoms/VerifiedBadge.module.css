@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius);
-  color: var(--brand-white);
+  color: var(--color-white);
   font-weight: var(--font-weight-bold);
 }
 
@@ -19,4 +19,12 @@
   padding: 0 calc(var(--spacer) / 8);
   color: var(--color-blue);
   font-size: var(--font-size-small);
+}
+
+.isInvalid span {
+  color: var(--color-alert-red);
+}
+
+.isInvalid svg path {
+  fill: var(--color-alert-red);
 }
