@@ -1,0 +1,30 @@
+.verifiedBadge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+}
+
+.verifiedBadge svg {
+  display: inline-block;
+}
+
+.verifiedBadge svg path {
+  fill: var(--color-blue);
+}
+
+.verifiedBadge span {
+  padding: 0 calc(var(--spacer) / 8);
+  color: var(--color-blue);
+  font-size: var(--font-size-small);
+}
+
+.isInvalid span {
+  color: var(--color-alert-red);
+}
+
+.isInvalid svg path {
+  fill: var(--color-alert-red);
+}
