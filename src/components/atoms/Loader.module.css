@@ -34,7 +34,7 @@
   width: calc(var(--size-dots) / 2);
   height: calc(var(--size-dots) / 2);
   border-radius: 50%;
-  background: var(--color-black);
+  background: var(--color-blue);
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 

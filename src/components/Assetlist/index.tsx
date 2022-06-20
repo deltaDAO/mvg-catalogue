@@ -14,7 +14,9 @@ export default function Assetlist({
 }: {
   assets: MetadataMain[] | undefined
 }): ReactElement {
-  const [assetsWithPrices, setAssetWithPrices] = useState<AssetListPrices[]>([])
+  const [assetsWithPrices, setAssetsWithPrices] = useState<AssetListPrices[]>(
+    []
+  )
   const isMounted = useIsMounted()
   const newCancelToken = useCancelToken()
 
@@ -27,11 +29,11 @@ export default function Assetlist({
       if (!ddoList) return
       const asset = await getAssetsBestPrices(ddoList)
       if (!isMounted()) return
-      setAssetWithPrices(asset)
+      setAssetsWithPrices(asset)
     }
 
     fetchPrices()
-  }, [assets])
+  }, [assets, isMounted, newCancelToken])
 
   return (
     <div className={styles.list}>

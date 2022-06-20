@@ -1,5 +1,10 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { DDO, MetadataMain } from '@oceanprotocol/lib'
+import {
+  AdditionalInformation,
+  DDO,
+  Logger,
+  MetadataMain
+} from '@oceanprotocol/lib'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import styles from './Asset.module.css'
@@ -7,6 +12,20 @@ import Link from 'next/link'
 import { portalUri } from '../../../app.config'
 import Price from '../Price'
 import { BestPrice } from '../../models/BestPrice'
+import VerifiedBadge from '../atoms/VerifiedBadge'
+import Loader from '../atoms/Loader'
+import {
+  getPublisherFromServiceSD,
+  getServiceSD,
+  verifyServiceSD
+} from '../../utils/metadata'
+
+interface AdditionalInformationExtended extends AdditionalInformation {
+  serviceSelfDescription?: {
+    raw?: any
+    url?: any
+  }
+}
 
 export default function Asset({
   ddo,
@@ -16,6 +35,9 @@ export default function Asset({
   price: BestPrice
 }): ReactElement {
   const [metadata, setMetadata] = useState<MetadataMain>()
+  const [isLoadingServiceSD, setIsLoadingServiceSD] = useState(false)
+  const [isServiceSDVerified, setIsServiceSDVerified] = useState(false)
+  const [verifiedAuthor, setVerifiedAuthor] = useState<string>()
 
   useEffect(() => {
     if (ddo) {
@@ -24,13 +46,74 @@ export default function Asset({
       return
     }
   }, [ddo])
+
+  useEffect(() => {
+    if (!ddo) return
+    const controller = new AbortController()
+
+    async function fetchVerifiedAuthor(ddo: DDO) {
+      setIsLoadingServiceSD(true)
+      try {
+        const { attributes } = ddo.findServiceByType('metadata')
+        const additionalInformation: AdditionalInformationExtended =
+          attributes.additionalInformation
+        const serviceSD = additionalInformation?.serviceSelfDescription
+        if (!serviceSD) return
+
+        const requestBody = serviceSD?.url
+          ? { body: serviceSD.url }
+          : { body: serviceSD.raw, raw: true }
+        if (!requestBody) return
+
+        const isServiceSDVerified = await verifyServiceSD({
+          ...requestBody,
+          signal: controller.signal
+        })
+        if (!isServiceSDVerified) throw new Error()
+
+        const serviceSDContent = serviceSD?.url
+          ? await getServiceSD(serviceSD.url, controller.signal)
+          : serviceSD.raw
+
+        const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
+        setIsServiceSDVerified(isServiceSDVerified)
+        setVerifiedAuthor(verifiedAuthor)
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          Logger.debug(error.message)
+        }
+      } finally {
+        setIsLoadingServiceSD(false)
+      }
+    }
+
+    fetchVerifiedAuthor(ddo)
+
+    return () => {
+      controller.abort()
+    }
+  }, [ddo])
   return (
     <Link href={`${portalUri}/asset/${ddo?.id}`}>
       <a className={styles.asset} target="blank" rel="noopener noreferrer">
-        <Dotdotdot className={styles.name} clamp={1}>
-          {metadata?.name}
-        </Dotdotdot>
-
+        <div>
+          <Dotdotdot className={styles.name} clamp={1}>
+            {metadata?.name}
+          </Dotdotdot>
+          <div className={styles.author}>
+            <p>{verifiedAuthor || ddo.event.from}</p>
+            {isLoadingServiceSD ? (
+              <div className={styles.loader}>
+                <span>Checking compliance</span>
+                <Loader style="dots" />
+              </div>
+            ) : isServiceSDVerified ? (
+              <VerifiedBadge text="Verified Self-Description" />
+            ) : (
+              <VerifiedBadge text="Invalid Self-Description" isInvalid />
+            )}
+          </div>
+        </div>
         <div className={styles.info}>
           <span className={styles.price}>
             <Price price={price} conversion />
