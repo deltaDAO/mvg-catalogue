@@ -79,13 +79,13 @@ export default function Asset({
       const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
       setIsServiceSDVerified(isServiceSDVerified)
       setVerifiedAuthor(verifiedAuthor)
-      setShowVerifiedAuthor(true)
     } catch (error) {
       if (!controller.signal.aborted) {
         Logger.debug(error.message)
       }
     } finally {
       setIsLoadingServiceSD(false)
+      setShowVerifiedAuthor(true)
     }
   }
 
