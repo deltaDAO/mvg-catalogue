@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, SyntheticEvent, useEffect, useState } from 'react'
 import {
   AdditionalInformation,
   DDO,
@@ -45,12 +45,15 @@ export default function Asset({
     if (ddo) {
       const { attributes } = ddo.findServiceByType('metadata')
       setMetadata(attributes.main)
-      return
+
+      const additionalInformation: AdditionalInformationExtended =
+        attributes.additionalInformation
+      const serviceSD = additionalInformation?.serviceSelfDescription
+      if (!serviceSD) setShowVerifiedAuthor(true)
     }
   }, [ddo])
 
-  const fetchVerifiedAuthor = async (e: any, ddo: DDO) => {
-    e.preventDefault()
+  const fetchVerifiedAuthor = async () => {
     if (!ddo) return
     const controller = new AbortController()
     setIsLoadingServiceSD(true)
@@ -143,15 +146,20 @@ export default function Asset({
             {metadata?.name}
           </Dotdotdot>
           <div className={styles.author}>
-            <div>
-              <Button
-                disabled={isLoadingServiceSD}
-                style="primary"
-                onClick={(e) => fetchVerifiedAuthor(e, ddo)}
-              >
-                Verify
-              </Button>
-            </div>
+            {!showVerifiedAuthor && !isServiceSDVerified && (
+              <div>
+                <Button
+                  disabled={isLoadingServiceSD}
+                  style="primary"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    fetchVerifiedAuthor()
+                  }}
+                >
+                  Verify
+                </Button>
+              </div>
+            )}
             <p>{verifiedAuthor || ddo.event.from}</p>
             {isLoadingServiceSD ? (
               <div className={styles.loader}>
