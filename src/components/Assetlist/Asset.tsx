@@ -49,7 +49,10 @@ export default function Asset({
       const additionalInformation: AdditionalInformationExtended =
         attributes.additionalInformation
       const serviceSD = additionalInformation?.serviceSelfDescription
-      if (!serviceSD) setShowVerifiedAuthor(true)
+      if (!serviceSD) {
+        setIsServiceSDVerified(undefined)
+        setShowVerifiedAuthor(true)
+      }
     }
   }, [ddo])
 
@@ -146,7 +149,7 @@ export default function Asset({
             {metadata?.name}
           </Dotdotdot>
           <div className={styles.author}>
-            {!showVerifiedAuthor && !isServiceSDVerified && (
+            {isServiceSDVerified !== undefined && (
               <div>
                 <Button
                   disabled={isLoadingServiceSD}
@@ -168,8 +171,14 @@ export default function Asset({
               </div>
             ) : showVerifiedAuthor && isServiceSDVerified ? (
               <VerifiedBadge text="Verified Self-Description" />
+            ) : showVerifiedAuthor && isServiceSDVerified === undefined ? (
+              <VerifiedBadge
+                text="Unavailable Self-Description"
+                isUnavailable
+              />
             ) : (
-              showVerifiedAuthor && (
+              showVerifiedAuthor &&
+              isServiceSDVerified === false && (
                 <VerifiedBadge text="Invalid Self-Description" isInvalid />
               )
             )}
