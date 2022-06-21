@@ -19,6 +19,7 @@ import {
   getServiceSD,
   verifyServiceSD
 } from '../../utils/metadata'
+import Button from '../atoms/Button'
 
 interface AdditionalInformationExtended extends AdditionalInformation {
   serviceSelfDescription?: {
@@ -38,6 +39,7 @@ export default function Asset({
   const [isLoadingServiceSD, setIsLoadingServiceSD] = useState(false)
   const [isServiceSDVerified, setIsServiceSDVerified] = useState(false)
   const [verifiedAuthor, setVerifiedAuthor] = useState<string>()
+  const [showVerifiedAuthor, setShowVerifiedAuthor] = useState(false)
 
   useEffect(() => {
     if (ddo) {
@@ -47,52 +49,92 @@ export default function Asset({
     }
   }, [ddo])
 
-  useEffect(() => {
+  const fetchVerifiedAuthor = async (e: any, ddo: DDO) => {
+    e.preventDefault()
     if (!ddo) return
     const controller = new AbortController()
+    setIsLoadingServiceSD(true)
+    try {
+      const { attributes } = ddo.findServiceByType('metadata')
+      const additionalInformation: AdditionalInformationExtended =
+        attributes.additionalInformation
+      const serviceSD = additionalInformation?.serviceSelfDescription
+      if (!serviceSD) return
 
-    async function fetchVerifiedAuthor(ddo: DDO) {
-      setIsLoadingServiceSD(true)
-      try {
-        const { attributes } = ddo.findServiceByType('metadata')
-        const additionalInformation: AdditionalInformationExtended =
-          attributes.additionalInformation
-        const serviceSD = additionalInformation?.serviceSelfDescription
-        if (!serviceSD) return
+      const requestBody = serviceSD?.url
+        ? { body: serviceSD.url }
+        : { body: serviceSD.raw, raw: true }
+      if (!requestBody) return
 
-        const requestBody = serviceSD?.url
-          ? { body: serviceSD.url }
-          : { body: serviceSD.raw, raw: true }
-        if (!requestBody) return
+      const isServiceSDVerified = await verifyServiceSD({
+        ...requestBody,
+        signal: controller.signal
+      })
+      if (!isServiceSDVerified) throw new Error()
 
-        const isServiceSDVerified = await verifyServiceSD({
-          ...requestBody,
-          signal: controller.signal
-        })
-        if (!isServiceSDVerified) throw new Error()
+      const serviceSDContent = serviceSD?.url
+        ? await getServiceSD(serviceSD.url, controller.signal)
+        : serviceSD.raw
 
-        const serviceSDContent = serviceSD?.url
-          ? await getServiceSD(serviceSD.url, controller.signal)
-          : serviceSD.raw
-
-        const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
-        setIsServiceSDVerified(isServiceSDVerified)
-        setVerifiedAuthor(verifiedAuthor)
-      } catch (error) {
-        if (!controller.signal.aborted) {
-          Logger.debug(error.message)
-        }
-      } finally {
-        setIsLoadingServiceSD(false)
+      const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
+      setIsServiceSDVerified(isServiceSDVerified)
+      setVerifiedAuthor(verifiedAuthor)
+      setShowVerifiedAuthor(true)
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        Logger.debug(error.message)
       }
+    } finally {
+      setIsLoadingServiceSD(false)
     }
+  }
 
-    fetchVerifiedAuthor(ddo)
+  // useEffect(() => {
+  //   if (!ddo) return
+  //   const controller = new AbortController()
 
-    return () => {
-      controller.abort()
-    }
-  }, [ddo])
+  //   async function fetchVerifiedAuthor(ddo: DDO) {
+  //     setIsLoadingServiceSD(true)
+  //     try {
+  //       const { attributes } = ddo.findServiceByType('metadata')
+  //       const additionalInformation: AdditionalInformationExtended =
+  //         attributes.additionalInformation
+  //       const serviceSD = additionalInformation?.serviceSelfDescription
+  //       if (!serviceSD) return
+
+  //       const requestBody = serviceSD?.url
+  //         ? { body: serviceSD.url }
+  //         : { body: serviceSD.raw, raw: true }
+  //       if (!requestBody) return
+
+  //       const isServiceSDVerified = await verifyServiceSD({
+  //         ...requestBody,
+  //         signal: controller.signal
+  //       })
+  //       if (!isServiceSDVerified) throw new Error()
+
+  //       const serviceSDContent = serviceSD?.url
+  //         ? await getServiceSD(serviceSD.url, controller.signal)
+  //         : serviceSD.raw
+
+  //       const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
+  //       setIsServiceSDVerified(isServiceSDVerified)
+  //       setVerifiedAuthor(verifiedAuthor)
+  //     } catch (error) {
+  //       if (!controller.signal.aborted) {
+  //         Logger.debug(error.message)
+  //       }
+  //     } finally {
+  //       setIsLoadingServiceSD(false)
+  //     }
+  //   }
+
+  //   fetchVerifiedAuthor(ddo)
+
+  //   return () => {
+  //     controller.abort()
+  //   }
+  // }, [ddo])
   return (
     <Link href={`${portalUri}/asset/${ddo?.id}`}>
       <a className={styles.asset} target="blank" rel="noopener noreferrer">
@@ -101,16 +143,27 @@ export default function Asset({
             {metadata?.name}
           </Dotdotdot>
           <div className={styles.author}>
+            <div>
+              <Button
+                disabled={isLoadingServiceSD}
+                style="primary"
+                onClick={(e) => fetchVerifiedAuthor(e, ddo)}
+              >
+                Verify
+              </Button>
+            </div>
             <p>{verifiedAuthor || ddo.event.from}</p>
             {isLoadingServiceSD ? (
               <div className={styles.loader}>
                 <span>Checking compliance</span>
                 <Loader style="dots" />
               </div>
-            ) : isServiceSDVerified ? (
+            ) : showVerifiedAuthor && isServiceSDVerified ? (
               <VerifiedBadge text="Verified Self-Description" />
             ) : (
-              <VerifiedBadge text="Invalid Self-Description" isInvalid />
+              showVerifiedAuthor && (
+                <VerifiedBadge text="Invalid Self-Description" isInvalid />
+              )
             )}
           </div>
         </div>
