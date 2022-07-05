@@ -28,3 +28,11 @@
 .isInvalid svg path {
   fill: var(--color-alert-red);
 }
+
+.isUnavailable span {
+  color: var(--color-grey-dark);
+}
+
+.isUnavailable svg path {
+  fill: var(--color-grey-dark);
+}
