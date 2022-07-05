@@ -1,12 +1,12 @@
 .services {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 25rem));
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 13rem));
   gap: var(--spacer);
   justify-content: center;
 }
 
 .box {
-  padding: calc(var(--spacer) * 2) var(--spacer);
+  padding: calc(var(--spacer) / 2);
   transition: all ease 0.2s;
 }
 
@@ -17,4 +17,10 @@
 .box:hover {
   transform: translateY(-3px);
   box-shadow: var(--box-shadow-hover);
+}
+
+@media screen and (min-width: 40rem) {
+  .services {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 18rem));
+  }
 }
