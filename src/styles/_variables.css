@@ -59,6 +59,11 @@
   --border-radius-sm: 0.2rem;
   --border-radius-lg: 10px;
 
+  --col-width-small: 10rem;
+  --col-width-medium: 13rem;
+  --col-width-large: 18rem;
+  --col-width-huge: 25rem;
+
   --break-point--small: 640px;
   --break-point--medium: 860px;
   --break-point--large: 1140px;
