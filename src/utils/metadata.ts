@@ -1,5 +1,6 @@
 import { Logger } from '@oceanprotocol/lib'
 import axios from 'axios'
+import { isSanitizedUrl } from '.'
 import { complianceUri } from '../../app.config'
 
 export async function getServiceSD(
@@ -47,10 +48,24 @@ export async function verifyServiceSD({
   }
 }
 
-export function getPublisherFromServiceSD(serviceSD: any): string {
+export async function getPublisherFromServiceSD(
+  serviceSD: any
+): Promise<string> {
   if (!serviceSD) return
+  try {
+    const providedByUrl =
+      serviceSD?.selfDescriptionCredential?.credentialSubject?.[
+        'gx-service-offering:providedBy'
+      ]?.['@value']
+    if (!isSanitizedUrl(providedByUrl)) return
 
-  return serviceSD?.selfDescriptionCredential?.credentialSubject?.[
-    'gx-service-offering:name'
-  ]?.['@value']
+    const response = await axios.get(providedByUrl)
+    if (!response || response.status !== 200 || !response?.data) return
+
+    return response.data?.selfDescriptionCredential?.credentialSubject?.[
+      'gx-participant:name'
+    ]?.['@value']
+  } catch (error) {
+    Logger.error(error.message)
+  }
 }

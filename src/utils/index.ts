@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import isUrl from 'is-url-superb'
 
 export function updateQueryStringParameter(
   uri: string,
@@ -73,4 +74,8 @@ export function accountTruncate(account: string): string {
   const middle = account.substring(6, 38)
   const truncated = account.replace(middle, '…')
   return truncated
+}
+
+export const isSanitizedUrl = (url: string): boolean => {
+  return url !== '' && isUrl(url) && !url.includes('javascript:')
 }
