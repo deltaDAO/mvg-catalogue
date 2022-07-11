@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-transform: none;
+}
+
+.container p {
+  margin-bottom: 0;
+  margin-right: calc(var(--spacer) / 2);
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacer) / 2);
+}
+
+.loader span {
+  color: var(--color-blue);
+}
