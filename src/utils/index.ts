@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios'
-import isUrl from 'is-url-superb'
 
 export function updateQueryStringParameter(
   uri: string,
@@ -74,6 +73,28 @@ export function accountTruncate(account: string): string {
   const middle = account.substring(6, 38)
   const truncated = account.replace(middle, '…')
   return truncated
+}
+
+export function isUrl(string: string, { lenient = false } = {}) {
+  if (typeof string !== 'string') {
+    throw new TypeError('Expected a string')
+  }
+
+  string = string.trim()
+  if (string.includes(' ')) {
+    return false
+  }
+
+  try {
+    new URL(string)
+    return true
+  } catch {
+    if (lenient) {
+      return isUrl(`https://${string}`)
+    }
+
+    return false
+  }
 }
 
 export const isSanitizedUrl = (url: string): boolean => {
