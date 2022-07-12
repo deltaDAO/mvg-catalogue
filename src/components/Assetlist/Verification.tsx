@@ -9,6 +9,7 @@ import {
   getServiceSD,
   verifyServiceSD
 } from '../../utils/metadata'
+import { ServiceSelfDescription } from '../../@types/Metadata'
 
 interface AdditionalInformationExtended extends AdditionalInformation {
   serviceSelfDescription?: {
@@ -63,8 +64,12 @@ export default function Verification({ ddo }: { ddo: DDO }) {
         ? await getServiceSD(serviceSD.url, controller.signal)
         : serviceSD.raw
 
+      const parsedServiceSD: ServiceSelfDescription =
+        typeof serviceSD === 'string'
+          ? JSON.parse(serviceSDContent)
+          : serviceSDContent
       const serviceProviderName = await getPublisherFromServiceSD(
-        serviceSDContent
+        parsedServiceSD
       )
       setIsServiceSDVerified(isServiceSDVerified)
       setVerifiedServiceProviderName(serviceProviderName)
