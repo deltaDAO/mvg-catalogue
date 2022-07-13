@@ -2,6 +2,7 @@ import { Logger } from '@oceanprotocol/lib'
 import axios from 'axios'
 import { isSanitizedUrl } from '.'
 import { complianceUri } from '../../app.config'
+import { ServiceSelfDescription } from '../@types/Metadata'
 
 export async function getServiceSD(
   url: string,
@@ -49,9 +50,10 @@ export async function verifyServiceSD({
 }
 
 export async function getPublisherFromServiceSD(
-  serviceSD: any
+  serviceSD: ServiceSelfDescription
 ): Promise<string> {
   if (!serviceSD) return
+
   try {
     const providedByUrl =
       serviceSD?.selfDescriptionCredential?.credentialSubject?.[

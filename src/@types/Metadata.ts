@@ -48,3 +48,13 @@ export interface MetadataMain {
   type: 'algorithm' | 'dataset'
   _id: string
 }
+
+export type ServiceSelfDescription = {
+  selfDescriptionCredential: {
+    credentialSubject: {
+      'gx-service-offering:providedBy': {
+        '@value': string
+      }
+    }
+  }
+}
