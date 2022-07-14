@@ -9,6 +9,7 @@ import {
   getServiceSD,
   verifyServiceSD
 } from '../../utils/metadata'
+import { ServiceSelfDescription } from '../../@types/Metadata'
 
 interface AdditionalInformationExtended extends AdditionalInformation {
   serviceSelfDescription?: {
@@ -21,7 +22,8 @@ export default function Verification({ ddo }: { ddo: DDO }) {
   const [isLoadingServiceSD, setIsLoadingServiceSD] = useState(false)
   const [isServiceSDVerified, setIsServiceSDVerified] = useState(false)
   const [showVerifiedAuthor, setShowVerifiedAuthor] = useState(false)
-  const [verifiedAuthor, setVerifiedAuthor] = useState<string>()
+  const [verifiedServiceProviderName, setVerifiedServiceProviderName] =
+    useState<string>()
 
   useEffect(() => {
     if (!ddo) return
@@ -62,9 +64,15 @@ export default function Verification({ ddo }: { ddo: DDO }) {
         ? await getServiceSD(serviceSD.url, controller.signal)
         : serviceSD.raw
 
-      const verifiedAuthor = getPublisherFromServiceSD(serviceSDContent)
+      const parsedServiceSD: ServiceSelfDescription =
+        typeof serviceSD === 'string'
+          ? JSON.parse(serviceSDContent)
+          : serviceSDContent
+      const serviceProviderName = await getPublisherFromServiceSD(
+        parsedServiceSD
+      )
       setIsServiceSDVerified(isServiceSDVerified)
-      setVerifiedAuthor(verifiedAuthor)
+      setVerifiedServiceProviderName(serviceProviderName)
     } catch (error) {
       if (!controller.signal.aborted) {
         Logger.debug(error.message)
@@ -91,7 +99,7 @@ export default function Verification({ ddo }: { ddo: DDO }) {
           </Button>
         </div>
       )}
-      <p>{verifiedAuthor || ddo.event.from}</p>
+      <p>{verifiedServiceProviderName || ddo.event.from}</p>
       {isLoadingServiceSD ? (
         <div className={styles.loader}>
           <span>Checking compliance</span>
