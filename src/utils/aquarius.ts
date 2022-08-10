@@ -81,11 +81,19 @@ export function getBaseQuery(
           },
           ...filter
         ],
-        must_not: {
-          term: {
-            'price.type': 'pool'
+        must_not: [
+          {
+            term: {
+              'price.type': 'pool'
+            }
+          },
+          {
+            match: {
+              'service.attributes.additionalInformation.tags':
+                'mvg-stripe-invoice'
+            }
           }
-        }
+        ]
       }
     },
     sort: sort

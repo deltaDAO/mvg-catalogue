@@ -3,4 +3,5 @@ export interface FilterTerms {
     [key: string]: string[] | number[]
   }
   term?: { [key: string]: string | number }
+  match?: { [key: string]: string | number }
 }
