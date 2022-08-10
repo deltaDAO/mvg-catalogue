@@ -33,7 +33,7 @@ export interface BoolQuery {
   filter?: FilterTerms[]
   must?: FilterTerms | Query | Query[]
   should?: FilterTerms | Query | Query[]
-  must_not?: FilterTerms | Query | Query[]
+  must_not?: FilterTerms | FilterTerms[] | Query | Query[]
 }
 
 export interface SearchResponse {
