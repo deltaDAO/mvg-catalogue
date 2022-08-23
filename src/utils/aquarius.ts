@@ -345,7 +345,7 @@ export async function retrieveDDOListByDIDs(
     if (didList?.length === 0) return []
     const orderedDDOListByDIDList: DDO[] = []
 
-    const filter = [getFilterTerm('id', didList)]
+    const filter = [getFilterTerm('_id', didList)]
     const sort = {
       [SortTermOptions.Relevance]: { order: SortDirectionOptions.Descending }
     }
